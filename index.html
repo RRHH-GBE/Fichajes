@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fichajes — Grupo Barragán Espinar</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: #e2e0d8;
+    --text: #1a1917;
+    --text2: #6b6860;
+    --text3: #9e9c96;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0ea;
+    --accent2: #8b4513;
+    --warn: #92400e;
+    --warn-bg: #fef3c7;
+    --err: #991b1b;
+    --err-bg: #fee2e2;
+    --ok: #166534;
+    --ok-bg: #dcfce7;
+    --info: #1e40af;
+    --info-bg: #dbeafe;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--accent);
+    color: white;
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #7dcf95;
+  }
+
+  .header-sub {
+    font-size: 12px;
+    opacity: 0.65;
+    font-weight: 300;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .page-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 2rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-badge {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], input[type="password"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+
+  input[type="password"] {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,90,61,0.08);
+  }
+
+  .row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .row > * { flex: 1; min-width: 140px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .btn-primary:hover { background: #234a31; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .btn-secondary:hover { background: var(--surface2); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text2);
+    border-color: transparent;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .badge-ok { background: var(--ok-bg); color: var(--ok); }
+  .badge-err { background: var(--err-bg); color: var(--err); }
+  .badge-warn { background: var(--warn-bg); color: var(--warn); }
+  .badge-info { background: var(--info-bg); color: var(--info); }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    background: var(--info-bg);
+    color: var(--info);
+    margin: 2px;
+  }
+
+  .pill-remove {
+    cursor: pointer;
+    opacity: 0.6;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .pill-remove:hover { opacity: 1; }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric {
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    text-align: center;
+  }
+
+  .metric-val {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .metric-lbl {
+    font-size: 11px;
+    color: var(--text2);
+    font-weight: 400;
+  }
+
+  .incident-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .incident-row:last-child { border-bottom: none; }
+
+  .emp-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+
+  .emp-dept {
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .inc-detail {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .email-block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .email-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .email-to {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .email-addr {
+    font-size: 11px;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .email-body {
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--text);
+    max-height: 260px;
+    overflow-y: auto;
+    background: var(--surface);
+  }
+
+  .email-actions {
+    padding: 8px 14px;
+    background: var(--surface2);
+    display: flex;
+    gap: 6px;
+  }
+
+  .alert {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .alert-err { background: var(--err-bg); color: var(--err); }
+  .alert-info { background: var(--info-bg); color: var(--info); }
+  .alert-ok { background: var(--ok-bg); color: var(--ok); }
+
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .status-bar {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 8px;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.25rem 0;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: -1px;
+  }
+
+  .tab {
+    padding: 7px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text2);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 500;
+  }
+
+  .tab:hover:not(.active) { color: var(--text); }
+
+  .section-hidden { display: none; }
+
+  .color-bar {
+    width: 4px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 11px;
+    color: var(--text3);
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 600px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    main { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Grupo Barragán Espinar
+  </div>
+  <div class="header-sub">Control de fichajes · RRHH</div>
+</header>
+
+<main>
+  <div class="page-title">Análisis semanal de fichajes</div>
+  <div class="page-sub">Conectado a Sesame HR · Región EU4 · Festivos Granada 2026</div>
+
+  <!-- CONFIGURACIÓN -->
+  <div class="card">
+    <div class="card-title"><div class="step-badge">1</div> Conexión con Sesame</div>
+    <div style="margin-bottom:1rem">
+      <label>Token de API (se almacena solo en esta sesión)</label>
+      <input type="password" id="token" placeholder="eyJ0eXAiOiJKV1Qi..." autocomplete="off">
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">El token nunca sale de tu navegador. Al cerrar la pestaña se borra automáticamente.</div>
+    </div>
+    <div class="row" style="margin-bottom:1rem">
+      <div>
+        <label>Desde</label>
+        <input type="date" id="date-from">
+      </div>
+      <div>
+        <label>Hasta</label>
+        <input type="date" id="date-to">
+      </div>
+      <div style="flex:0;min-width:auto;display:flex;align-items:flex-end">
+        <button class="btn btn-secondary" onclick="setLastWeek()">Semana anterior</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="load-btn" onclick="loadData()">
+      <span id="load-icon">↓</span> Cargar fichajes desde Sesame
+    </button>
+    <div class="status-bar" id="status"></div>
+    <div id="load-err" style="display:none" class="alert alert-err"></div>
+  </div>
+
+  <!-- EXCEPCIONES -->
+  <div class="card">
+    <div class="card-title"><div class="step-badge">2</div> Días especiales — excluidos del análisis</div>
+    <div id="specials-wrap" style="margin-bottom:8px;min-height:24px"></div>
+    <div class="row">
+      <div style="flex:0;min-width:150px">
+        <input type="date" id="sp-date">
+      </div>
+      <div>
+        <input type="text" id="sp-desc" placeholder="Motivo (ej: formación, evento de empresa...)">
+      </div>
+      <div style="flex:0;min-width:auto;display:flex;align-items:center">
+        <button class="btn btn-secondary" onclick="addSpecial()">+ Añadir</button>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3)">
+      Festivos de Granada 2026 ya incluidos automáticamente · Fines de semana excluidos
+    </div>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div id="results" class="section-hidden">
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-val" id="m-emp">—</div>
+        <div class="metric-lbl">Empleados</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val" id="m-ok" style="color:var(--ok)">—</div>
+        <div class="metric-lbl">Sin incidencias</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val" id="m-inc" style="color:var(--err)">—</div>
+        <div class="metric-lbl">Con incidencias</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val" id="m-dias">—</div>
+        <div class="metric-lbl">Días laborables</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Incidencias detectadas</div>
+      <div id="incidents-wrap"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Borradores de correo por responsable</div>
+      <div style="margin-bottom:1rem">
+        <label>Nota adicional para todos los correos (opcional)</label>
+        <textarea id="extra-note" rows="2" placeholder="Contexto extra que quieras incluir esta semana..."></textarea>
+      </div>
+      <div id="emails-wrap"></div>
+    </div>
+
+  </div>
+
+  <!-- DEMO -->
+  <div id="demo-wrap" style="text-align:center;padding:1rem 0">
+    <button class="btn btn-ghost" onclick="loadDemo()">Ver ejemplo con datos ficticios →</button>
+  </div>
+
+</main>
+
+<footer>
+  Grupo Barragán Espinar · RRHH · Herramienta de análisis de fichajes<br>
+  Normativa vigente: Actualización 01/04/2026 · Festivos Granada 2026
+</footer>
+
+<script>
+const SESAME_BASE = 'https://api-eu4.sesametime.com';
+
+const HOLIDAYS = [
+  '2026-01-01','2026-01-06','2026-02-28','2026-04-02','2026-04-03',
+  '2026-05-01','2026-06-24','2026-08-05','2026-10-12',
+  '2026-11-02','2026-12-07','2026-12-08','2026-12-25'
+];
+
+// TABLA DE RESPONSABLES — actualizar con la tabla de dependencias real
+// Formato: { nombre, email, empleadoIds: [...] }
+// ⚠️ Pendiente de completar con la tabla de dependencias real
+const RESPONSABLES = [
+  {
+    nombre: 'Reinhardt Liszka',
+    email: 'rliszka@grupobarraganespinar.com',
+    esJefeGlobal: true, // recibe todos los que caen bajo su área
+    empleadoIds: [] // se rellenará cuando llegue la tabla
+  },
+  {
+    nombre: 'Ignacio Olmedo',
+    email: 'iolmedo@soldealba.com',
+    empleadoIds: []
+  },
+  {
+    nombre: 'Carmen María Ruiz',
+    email: 'cmruiz@grupobarraganespinar.com',
+    empleadoIds: []
+  },
+  {
+    nombre: 'Ana Ramírez',
+    email: 'aramirez@grupobarraganespinar.com',
+    empleadoIds: []
+  },
+  {
+    nombre: 'Daniel Lendínez',
+    email: 'dlendinez@grupobarraganespinar.com',
+    empleadoIds: []
+  }
+];
+
+const COLORES = ['#2d5a3d','#1e40af','#92400e','#7c3aed','#be123c'];
+
+let specials = [{date:'2026-04-21', desc:'Formación extraordinaria'}];
+let analysisResult = null;
+
+// ---- INIT ----
+(function init() {
+  renderSpecials();
+  setLastWeek();
+})();
+
+function setLastWeek() {
+  const now = new Date();
+  const day = now.getDay() || 7;
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - day - 6);
+  const fri = new Date(mon);
+  fri.setDate(mon.getDate() + 4);
+  const fmt = d => d.toISOString().slice(0,10);
+  document.getElementById('date-from').value = fmt(mon);
+  document.getElementById('date-to').value = fmt(fri);
+}
+
+function renderSpecials() {
+  document.getElementById('specials-wrap').innerHTML = specials.length === 0
+    ? '<span style="font-size:12px;color:var(--text3)">Sin días especiales añadidos esta semana</span>'
+    : specials.map((s,i) =>
+        `<span class="pill">${s.date.slice(5)} — ${s.desc}
+          <span class="pill-remove" onclick="removeSpecial(${i})">×</span>
+        </span>`
+      ).join('');
+}
+
+function addSpecial() {
+  const d = document.getElementById('sp-date').value;
+  const desc = document.getElementById('sp-desc').value.trim();
+  if (!d || !desc) return;
+  specials.push({date: d, desc});
+  renderSpecials();
+  document.getElementById('sp-date').value = '';
+  document.getElementById('sp-desc').value = '';
+}
+
+function removeSpecial(i) {
+  specials.splice(i, 1);
+  renderSpecials();
+}
+
+function isExcluded(dateStr) {
+  if (HOLIDAYS.includes(dateStr)) return true;
+  if (specials.some(s => s.date === dateStr)) return true;
+  const dow = new Date(dateStr).getDay();
+  return dow === 0 || dow === 6;
+}
+
+function setStatus(msg, loading = false) {
+  const el = document.getElementById('status');
+  el.innerHTML = (loading ? '<span class="spinner"></span> ' : '') + msg;
+}
+
+function setError(msg) {
+  const el = document.getElementById('load-err');
+  el.style.display = msg ? 'block' : 'none';
+  el.textContent = msg || '';
+}
+
+function timeToMin(t) {
+  if (!t) return null;
+  const m = String(t).match(/(\d{1,2}):(\d{2})/);
+  if (!m) return null;
+  return parseInt(m[1]) * 60 + parseInt(m[2]);
+}
+
+function minToStr(m) {
+  if (m === null || m === undefined) return '--';
+  const abs = Math.abs(m);
+  const h = Math.floor(abs / 60), mn = abs % 60;
+  return (m < 0 ? '-' : '') + (h > 0 ? h + 'h ' : '') + (mn > 0 ? mn + 'min' : (h > 0 ? '' : '0min'));
+}
+
+function getDatesInRange(from, to) {
+  const dates = [];
+  let cur = new Date(from + 'T12:00:00Z');
+  const end = new Date(to + 'T12:00:00Z');
+  while (cur <= end) {
+    dates.push(cur.toISOString().slice(0,10));
+    cur.setDate(cur.getDate() + 1);
+  }
+  return dates;
+}
+
+// ---- API ----
+async function apiGet(path) {
+  const token = document.getElementById('token').value.trim();
+  const r = await fetch(SESAME_BASE + path, {
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    }
+  });
+  if (!r.ok) {
+    const txt = await r.text().catch(() => '');
+    throw new Error(`Error ${r.status} en Sesame: ${txt.slice(0,150)}`);
+  }
+  return r.json();
+}
+
+async function loadData() {
+  const token = document.getElementById('token').value.trim();
+  if (!token) { setError('Introduce el token de Sesame primero.'); return; }
+  const from = document.getElementById('date-from').value;
+  const to = document.getElementById('date-to').value;
+  if (!from || !to) { setError('Selecciona el periodo.'); return; }
+
+  setError('');
+  document.getElementById('load-btn').disabled = true;
+  document.getElementById('results').classList.add('section-hidden');
+  document.getElementById('demo-wrap').style.display = 'none';
+
+  try {
+    setStatus('Conectando con Sesame HR...', true);
+    const empResp = await apiGet('/core/v3/employees?limit=200&status=active');
+    const employees = empResp.data || empResp || [];
+    setStatus(`${employees.length} empleados encontrados. Cargando fichajes...`, true);
+
+    const wrResp = await apiGet(`/core/v3/work-entries?from=${from}&to=${to}&limit=1000`);
+    const entries = wrResp.data || wrResp || [];
+    setStatus('Analizando incidencias...', true);
+
+    analysisResult = processData(employees, entries, from, to);
+    renderResults();
+    setStatus('');
+  } catch(e) {
+    setError('No se pudo conectar con Sesame: ' + e.message);
+    setStatus('');
+    document.getElementById('demo-wrap').style.display = 'block';
+  } finally {
+    document.getElementById('load-btn').disabled = false;
+  }
+}
+
+function processData(employees, entries, from, to) {
+  const byEmp = {};
+  employees.forEach(emp => {
+    byEmp[emp.id] = {
+      id: emp.id,
+      nombre: [emp.firstName, emp.lastName].filter(Boolean).join(' '),
+      departamento: emp.department?.name || 'Sin departamento',
+      fichajes: {}
+    };
+  });
+
+  entries.forEach(e => {
+    const empId = e.employeeId;
+    if (!byEmp[empId]) return;
+    const date = (e.checkedIn || e.date || '').slice(0,10);
+    if (!date) return;
+    if (!byEmp[empId].fichajes[date]) byEmp[empId].fichajes[date] = [];
+    byEmp[empId].fichajes[date].push(e);
+  });
+
+  const allDates = getDatesInRange(from, to);
+  const diasLaborables = allDates.filter(d => !isExcluded(d)).length;
+
+  const result = Object.values(byEmp)
+    .filter(emp => emp.nombre.trim())
+    .map(emp => {
+      const incidents = [];
+
+      allDates.forEach(date => {
+        if (isExcluded(date)) return;
+        const fichajesDia = emp.fichajes[date] || [];
+
+        if (fichajesDia.length === 0) {
+          incidents.push({type:'sin_fichaje', date, detail:'Jornada sin fichaje registrado'});
+          return;
+        }
+
+        const entradas = fichajesDia
+          .map(f => timeToMin((f.checkedIn || '').slice(11,16)))
+          .filter(x => x !== null);
+
+        const salidas = fichajesDia
+          .map(f => timeToMin((f.checkedOut || '').slice(11,16)))
+          .filter(x => x !== null);
+
+        if (entradas.length > 0) {
+          const primera = Math.min(...entradas);
+          if (primera > 9*60+30) {
+            const diff = primera - (9*60+30);
+            const hh = Math.floor(primera/60), mm = String(primera%60).padStart(2,'0');
+            incidents.push({type:'tarde', date, detail:`Entrada a las ${hh}:${mm} — ${minToStr(diff)} sobre el límite de 9:30h`});
+          }
+        }
+
+        if (entradas.length > 0 && salidas.length > 0) {
+          const primera = Math.min(...entradas);
+          const ultima = Math.max(...salidas);
+          const trabajado = ultima - primera;
+
+          if (trabajado < 7*60+45) {
+            const falta = 8*60 - trabajado;
+            incidents.push({type:'salida', date, detail:`Jornada de ${minToStr(trabajado)}, faltan ${minToStr(falta)}`});
+          }
+          if (trabajado > 8*60+30) {
+            incidents.push({type:'extra', date, detail:`${minToStr(trabajado - 8*60)} de horas extra no formalizadas`});
+          }
+        }
+      });
+
+      return { ...emp, incidents };
+    });
+
+  return { result, from, to, diasLaborables };
+}
+
+// ---- RENDER ----
+function renderResults() {
+  if (!analysisResult) return;
+  const { result, from, to, diasLaborables } = analysisResult;
+
+  document.getElementById('results').classList.remove('section-hidden');
+
+  const conInc = result.filter(e => e.incidents.length > 0).length;
+  document.getElementById('m-emp').textContent = result.length;
+  document.getElementById('m-ok').textContent = result.length - conInc;
+  document.getElementById('m-inc').textContent = conInc;
+  document.getElementById('m-dias').textContent = diasLaborables;
+
+  // Incidencias
+  const iw = document.getElementById('incidents-wrap');
+  iw.innerHTML = '';
+  result.forEach(emp => {
+    const div = document.createElement('div');
+    div.className = 'incident-row';
+    if (emp.incidents.length === 0) {
+      div.innerHTML = `
+        <span class="badge badge-ok">✓ Sin incidencias</span>
+        <div>
+          <div class="emp-name">${emp.nombre}</div>
+          <div class="emp-dept">${emp.departamento}</div>
+        </div>`;
+    } else {
+      const typeLabel = {tarde:'Llegada tarde', salida:'Salida anticipada', extra:'Horas extra', sin_fichaje:'Sin fichaje'};
+      const tipos = [...new Set(emp.incidents.map(i => i.type))];
+      const badges = tipos.map(t => `<span class="badge badge-err" style="margin-right:4px">${typeLabel[t]||t}</span>`).join('');
+      const dets = emp.incidents.map(i =>
+        `<div class="inc-detail">${i.date.slice(5)} — ${i.detail}</div>`
+      ).join('');
+      div.innerHTML = `
+        <div style="padding-top:2px"><span class="badge badge-err">!</span></div>
+        <div style="flex:1">
+          <div class="emp-name">${emp.nombre} <span class="emp-dept" style="display:inline">${emp.departamento}</span></div>
+          <div style="margin:4px 0">${badges}</div>
+          ${dets}
+        </div>`;
+    }
+    iw.appendChild(div);
+  });
+
+  renderEmails();
+}
+
+function renderEmails() {
+  if (!analysisResult) return;
+  const { result, from, to } = analysisResult;
+  const nota = document.getElementById('extra-note').value.trim();
+  const fw = document.getElementById('emails-wrap');
+  fw.innerHTML = '';
+
+  const fromStr = from.split('-').reverse().join('/');
+  const toStr = to.split('-').reverse().join('/');
+  const typeLabel = {tarde:'Llegada fuera del horario flexible', salida:'Salida anticipada', extra:'Horas extra sin formalizar', sin_fichaje:'Jornada sin fichaje'};
+
+  RESPONSABLES.forEach((resp, idx) => {
+    // Filtrar empleados de este responsable
+    // ⚠️ Cuando llegue la tabla de dependencias, aquí se filtra por resp.empleadoIds
+    // Por ahora agrupamos por departamento como placeholder
+    const empDeResp = result.filter(e => e.incidents.length > 0);
+    // Una vez tengamos la tabla real, será:
+    // const empDeResp = result.filter(e => resp.empleadoIds.includes(e.id) && e.incidents.length > 0);
+
+    const color = COLORES[idx % COLORES.length];
+    const primerNombre = resp.nombre.split(' ')[0];
+
+    let cuerpo = `Hola ${primerNombre},\n\nTe envío el resumen de fichajes de tu equipo correspondiente a la semana del ${fromStr} al ${toStr}.\n\n`;
+
+    if (empDeResp.length === 0) {
+      cuerpo += `Esta semana no se han detectado incidencias en tu equipo. Todo correcto.\n`;
+    } else {
+      cuerpo += `Se han detectado las siguientes incidencias que requieren seguimiento:\n\n`;
+      empDeResp.forEach(emp => {
+        cuerpo += `▸ ${emp.nombre}:\n`;
+        emp.incidents.forEach(i => {
+          cuerpo += `  • ${i.date.slice(5)}: ${typeLabel[i.type]||i.type} — ${i.detail}\n`;
+        });
+        cuerpo += '\n';
+      });
+      cuerpo += `Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.\n`;
+    }
+
+    if (nota) cuerpo += `\nNota adicional: ${nota}\n`;
+
+    cuerpo += `\nRecuerda la normativa vigente (01/04/2026):\n• Entrada flexible: 7:00 – 9:30 h\n• Pausa máxima: 1 h 30 min\n• Horas extra: requieren solicitud previa por plataforma\n\nMuchas gracias,\nRRHH — Sol de Alba / Grupo Barragán Espinar`;
+
+    const asunto = `Informe de fichajes — Semana ${fromStr}–${toStr}`;
+
+    const block = document.createElement('div');
+    block.className = 'email-block';
+    block.innerHTML = `
+      <div class="email-header" style="border-left:3px solid ${color}">
+        <div>
+          <div class="email-to">${resp.nombre}</div>
+          <div class="email-addr">${resp.email}</div>
+        </div>
+        <span class="badge ${empDeResp.length > 0 ? 'badge-err' : 'badge-ok'}">
+          ${empDeResp.length > 0 ? empDeResp.length + ' incidencia' + (empDeResp.length > 1 ? 's' : '') : 'Sin incidencias'}
+        </span>
+      </div>
+      <div class="email-body" id="body-${idx}">${cuerpo}</div>
+      <div class="email-actions">
+        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail(${idx})">Copiar correo</button>
+        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook('${resp.email}','${encodeURIComponent(asunto)}',${idx})">Abrir en Outlook ↗</button>
+      </div>`;
+    fw.appendChild(block);
+  });
+
+  document.getElementById('extra-note').oninput = renderEmails;
+}
+
+function copyEmail(idx) {
+  const text = document.getElementById('body-' + idx).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btns = document.querySelectorAll('.email-actions button');
+    const btn = document.querySelectorAll('.email-actions')[idx]?.querySelector('button');
+    if (btn) {
+      btn.textContent = '¡Copiado!';
+      setTimeout(() => { btn.textContent = 'Copiar correo'; }, 2000);
+    }
+  });
+}
+
+function openOutlook(email, subject, idx) {
+  const body = encodeURIComponent(document.getElementById('body-' + idx).textContent);
+  window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+}
+
+// ---- DEMO ----
+function loadDemo() {
+  document.getElementById('demo-wrap').style.display = 'none';
+  const from = '2026-04-14';
+  const to = '2026-04-25';
+  document.getElementById('date-from').value = from;
+  document.getElementById('date-to').value = to;
+
+  analysisResult = {
+    from, to,
+    diasLaborables: 8,
+    result: [
+      {
+        id:'1', nombre:'Beatriz Monreal Muñoz', departamento:'Administración',
+        incidents:[
+          {type:'tarde', date:'2026-04-20', detail:'Entrada a las 09:35 — 5 min sobre el límite de 9:30h'},
+          {type:'extra', date:'2026-04-22', detail:'1h 30min de horas extra no formalizadas'}
+        ]
+      },
+      {
+        id:'2', nombre:'Carlos Fernández López', departamento:'Operaciones',
+        incidents:[
+          {type:'tarde', date:'2026-04-15', detail:'Entrada a las 09:45 — 15 min sobre el límite de 9:30h'},
+          {type:'salida', date:'2026-04-23', detail:'Jornada de 4h 45min, faltan 3h 15min'}
+        ]
+      },
+      {
+        id:'3', nombre:'María José Ruiz Sánchez', departamento:'Marketing',
+        incidents:[]
+      },
+      {
+        id:'4', nombre:'Andrés Torres Vega', departamento:'Ventas',
+        incidents:[
+          {type:'sin_fichaje', date:'2026-04-14', detail:'Jornada sin fichaje registrado'},
+          {type:'tarde', date:'2026-04-16', detail:'Entrada a las 09:50 — 20 min sobre el límite de 9:30h'}
+        ]
+      },
+      {
+        id:'5', nombre:'Lucía Navarro Gil', departamento:'Marketing',
+        incidents:[]
+      }
+    ]
+  };
+
+  renderResults();
+}
+</script>
+</body>
+</html>
