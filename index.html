@@ -252,7 +252,7 @@ function setError(msg){const el=document.getElementById('load-err');el.classList
 function timeToMin(t){if(!t)return null;const m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return null;return parseInt(m[1])*60+parseInt(m[2]);}
 function minToStr(m){if(m===null)return'--';const a=Math.abs(m),h=Math.floor(a/60),mn=a%60;return(m<0?'-':'')+(h>0?h+'h ':' ')+(mn>0?mn+'min':'');}
 function getDatesInRange(from,to){const d=[];let c=new Date(from+'T12:00:00Z');const e=new Date(to+'T12:00:00Z');while(c<=e){d.push(c.toISOString().slice(0,10));c.setDate(c.getDate()+1);}return d;}
-function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 
 async function apiGet(path){
   const token=document.getElementById('token').value.trim();
