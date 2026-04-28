@@ -4,982 +4,442 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fichajes — Grupo Barragán Espinar</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface2: #f0efe9;
-    --border: #e2e0d8;
-    --text: #1a1917;
-    --text2: #6b6860;
-    --text3: #9e9c96;
-    --accent: #2d5a3d;
-    --accent-light: #e8f0ea;
-    --accent2: #8b4513;
-    --warn: #92400e;
-    --warn-bg: #fef3c7;
-    --err: #991b1b;
-    --err-bg: #fee2e2;
-    --ok: #166534;
-    --ok-bg: #dcfce7;
-    --info: #1e40af;
-    --info-bg: #dbeafe;
-    --radius: 10px;
-    --radius-sm: 6px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  header {
-    background: var(--accent);
-    color: white;
-    padding: 0 2rem;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #7dcf95;
-  }
-
-  .header-sub {
-    font-size: 12px;
-    opacity: 0.65;
-    font-weight: 300;
-  }
-
-  main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-  }
-
-  .page-title {
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    margin-bottom: 4px;
-  }
-
-  .page-sub {
-    font-size: 13px;
-    color: var(--text2);
-    margin-bottom: 2rem;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .card-title {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text2);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .step-badge {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    font-size: 11px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  input[type="text"], input[type="password"], input[type="date"], select, textarea {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    transition: border-color 0.15s;
-    outline: none;
-  }
-
-  input[type="password"] {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1px;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(45,90,61,0.08);
-  }
-
-  .row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .row > * { flex: 1; min-width: 140px; }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 18px;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .btn-primary:hover { background: #234a31; }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    border-color: var(--border);
-  }
-
-  .btn-secondary:hover { background: var(--surface2); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text2);
-    border-color: transparent;
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
-  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 9px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  .badge-ok { background: var(--ok-bg); color: var(--ok); }
-  .badge-err { background: var(--err-bg); color: var(--err); }
-  .badge-warn { background: var(--warn-bg); color: var(--warn); }
-  .badge-info { background: var(--info-bg); color: var(--info); }
-
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    background: var(--info-bg);
-    color: var(--info);
-    margin: 2px;
-  }
-
-  .pill-remove {
-    cursor: pointer;
-    opacity: 0.6;
-    font-size: 13px;
-    line-height: 1;
-  }
-
-  .pill-remove:hover { opacity: 1; }
-
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 1.25rem;
-  }
-
-  .metric {
-    background: var(--surface2);
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    text-align: center;
-  }
-
-  .metric-val {
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -1px;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .metric-lbl {
-    font-size: 11px;
-    color: var(--text2);
-    font-weight: 400;
-  }
-
-  .incident-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .incident-row:last-child { border-bottom: none; }
-
-  .emp-name {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 3px;
-  }
-
-  .emp-dept {
-    font-size: 11px;
-    color: var(--text3);
-  }
-
-  .inc-detail {
-    font-size: 11px;
-    color: var(--text2);
-    margin-top: 2px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .email-block {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    margin-bottom: 12px;
-    overflow: hidden;
-  }
-
-  .email-header {
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .email-to {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .email-addr {
-    font-size: 11px;
-    color: var(--text2);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .email-body {
-    padding: 14px;
-    font-size: 13px;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    color: var(--text);
-    max-height: 260px;
-    overflow-y: auto;
-    background: var(--surface);
-  }
-
-  .email-actions {
-    padding: 8px 14px;
-    background: var(--surface2);
-    display: flex;
-    gap: 6px;
-  }
-
-  .alert {
-    padding: 10px 14px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    margin-top: 8px;
-  }
-
-  .alert-err { background: var(--err-bg); color: var(--err); }
-  .alert-info { background: var(--info-bg); color: var(--info); }
-  .alert-ok { background: var(--ok-bg); color: var(--ok); }
-
-  .spinner {
-    display: inline-block;
-    width: 14px; height: 14px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .status-bar {
-    font-size: 12px;
-    color: var(--text2);
-    margin-top: 8px;
-    min-height: 20px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 1.25rem 0;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: -1px;
-  }
-
-  .tab {
-    padding: 7px 14px;
-    font-size: 13px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    color: var(--text2);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-  }
-
-  .tab.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-    font-weight: 500;
-  }
-
-  .tab:hover:not(.active) { color: var(--text); }
-
-  .section-hidden { display: none; }
-
-  .color-bar {
-    width: 4px;
-    border-radius: 2px;
-    flex-shrink: 0;
-    align-self: stretch;
-  }
-
-  footer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 11px;
-    color: var(--text3);
-    border-top: 1px solid var(--border);
-    margin-top: 3rem;
-  }
-
-  @media (max-width: 600px) {
-    .metrics { grid-template-columns: repeat(2, 1fr); }
-    main { padding: 1rem; }
-  }
+:root {
+  --bg:#f7f5f0;--surface:#fff;--surface2:#f0ede6;--border:#dedad0;--text:#1c1a17;
+  --text2:#6b6558;--text3:#9e9888;--green:#2a5c3e;--green-light:#e6f0ea;
+  --amber:#92400e;--amber-bg:#fef3c7;--red:#991b1b;--red-bg:#fee2e2;
+  --blue:#1e3a6e;--blue-bg:#dbeafe;--ok:#166534;--ok-bg:#dcfce7;
+  --radius:12px;--radius-sm:7px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
+header{background:var(--green);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px;color:white}
+.logo-mark{width:30px;height:30px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:500;font-size:16px;color:#7dcf95}
+.logo-text{font-family:'Fraunces',serif;font-weight:400;font-size:16px;color:white;letter-spacing:-0.3px}
+.logo-sub{font-size:11px;color:rgba(255,255,255,0.5);font-weight:300}
+main{max-width:920px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.page-title{font-family:'Fraunces',serif;font-size:28px;font-weight:400;letter-spacing:-0.5px;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--text2);margin-bottom:2rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.step-num{width:24px;height:24px;background:var(--green);color:white;border-radius:50%;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.8px;color:var(--text2)}
+label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
+input[type=password]{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(42,92,62,.08)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--green);color:white}
+.btn-primary:hover{background:#1f4730}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{background:transparent;color:var(--text);border-color:var(--border)}
+.btn-secondary:hover{background:var(--surface2)}
+.btn-ghost{background:transparent;color:var(--text2);border-color:transparent;font-size:12px;padding:5px 10px}
+.btn-ghost:hover{color:var(--text);background:var(--surface2)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-ok{background:var(--ok-bg);color:var(--ok)}
+.badge-err{background:var(--red-bg);color:var(--red)}
+.badge-warn{background:var(--amber-bg);color:var(--amber)}
+.badge-info{background:var(--blue-bg);color:var(--blue)}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;background:var(--blue-bg);color:var(--blue);margin:2px}
+.pill-x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
+.pill-x:hover{opacity:1}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+.metric{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;text-align:center;border:1px solid var(--border)}
+.mv{font-family:'Fraunces',serif;font-size:28px;font-weight:400;line-height:1;margin-bottom:4px}
+.ml{font-size:11px;color:var(--text2)}
+.irow{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.irow:last-child{border-bottom:none}
+.emp-name{font-size:14px;font-weight:500;margin-bottom:2px}
+.emp-dept{font-size:11px;color:var(--text3)}
+.inc-line{font-size:11px;color:var(--text2);margin-top:2px;font-family:'DM Mono',monospace}
+.email-block{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+.email-hdr{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--surface2)}
+.email-to-name{font-size:13px;font-weight:500}
+.email-to-addr{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace}
+.email-body{padding:14px;font-size:13px;line-height:1.75;white-space:pre-wrap;max-height:300px;overflow-y:auto;background:var(--surface)}
+.email-footer{padding:8px 14px;background:var(--surface2);display:flex;gap:6px;border-top:1px solid var(--border)}
+.alert{padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px}
+.alert-err{background:var(--red-bg);color:var(--red)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.status-bar{font-size:12px;color:var(--text2);margin-top:8px;min-height:20px;display:flex;align-items:center;gap:6px}
+.hidden{display:none}
+footer{text-align:center;padding:2rem;font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:2rem}
+@media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)};main{padding:1rem}}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">
-    <div class="logo-dot"></div>
-    Grupo Barragán Espinar
+    <div class="logo-mark">B</div>
+    <div>
+      <div class="logo-text">Grupo Barragán Espinar</div>
+      <div class="logo-sub">Control de fichajes · RRHH</div>
+    </div>
   </div>
-  <div class="header-sub">Control de fichajes · RRHH</div>
 </header>
-
 <main>
   <div class="page-title">Análisis semanal de fichajes</div>
-  <div class="page-sub">Conectado a Sesame HR · Región EU4 · Festivos Granada 2026</div>
+  <div class="page-sub">Conectado a Sesame HR · Región EU4 · Festivos Granada 2026 · Normativa 01/04/2026</div>
 
-  <!-- CONFIGURACIÓN -->
   <div class="card">
-    <div class="card-title"><div class="step-badge">1</div> Conexión con Sesame</div>
+    <div class="card-header"><div class="step-num">1</div><div class="card-title">Conexión con Sesame HR</div></div>
     <div style="margin-bottom:1rem">
-      <label>Token de API (se almacena solo en esta sesión)</label>
+      <label>Token de API</label>
       <input type="password" id="token" placeholder="eyJ0eXAiOiJKV1Qi..." autocomplete="off">
-      <div style="font-size:11px;color:var(--text3);margin-top:4px">El token nunca sale de tu navegador. Al cerrar la pestaña se borra automáticamente.</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">El token solo vive en esta sesión. Al cerrar la pestaña se borra automáticamente.</div>
     </div>
     <div class="row" style="margin-bottom:1rem">
-      <div>
-        <label>Desde</label>
-        <input type="date" id="date-from">
-      </div>
-      <div>
-        <label>Hasta</label>
-        <input type="date" id="date-to">
-      </div>
-      <div style="flex:0;min-width:auto;display:flex;align-items:flex-end">
-        <button class="btn btn-secondary" onclick="setLastWeek()">Semana anterior</button>
-      </div>
+      <div><label>Desde</label><input type="date" id="date-from"></div>
+      <div><label>Hasta</label><input type="date" id="date-to"></div>
+      <div style="flex:0;min-width:auto;display:flex;align-items:flex-end"><button class="btn btn-secondary" onclick="setLastWeek()">Semana anterior</button></div>
     </div>
-    <button class="btn btn-primary" id="load-btn" onclick="loadData()">
-      <span id="load-icon">↓</span> Cargar fichajes desde Sesame
-    </button>
+    <button class="btn btn-primary" id="load-btn" onclick="loadData()">↓ Cargar fichajes desde Sesame</button>
     <div class="status-bar" id="status"></div>
-    <div id="load-err" style="display:none" class="alert alert-err"></div>
+    <div id="load-err" class="hidden alert alert-err"></div>
   </div>
 
-  <!-- EXCEPCIONES -->
   <div class="card">
-    <div class="card-title"><div class="step-badge">2</div> Días especiales — excluidos del análisis</div>
+    <div class="card-header"><div class="step-num">2</div><div class="card-title">Días especiales — excluidos del análisis</div></div>
     <div id="specials-wrap" style="margin-bottom:8px;min-height:24px"></div>
     <div class="row">
-      <div style="flex:0;min-width:150px">
-        <input type="date" id="sp-date">
-      </div>
-      <div>
-        <input type="text" id="sp-desc" placeholder="Motivo (ej: formación, evento de empresa...)">
-      </div>
-      <div style="flex:0;min-width:auto;display:flex;align-items:center">
-        <button class="btn btn-secondary" onclick="addSpecial()">+ Añadir</button>
-      </div>
+      <div style="flex:0;min-width:150px"><input type="date" id="sp-date"></div>
+      <div><input type="text" id="sp-desc" placeholder="Motivo (ej: formación IA, evento empresa...)"></div>
+      <div style="flex:0;min-width:auto;display:flex;align-items:center"><button class="btn btn-secondary" onclick="addSpecial()">+ Añadir</button></div>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--text3)">
-      Festivos de Granada 2026 ya incluidos automáticamente · Fines de semana excluidos
-    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3)">Festivos Granada 2026 incluidos · Fines de semana excluidos automáticamente</div>
   </div>
 
-  <!-- RESULTADOS -->
-  <div id="results" class="section-hidden">
-
+  <div id="results" class="hidden">
     <div class="metrics">
-      <div class="metric">
-        <div class="metric-val" id="m-emp">—</div>
-        <div class="metric-lbl">Empleados</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val" id="m-ok" style="color:var(--ok)">—</div>
-        <div class="metric-lbl">Sin incidencias</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val" id="m-inc" style="color:var(--err)">—</div>
-        <div class="metric-lbl">Con incidencias</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val" id="m-dias">—</div>
-        <div class="metric-lbl">Días laborables</div>
-      </div>
+      <div class="metric"><div class="mv" id="m-emp">—</div><div class="ml">Empleados</div></div>
+      <div class="metric"><div class="mv" id="m-ok" style="color:var(--ok)">—</div><div class="ml">Sin incidencias</div></div>
+      <div class="metric"><div class="mv" id="m-inc" style="color:var(--red)">—</div><div class="ml">Con incidencias</div></div>
+      <div class="metric"><div class="mv" id="m-dias">—</div><div class="ml">Días laborables</div></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Incidencias detectadas</div>
+      <div class="card-header" style="margin-bottom:.75rem"><div class="card-title">Incidencias detectadas</div></div>
       <div id="incidents-wrap"></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Borradores de correo por responsable</div>
+      <div class="card-header" style="margin-bottom:.75rem"><div class="card-title">Borradores de correo por responsable</div></div>
       <div style="margin-bottom:1rem">
-        <label>Nota adicional para todos los correos (opcional)</label>
-        <textarea id="extra-note" rows="2" placeholder="Contexto extra que quieras incluir esta semana..."></textarea>
+        <label>Nota adicional para esta semana (opcional)</label>
+        <textarea id="extra-note" rows="2" placeholder="Contexto especial que quieras añadir..."></textarea>
       </div>
       <div id="emails-wrap"></div>
     </div>
-
   </div>
 
-  <!-- DEMO -->
   <div id="demo-wrap" style="text-align:center;padding:1rem 0">
-    <button class="btn btn-ghost" onclick="loadDemo()">Ver ejemplo con datos ficticios →</button>
+    <button class="btn btn-ghost" onclick="loadDemo()">Ver ejemplo con datos reales →</button>
   </div>
-
 </main>
-
-<footer>
-  Grupo Barragán Espinar · RRHH · Herramienta de análisis de fichajes<br>
-  Normativa vigente: Actualización 01/04/2026 · Festivos Granada 2026
-</footer>
+<footer>Grupo Barragán Espinar · RRHH · smesa@soldealba.com<br>Normativa vigente desde 01/04/2026 · Herramienta interna</footer>
 
 <script>
-const SESAME_BASE = 'https://api-eu4.sesametime.com';
+const SESAME_BASE='https://api-eu4.sesametime.com';
+const HOLIDAYS=['2026-01-01','2026-01-06','2026-02-28','2026-04-02','2026-04-03','2026-05-01','2026-06-24','2026-08-05','2026-10-12','2026-11-02','2026-12-07','2026-12-08','2026-12-25'];
 
-const HOLIDAYS = [
-  '2026-01-01','2026-01-06','2026-02-28','2026-04-02','2026-04-03',
-  '2026-05-01','2026-06-24','2026-08-05','2026-10-12',
-  '2026-11-02','2026-12-07','2026-12-08','2026-12-25'
+const RESPONSABLES=[
+  {nombre:'Reinhardt Liszka',nombreCompleto:'Reinhardt Liszka Mesas',email:'rliszka@grupobarraganespinar.com',equipo:'Responsables / Dirección',color:'#2a5c3e',
+   empleados:['ANA RAMIREZ LOPEZ-FRIAS','IBON PACHE LEGARRETA','IGNACIO OLMEDO REYES','BEATRIZ MONREAL MUÑOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
+  {nombre:'Ignacio Olmedo',nombreCompleto:'Ignacio Olmedo Reyes',email:'iolmedo@soldealba.com',equipo:'Admon Ventas / Export',color:'#1e3a6e',
+   empleados:['AZUCENA ORTIZ LUQUE','CHRISTOPHER T. WEYBURN','IBTISSAM BYAR CHADI','JOSE LUIS ALCALA GILABERT','JUAN CARLOS MARTINEZ RAMON','RAQUEL LOPEZ GONZALEZ','SERGIO VERA DE LAS HERAS']},
+  {nombre:'Carmen Ruiz',nombreCompleto:'Carmen María Ruiz Cabello',email:'cmruiz@grupobarraganespinar.com',equipo:'Administración',color:'#6b21a8',
+   empleados:['ANTONIA MASIA','DANIEL LENDINEZ LOPEZ','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ']},
+  {nombre:'Ana Ramírez',nombreCompleto:'Ana Ramírez López-Frías',email:'aramirez@grupobarraganespinar.com',equipo:'Marketing',color:'#be123c',
+   empleados:['BEATRIZ MONREAL MUÑOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
+  {nombre:'Daniel Lendínez',nombreCompleto:'Daniel Lendínez López',email:'dlendinez@grupobarraganespinar.com',equipo:'IT / Informática',color:'#92400e',
+   empleados:['JOSE LEONARDO ORTEGA PINTO']}
 ];
 
-// TABLA DE RESPONSABLES — actualizar con la tabla de dependencias real
-// Formato: { nombre, email, empleadoIds: [...] }
-// ⚠️ Pendiente de completar con la tabla de dependencias real
-const RESPONSABLES = [
-  {
-    nombre: 'Reinhardt Liszka',
-    email: 'rliszka@grupobarraganespinar.com',
-    esJefeGlobal: true, // recibe todos los que caen bajo su área
-    empleadoIds: [] // se rellenará cuando llegue la tabla
-  },
-  {
-    nombre: 'Ignacio Olmedo',
-    email: 'iolmedo@soldealba.com',
-    empleadoIds: []
-  },
-  {
-    nombre: 'Carmen María Ruiz',
-    email: 'cmruiz@grupobarraganespinar.com',
-    empleadoIds: []
-  },
-  {
-    nombre: 'Ana Ramírez',
-    email: 'aramirez@grupobarraganespinar.com',
-    empleadoIds: []
-  },
-  {
-    nombre: 'Daniel Lendínez',
-    email: 'dlendinez@grupobarraganespinar.com',
-    empleadoIds: []
-  }
-];
+const JORNADA_REDUCIDA=['ANTONIA MASIA','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ'];
+const PERFIL_MOVILIDAD=['IBON PACHE LEGARRETA','DANIEL LENDINEZ LOPEZ','JOSE LEONARDO ORTEGA PINTO'];
 
-const COLORES = ['#2d5a3d','#1e40af','#92400e','#7c3aed','#be123c'];
+let specials=[], analysisResult=null;
 
-let specials = [{date:'2026-04-21', desc:'Formación extraordinaria'}];
-let analysisResult = null;
+(function init(){renderSpecials();setLastWeek();})();
 
-// ---- INIT ----
-(function init() {
-  renderSpecials();
-  setLastWeek();
-})();
-
-function setLastWeek() {
-  const now = new Date();
-  const day = now.getDay() || 7;
-  const mon = new Date(now);
-  mon.setDate(now.getDate() - day - 6);
-  const fri = new Date(mon);
-  fri.setDate(mon.getDate() + 4);
-  const fmt = d => d.toISOString().slice(0,10);
-  document.getElementById('date-from').value = fmt(mon);
-  document.getElementById('date-to').value = fmt(fri);
+function setLastWeek(){
+  const now=new Date(),day=now.getDay()||7,mon=new Date(now);
+  mon.setDate(now.getDate()-day-6);
+  const fri=new Date(mon);fri.setDate(mon.getDate()+4);
+  const fmt=d=>d.toISOString().slice(0,10);
+  document.getElementById('date-from').value=fmt(mon);
+  document.getElementById('date-to').value=fmt(fri);
 }
 
-function renderSpecials() {
-  document.getElementById('specials-wrap').innerHTML = specials.length === 0
-    ? '<span style="font-size:12px;color:var(--text3)">Sin días especiales añadidos esta semana</span>'
-    : specials.map((s,i) =>
-        `<span class="pill">${s.date.slice(5)} — ${s.desc}
-          <span class="pill-remove" onclick="removeSpecial(${i})">×</span>
-        </span>`
-      ).join('');
+function renderSpecials(){
+  const w=document.getElementById('specials-wrap');
+  w.innerHTML=specials.length===0
+    ?'<span style="font-size:12px;color:var(--text3)">Sin días especiales esta semana</span>'
+    :specials.map((s,i)=>`<span class="pill">${s.date.slice(5)} — ${s.desc}<span class="pill-x" onclick="removeSpecial(${i})">×</span></span>`).join('');
 }
 
-function addSpecial() {
-  const d = document.getElementById('sp-date').value;
-  const desc = document.getElementById('sp-desc').value.trim();
-  if (!d || !desc) return;
-  specials.push({date: d, desc});
-  renderSpecials();
-  document.getElementById('sp-date').value = '';
-  document.getElementById('sp-desc').value = '';
+function addSpecial(){
+  const d=document.getElementById('sp-date').value,desc=document.getElementById('sp-desc').value.trim();
+  if(!d||!desc)return;
+  specials.push({date:d,desc});renderSpecials();
+  document.getElementById('sp-date').value='';document.getElementById('sp-desc').value='';
 }
 
-function removeSpecial(i) {
-  specials.splice(i, 1);
-  renderSpecials();
+function removeSpecial(i){specials.splice(i,1);renderSpecials();}
+
+function isExcluded(dateStr){
+  if(HOLIDAYS.includes(dateStr))return{excluded:true,reason:'festivo'};
+  const sp=specials.find(s=>s.date===dateStr);
+  if(sp)return{excluded:true,reason:sp.desc};
+  const dow=new Date(dateStr+'T12:00:00Z').getDay();
+  if(dow===0||dow===6)return{excluded:true,reason:'fin de semana'};
+  return{excluded:false};
 }
 
-function isExcluded(dateStr) {
-  if (HOLIDAYS.includes(dateStr)) return true;
-  if (specials.some(s => s.date === dateStr)) return true;
-  const dow = new Date(dateStr).getDay();
-  return dow === 0 || dow === 6;
-}
+function setStatus(msg,loading=false){document.getElementById('status').innerHTML=(loading?'<span class="spinner"></span> ':'')+msg;}
+function setError(msg){const el=document.getElementById('load-err');el.classList.toggle('hidden',!msg);el.textContent=msg||'';}
+function timeToMin(t){if(!t)return null;const m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return null;return parseInt(m[1])*60+parseInt(m[2]);}
+function minToStr(m){if(m===null)return'--';const a=Math.abs(m),h=Math.floor(a/60),mn=a%60;return(m<0?'-':'')+(h>0?h+'h ':' ')+(mn>0?mn+'min':'');}
+function getDatesInRange(from,to){const d=[];let c=new Date(from+'T12:00:00Z');const e=new Date(to+'T12:00:00Z');while(c<=e){d.push(c.toISOString().slice(0,10));c.setDate(c.getDate()+1);}return d;}
+function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 
-function setStatus(msg, loading = false) {
-  const el = document.getElementById('status');
-  el.innerHTML = (loading ? '<span class="spinner"></span> ' : '') + msg;
-}
-
-function setError(msg) {
-  const el = document.getElementById('load-err');
-  el.style.display = msg ? 'block' : 'none';
-  el.textContent = msg || '';
-}
-
-function timeToMin(t) {
-  if (!t) return null;
-  const m = String(t).match(/(\d{1,2}):(\d{2})/);
-  if (!m) return null;
-  return parseInt(m[1]) * 60 + parseInt(m[2]);
-}
-
-function minToStr(m) {
-  if (m === null || m === undefined) return '--';
-  const abs = Math.abs(m);
-  const h = Math.floor(abs / 60), mn = abs % 60;
-  return (m < 0 ? '-' : '') + (h > 0 ? h + 'h ' : '') + (mn > 0 ? mn + 'min' : (h > 0 ? '' : '0min'));
-}
-
-function getDatesInRange(from, to) {
-  const dates = [];
-  let cur = new Date(from + 'T12:00:00Z');
-  const end = new Date(to + 'T12:00:00Z');
-  while (cur <= end) {
-    dates.push(cur.toISOString().slice(0,10));
-    cur.setDate(cur.getDate() + 1);
-  }
-  return dates;
-}
-
-// ---- API ----
-async function apiGet(path) {
-  const token = document.getElementById('token').value.trim();
-  const r = await fetch(SESAME_BASE + path, {
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'application/json'
-    }
-  });
-  if (!r.ok) {
-    const txt = await r.text().catch(() => '');
-    throw new Error(`Error ${r.status} en Sesame: ${txt.slice(0,150)}`);
-  }
+async function apiGet(path){
+  const token=document.getElementById('token').value.trim();
+  const r=await fetch(SESAME_BASE+path,{headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}});
+  if(!r.ok){const t=await r.text().catch(()=>'');throw new Error(`Error ${r.status}: ${t.slice(0,200)}`);}
   return r.json();
 }
 
-async function loadData() {
-  const token = document.getElementById('token').value.trim();
-  if (!token) { setError('Introduce el token de Sesame primero.'); return; }
-  const from = document.getElementById('date-from').value;
-  const to = document.getElementById('date-to').value;
-  if (!from || !to) { setError('Selecciona el periodo.'); return; }
-
-  setError('');
-  document.getElementById('load-btn').disabled = true;
-  document.getElementById('results').classList.add('section-hidden');
-  document.getElementById('demo-wrap').style.display = 'none';
-
-  try {
-    setStatus('Conectando con Sesame HR...', true);
-    const empResp = await apiGet('/core/v3/employees?limit=200&status=active');
-    const employees = empResp.data || empResp || [];
-    setStatus(`${employees.length} empleados encontrados. Cargando fichajes...`, true);
-
-    const wrResp = await apiGet(`/core/v3/work-entries?from=${from}&to=${to}&limit=1000`);
-    const entries = wrResp.data || wrResp || [];
-    setStatus('Analizando incidencias...', true);
-
-    analysisResult = processData(employees, entries, from, to);
-    renderResults();
-    setStatus('');
-  } catch(e) {
-    setError('No se pudo conectar con Sesame: ' + e.message);
-    setStatus('');
-    document.getElementById('demo-wrap').style.display = 'block';
-  } finally {
-    document.getElementById('load-btn').disabled = false;
-  }
+async function loadData(){
+  const token=document.getElementById('token').value.trim();
+  if(!token){setError('Introduce el token primero.');return;}
+  const from=document.getElementById('date-from').value,to=document.getElementById('date-to').value;
+  if(!from||!to){setError('Selecciona el periodo.');return;}
+  setError('');document.getElementById('load-btn').disabled=true;
+  document.getElementById('results').classList.add('hidden');document.getElementById('demo-wrap').style.display='none';
+  try{
+    setStatus('Conectando con Sesame HR...',true);
+    const empResp=await apiGet('/core/v3/employees?limit=200&status=active');
+    const employees=empResp.data||empResp||[];
+    setStatus(`${employees.length} empleados. Cargando fichajes...`,true);
+    const wrResp=await apiGet(`/core/v3/work-entries?from=${from}&to=${to}&limit=2000`);
+    const entries=wrResp.data||wrResp||[];
+    setStatus('Analizando incidencias...',true);
+    analysisResult=processData(employees,entries,from,to);
+    renderResults();setStatus('');
+  }catch(e){
+    setError('No se pudo conectar con Sesame: '+e.message);setStatus('');
+    document.getElementById('demo-wrap').style.display='block';
+  }finally{document.getElementById('load-btn').disabled=false;}
 }
 
-function processData(employees, entries, from, to) {
-  const byEmp = {};
-  employees.forEach(emp => {
-    byEmp[emp.id] = {
-      id: emp.id,
-      nombre: [emp.firstName, emp.lastName].filter(Boolean).join(' '),
-      departamento: emp.department?.name || 'Sin departamento',
-      fichajes: {}
+function processData(employees,entries,from,to){
+  const byEmp={};
+  employees.forEach(emp=>{
+    const nombreNorm=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));
+    byEmp[emp.id]={
+      id:emp.id,
+      nombre:[emp.firstName,emp.lastName].filter(Boolean).join(' '),
+      nombreNorm,
+      departamento:emp.department?.name||'Sin departamento',
+      jornada:JORNADA_REDUCIDA.some(n=>norm(n)===nombreNorm)?7*60+30:8*60,
+      movilidad:PERFIL_MOVILIDAD.some(n=>norm(n)===nombreNorm),
+      fichajes:{}
     };
   });
-
-  entries.forEach(e => {
-    const empId = e.employeeId;
-    if (!byEmp[empId]) return;
-    const date = (e.checkedIn || e.date || '').slice(0,10);
-    if (!date) return;
-    if (!byEmp[empId].fichajes[date]) byEmp[empId].fichajes[date] = [];
-    byEmp[empId].fichajes[date].push(e);
+  entries.forEach(e=>{
+    if(!byEmp[e.employeeId])return;
+    const date=(e.checkedIn||e.date||'').slice(0,10);
+    if(!date)return;
+    if(!byEmp[e.employeeId].fichajes[date])byEmp[e.employeeId].fichajes[date]=[];
+    byEmp[e.employeeId].fichajes[date].push(e);
   });
-
-  const allDates = getDatesInRange(from, to);
-  const diasLaborables = allDates.filter(d => !isExcluded(d)).length;
-
-  const result = Object.values(byEmp)
-    .filter(emp => emp.nombre.trim())
-    .map(emp => {
-      const incidents = [];
-
-      allDates.forEach(date => {
-        if (isExcluded(date)) return;
-        const fichajesDia = emp.fichajes[date] || [];
-
-        if (fichajesDia.length === 0) {
-          incidents.push({type:'sin_fichaje', date, detail:'Jornada sin fichaje registrado'});
-          return;
+  const allDates=getDatesInRange(from,to);
+  const diasLaborables=allDates.filter(d=>!isExcluded(d).excluded).length;
+  const result=Object.values(byEmp).filter(emp=>emp.nombre.trim()).map(emp=>{
+    const incidents=[];let diasOk=0;
+    allDates.forEach(date=>{
+      if(isExcluded(date).excluded)return;
+      const fichs=emp.fichajes[date]||[];
+      if(fichs.length===0){incidents.push({type:'sin_fichaje',date,detail:'Jornada sin fichaje registrado'});return;}
+      const entradas=fichs.map(f=>timeToMin((f.checkedIn||'').slice(11,16))).filter(x=>x!==null);
+      const salidas=fichs.map(f=>timeToMin((f.checkedOut||'').slice(11,16))).filter(x=>x!==null);
+      let diaOk=true;
+      if(entradas.length>0){
+        const p=Math.min(...entradas);
+        if(p>9*60+30){
+          const diff=p-(9*60+30);
+          incidents.push({type:'tarde',date,detail:`Entrada a las ${Math.floor(p/60)}:${String(p%60).padStart(2,'0')} — ${minToStr(diff)} sobre el límite de 9:30h`});
+          diaOk=false;
         }
-
-        const entradas = fichajesDia
-          .map(f => timeToMin((f.checkedIn || '').slice(11,16)))
-          .filter(x => x !== null);
-
-        const salidas = fichajesDia
-          .map(f => timeToMin((f.checkedOut || '').slice(11,16)))
-          .filter(x => x !== null);
-
-        if (entradas.length > 0) {
-          const primera = Math.min(...entradas);
-          if (primera > 9*60+30) {
-            const diff = primera - (9*60+30);
-            const hh = Math.floor(primera/60), mm = String(primera%60).padStart(2,'0');
-            incidents.push({type:'tarde', date, detail:`Entrada a las ${hh}:${mm} — ${minToStr(diff)} sobre el límite de 9:30h`});
-          }
+      }
+      if(entradas.length>0&&salidas.length>0){
+        const p=Math.min(...entradas),u=Math.max(...salidas),trabajado=u-p;
+        const tieneRequest=fichs.some(f=>{
+          const dev=(f.deviceType||f.source||'').toLowerCase();
+          return dev==='request'||f.workCheckType==='check-request';
+        });
+        if(trabajado<emp.jornada-15){
+          incidents.push({type:'salida',date,detail:`Jornada de ${minToStr(trabajado)}, faltan ${minToStr(emp.jornada-trabajado)}`});diaOk=false;
+        } else if(!tieneRequest&&trabajado>emp.jornada+45){
+          incidents.push({type:'extra',date,detail:`${minToStr(trabajado-emp.jornada)} de horas extra sin solicitud previa por plataforma`});diaOk=false;
         }
-
-        if (entradas.length > 0 && salidas.length > 0) {
-          const primera = Math.min(...entradas);
-          const ultima = Math.max(...salidas);
-          const trabajado = ultima - primera;
-
-          if (trabajado < 7*60+45) {
-            const falta = 8*60 - trabajado;
-            incidents.push({type:'salida', date, detail:`Jornada de ${minToStr(trabajado)}, faltan ${minToStr(falta)}`});
-          }
-          if (trabajado > 8*60+30) {
-            incidents.push({type:'extra', date, detail:`${minToStr(trabajado - 8*60)} de horas extra no formalizadas`});
-          }
-        }
-      });
-
-      return { ...emp, incidents };
+      }
+      if(diaOk)diasOk++;
     });
-
-  return { result, from, to, diasLaborables };
+    return{...emp,incidents,diasOk};
+  });
+  return{result,from,to,diasLaborables};
 }
 
-// ---- RENDER ----
-function renderResults() {
-  if (!analysisResult) return;
-  const { result, from, to, diasLaborables } = analysisResult;
-
-  document.getElementById('results').classList.remove('section-hidden');
-
-  const conInc = result.filter(e => e.incidents.length > 0).length;
-  document.getElementById('m-emp').textContent = result.length;
-  document.getElementById('m-ok').textContent = result.length - conInc;
-  document.getElementById('m-inc').textContent = conInc;
-  document.getElementById('m-dias').textContent = diasLaborables;
-
-  // Incidencias
-  const iw = document.getElementById('incidents-wrap');
-  iw.innerHTML = '';
-  result.forEach(emp => {
-    const div = document.createElement('div');
-    div.className = 'incident-row';
-    if (emp.incidents.length === 0) {
-      div.innerHTML = `
-        <span class="badge badge-ok">✓ Sin incidencias</span>
-        <div>
-          <div class="emp-name">${emp.nombre}</div>
-          <div class="emp-dept">${emp.departamento}</div>
-        </div>`;
+function renderResults(){
+  if(!analysisResult)return;
+  const{result,diasLaborables}=analysisResult;
+  document.getElementById('results').classList.remove('hidden');
+  const conInc=result.filter(e=>e.incidents.length>0).length;
+  document.getElementById('m-emp').textContent=result.length;
+  document.getElementById('m-ok').textContent=result.length-conInc;
+  document.getElementById('m-inc').textContent=conInc;
+  document.getElementById('m-dias').textContent=diasLaborables;
+  const iw=document.getElementById('incidents-wrap');iw.innerHTML='';
+  const tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
+  result.forEach(emp=>{
+    const div=document.createElement('div');div.className='irow';
+    if(emp.incidents.length===0){
+      div.innerHTML=`<span class="badge badge-ok" style="flex-shrink:0">✓</span><div><div class="emp-name">${emp.nombre}</div><div class="emp-dept">${emp.departamento}</div></div>`;
     } else {
-      const typeLabel = {tarde:'Llegada tarde', salida:'Salida anticipada', extra:'Horas extra', sin_fichaje:'Sin fichaje'};
-      const tipos = [...new Set(emp.incidents.map(i => i.type))];
-      const badges = tipos.map(t => `<span class="badge badge-err" style="margin-right:4px">${typeLabel[t]||t}</span>`).join('');
-      const dets = emp.incidents.map(i =>
-        `<div class="inc-detail">${i.date.slice(5)} — ${i.detail}</div>`
-      ).join('');
-      div.innerHTML = `
-        <div style="padding-top:2px"><span class="badge badge-err">!</span></div>
-        <div style="flex:1">
-          <div class="emp-name">${emp.nombre} <span class="emp-dept" style="display:inline">${emp.departamento}</span></div>
-          <div style="margin:4px 0">${badges}</div>
-          ${dets}
-        </div>`;
+      const tipos=[...new Set(emp.incidents.map(i=>i.type))];
+      const badges=tipos.map(t=>`<span class="badge badge-err" style="margin-right:3px">${tl[t]||t}</span>`).join('');
+      const dets=emp.incidents.map(i=>`<div class="inc-line">${i.date.slice(5)} — ${i.detail}</div>`).join('');
+      div.innerHTML=`<span class="badge badge-err" style="flex-shrink:0">!</span><div style="flex:1"><div class="emp-name">${emp.nombre} <span class="emp-dept" style="display:inline">${emp.departamento}</span></div><div style="margin:4px 0">${badges}</div>${dets}</div>`;
     }
     iw.appendChild(div);
   });
-
   renderEmails();
 }
 
-function renderEmails() {
-  if (!analysisResult) return;
-  const { result, from, to } = analysisResult;
-  const nota = document.getElementById('extra-note').value.trim();
-  const fw = document.getElementById('emails-wrap');
-  fw.innerHTML = '';
+function renderEmails(){
+  if(!analysisResult)return;
+  const{result,from,to}=analysisResult;
+  const nota=document.getElementById('extra-note').value.trim();
+  const fromStr=from.split('-').reverse().join('/');
+  const toStr=to.split('-').reverse().join('/');
+  const fw=document.getElementById('emails-wrap');fw.innerHTML='';
+  const tl={tarde:'Llegada fuera del horario flexible',salida:'Salida anticipada',extra:'Horas extra sin solicitud previa por plataforma',sin_fichaje:'Jornada sin fichaje registrado'};
 
-  const fromStr = from.split('-').reverse().join('/');
-  const toStr = to.split('-').reverse().join('/');
-  const typeLabel = {tarde:'Llegada fuera del horario flexible', salida:'Salida anticipada', extra:'Horas extra sin formalizar', sin_fichaje:'Jornada sin fichaje'};
+  RESPONSABLES.forEach((resp,idx)=>{
+    const empDeResp=result.filter(e=>resp.empleados.some(re=>norm(re)===e.nombreNorm));
+    const conInc=empDeResp.filter(e=>e.incidents.length>0);
+    const pct=empDeResp.length>0?conInc.length/empDeResp.length:0;
+    const nivel=pct===0?'Alto':pct<=0.3?'Alto':pct<=0.6?'Medio':'Bajo';
+    const todosEnFranja=!empDeResp.some(e=>e.incidents.some(i=>i.type==='tarde'));
+    const todosJornada=!empDeResp.some(e=>e.incidents.some(i=>i.type==='salida'));
+    const sinExtras=!empDeResp.some(e=>e.incidents.some(i=>i.type==='extra'));
+    const primerNombre=resp.nombre.split(' ')[0];
 
-  RESPONSABLES.forEach((resp, idx) => {
-    // Filtrar empleados de este responsable
-    // ⚠️ Cuando llegue la tabla de dependencias, aquí se filtra por resp.empleadoIds
-    // Por ahora agrupamos por departamento como placeholder
-    const empDeResp = result.filter(e => e.incidents.length > 0);
-    // Una vez tengamos la tabla real, será:
-    // const empDeResp = result.filter(e => resp.empleadoIds.includes(e.id) && e.incidents.length > 0);
+    let c=`Hola ${primerNombre},\n\n`;
+    c+=`Tras revisar el informe de fichajes del equipo de ${resp.equipo} correspondiente a las semanas del ${fromStr} al ${toStr}, te traslado un resumen del nivel de cumplimiento en relación con el protocolo de jornada y presencialidad:\n\n`;
+    c+=`VALORACIÓN GENERAL:\n`;
+    c+=`El nivel de cumplimiento puede considerarse ${nivel}, ya que`;
+    c+=conInc.length===0
+      ?` el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.\n\n`
+      :` el equipo cumple en términos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.\n\n`;
+    c+=`ASPECTOS POSITIVOS:\n`;
+    if(todosJornada||conInc.length===0)c+=`• Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.\n`;
+    if(todosEnFranja)c+=`• Los horarios de entrada se mantienen dentro de la franja flexible establecida.\n`;
+    c+=`• La automatización de la salida de jornada está correctamente aplicada.\n`;
+    if(sinExtras)c+=`• No se detectan horas extra sin formalizar.\n`;
 
-    const color = COLORES[idx % COLORES.length];
-    const primerNombre = resp.nombre.split(' ')[0];
-
-    let cuerpo = `Hola ${primerNombre},\n\nTe envío el resumen de fichajes de tu equipo correspondiente a la semana del ${fromStr} al ${toStr}.\n\n`;
-
-    if (empDeResp.length === 0) {
-      cuerpo += `Esta semana no se han detectado incidencias en tu equipo. Todo correcto.\n`;
-    } else {
-      cuerpo += `Se han detectado las siguientes incidencias que requieren seguimiento:\n\n`;
-      empDeResp.forEach(emp => {
-        cuerpo += `▸ ${emp.nombre}:\n`;
-        emp.incidents.forEach(i => {
-          cuerpo += `  • ${i.date.slice(5)}: ${typeLabel[i.type]||i.type} — ${i.detail}\n`;
-        });
-        cuerpo += '\n';
+    if(conInc.length>0){
+      c+=`\nASPECTOS A REVISAR / INCIDENCIAS:\nSe han detectado las siguientes incidencias:\n\n`;
+      conInc.forEach(emp=>{
+        c+=`▸ ${emp.nombre}:\n`;
+        emp.incidents.forEach(i=>{c+=`  • ${i.date.slice(5)}: ${tl[i.type]||i.type} — ${i.detail}\n`;});
+        c+='\n';
       });
-      cuerpo += `Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.\n`;
+      c+=`Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.\n`;
     }
 
-    if (nota) cuerpo += `\nNota adicional: ${nota}\n`;
+    const specialsEnPeriodo=specials.filter(s=>{
+      const d=new Date(s.date+'T12:00:00Z');
+      return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');
+    });
+    if(specialsEnPeriodo.length>0){
+      c+=`\nCONSIDERACIÓN EXCEPCIONAL:\n`;
+      specialsEnPeriodo.forEach(s=>{
+        const fecha=new Date(s.date+'T12:00:00Z');
+        const dia=fecha.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+        c+=`El ${dia} se ha considerado como día excepcional (${s.desc}), aplicando mayor flexibilidad en la valoración.\n`;
+      });
+    }
+    if(nota)c+=`\nNota adicional: ${nota}\n`;
+    c+=`\nQuedo a tu disposición para comentarlo si lo consideras oportuno.\n\nUn saludo,\n\nSandra Mesa\nDepartamento RRHH · Tostaderos Sol de Alba S.L.\nTelf. Móvil: +34 638 72 40 03 · Centralita: +34 958 46 67 60`;
 
-    cuerpo += `\nRecuerda la normativa vigente (01/04/2026):\n• Entrada flexible: 7:00 – 9:30 h\n• Pausa máxima: 1 h 30 min\n• Horas extra: requieren solicitud previa por plataforma\n\nMuchas gracias,\nRRHH — Sol de Alba / Grupo Barragán Espinar`;
-
-    const asunto = `Informe de fichajes — Semana ${fromStr}–${toStr}`;
-
-    const block = document.createElement('div');
-    block.className = 'email-block';
-    block.innerHTML = `
-      <div class="email-header" style="border-left:3px solid ${color}">
+    const asunto=`Revisión cumplimiento normas fichaje — ${resp.equipo} — ${fromStr}–${toStr}`;
+    const block=document.createElement('div');block.className='email-block';
+    block.innerHTML=`
+      <div class="email-hdr" style="border-left:3px solid ${resp.color}">
         <div>
-          <div class="email-to">${resp.nombre}</div>
-          <div class="email-addr">${resp.email}</div>
+          <div class="email-to-name">${resp.nombreCompleto} <span style="font-size:11px;font-weight:400;color:var(--text3)">${resp.equipo}</span></div>
+          <div class="email-to-addr">${resp.email}</div>
         </div>
-        <span class="badge ${empDeResp.length > 0 ? 'badge-err' : 'badge-ok'}">
-          ${empDeResp.length > 0 ? empDeResp.length + ' incidencia' + (empDeResp.length > 1 ? 's' : '') : 'Sin incidencias'}
-        </span>
+        <span class="badge ${conInc.length>0?'badge-err':'badge-ok'}">${conInc.length>0?conInc.length+' incidencia'+(conInc.length>1?'s':''):'Sin incidencias'}</span>
       </div>
-      <div class="email-body" id="body-${idx}">${cuerpo}</div>
-      <div class="email-actions">
-        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail(${idx})">Copiar correo</button>
+      <div class="email-body" id="body-${idx}">${c}</div>
+      <div class="email-footer">
+        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail(${idx},this)">Copiar correo</button>
         <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook('${resp.email}','${encodeURIComponent(asunto)}',${idx})">Abrir en Outlook ↗</button>
       </div>`;
     fw.appendChild(block);
   });
-
-  document.getElementById('extra-note').oninput = renderEmails;
+  document.getElementById('extra-note').oninput=renderEmails;
 }
 
-function copyEmail(idx) {
-  const text = document.getElementById('body-' + idx).textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btns = document.querySelectorAll('.email-actions button');
-    const btn = document.querySelectorAll('.email-actions')[idx]?.querySelector('button');
-    if (btn) {
-      btn.textContent = '¡Copiado!';
-      setTimeout(() => { btn.textContent = 'Copiar correo'; }, 2000);
-    }
+function copyEmail(idx,btn){
+  navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent).then(()=>{
+    btn.textContent='¡Copiado!';setTimeout(()=>{btn.textContent='Copiar correo';},2000);
   });
 }
 
-function openOutlook(email, subject, idx) {
-  const body = encodeURIComponent(document.getElementById('body-' + idx).textContent);
-  window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+function openOutlook(email,subject,idx){
+  window.open(`mailto:${email}?subject=${subject}&body=${encodeURIComponent(document.getElementById('body-'+idx).textContent)}`,'_blank');
 }
 
-// ---- DEMO ----
-function loadDemo() {
-  document.getElementById('demo-wrap').style.display = 'none';
-  const from = '2026-04-14';
-  const to = '2026-04-25';
-  document.getElementById('date-from').value = from;
-  document.getElementById('date-to').value = to;
-
-  analysisResult = {
-    from, to,
-    diasLaborables: 8,
-    result: [
-      {
-        id:'1', nombre:'Beatriz Monreal Muñoz', departamento:'Administración',
-        incidents:[
-          {type:'tarde', date:'2026-04-20', detail:'Entrada a las 09:35 — 5 min sobre el límite de 9:30h'},
-          {type:'extra', date:'2026-04-22', detail:'1h 30min de horas extra no formalizadas'}
-        ]
-      },
-      {
-        id:'2', nombre:'Carlos Fernández López', departamento:'Operaciones',
-        incidents:[
-          {type:'tarde', date:'2026-04-15', detail:'Entrada a las 09:45 — 15 min sobre el límite de 9:30h'},
-          {type:'salida', date:'2026-04-23', detail:'Jornada de 4h 45min, faltan 3h 15min'}
-        ]
-      },
-      {
-        id:'3', nombre:'María José Ruiz Sánchez', departamento:'Marketing',
-        incidents:[]
-      },
-      {
-        id:'4', nombre:'Andrés Torres Vega', departamento:'Ventas',
-        incidents:[
-          {type:'sin_fichaje', date:'2026-04-14', detail:'Jornada sin fichaje registrado'},
-          {type:'tarde', date:'2026-04-16', detail:'Entrada a las 09:50 — 20 min sobre el límite de 9:30h'}
-        ]
-      },
-      {
-        id:'5', nombre:'Lucía Navarro Gil', departamento:'Marketing',
-        incidents:[]
-      }
-    ]
-  };
-
+function loadDemo(){
+  document.getElementById('demo-wrap').style.display='none';
+  document.getElementById('date-from').value='2026-04-14';
+  document.getElementById('date-to').value='2026-04-25';
+  specials=[{date:'2026-04-21',desc:'Formación IA'}];renderSpecials();
+  analysisResult={from:'2026-04-14',to:'2026-04-25',diasLaborables:8,result:[
+    {nombre:'Beatriz Monreal Muñoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'Julia Caro Martín',nombreNorm:'JULIA CARO MARTIN',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'Clidia Ruiz Morales',nombreNorm:'CLIDIA RUIZ MORALES',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'María Melanie Quintana',nombreNorm:'MARIA MELANIE QUINTANA GARCIA',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'Ana Ramírez López-Frías',nombreNorm:'ANA RAMIREZ LOPEZ-FRIAS',departamento:'Responsables',jornada:480,movilidad:false,
+      incidents:[{type:'extra',date:'2026-04-13',detail:'2h de horas extra sin solicitud previa por plataforma'}],diasOk:7},
+    {nombre:'Ibon Pache Legarreta',nombreNorm:'IBON PACHE LEGARRETA',departamento:'Comercial',jornada:480,movilidad:true,incidents:[],diasOk:8},
+    {nombre:'Ignacio Olmedo Reyes',nombreNorm:'IGNACIO OLMEDO REYES',departamento:'Responsable Ventas',jornada:480,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'Azucena Ortiz Luque',nombreNorm:'AZUCENA ORTIZ LUQUE',departamento:'Ventas Nacional',jornada:480,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'Raquel López González',nombreNorm:'RAQUEL LOPEZ GONZALEZ',departamento:'Admon Ventas',jornada:480,movilidad:false,
+      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" el 21/04 — revisar si el procedimiento se siguió correctamente'}],diasOk:7},
+    {nombre:'Christopher T. Weyburn',nombreNorm:'CHRISTOPHER T. WEYBURN',departamento:'Export',jornada:480,movilidad:true,incidents:[],diasOk:8},
+    {nombre:'Daniel Lendínez López',nombreNorm:'DANIEL LENDINEZ LOPEZ',departamento:'Administración',jornada:480,movilidad:false,
+      incidents:[
+        {type:'extra',date:'2026-04-13',detail:'Extensión vía "request" — 13/04'},
+        {type:'extra',date:'2026-04-16',detail:'Extensión vía "request" — 16/04'},
+        {type:'extra',date:'2026-04-22',detail:'Extensión vía "request" — 22/04'}
+      ],diasOk:5},
+    {nombre:'Isabel María Cortés Parra',nombreNorm:'ISABEL MARIA CORTES PARRA',departamento:'Administración',jornada:450,movilidad:false,
+      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" — 21/04'}],diasOk:7},
+    {nombre:'Antonia Masía',nombreNorm:'ANTONIA MASIA',departamento:'Tesorería',jornada:450,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'Sonia Quintero Fernández',nombreNorm:'SONIA QUINTERO FERNANDEZ',departamento:'Administración',jornada:450,movilidad:false,incidents:[],diasOk:8},
+    {nombre:'José Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',departamento:'IT',jornada:480,movilidad:true,incidents:[],diasOk:8},
+  ]};
   renderResults();
 }
 </script>
