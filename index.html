@@ -4,159 +4,214 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fichajes — Grupo Barragán Espinar</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#f7f5f0;--surface:#fff;--surface2:#f0ede6;--border:#dedad0;--text:#1c1a17;
-  --text2:#6b6558;--text3:#9e9888;--green:#2a5c3e;--green-light:#e6f0ea;
-  --amber:#92400e;--amber-bg:#fef3c7;--red:#991b1b;--red-bg:#fee2e2;
-  --blue:#1e3a6e;--blue-bg:#dbeafe;--ok:#166534;--ok-bg:#dcfce7;
-  --radius:12px;--radius-sm:7px;
+  --dark:#1a1917;
+  --dark2:#242220;
+  --cream:#f0ebe0;
+  --cream2:#e8e2d5;
+  --cream3:#f7f4ee;
+  --surface:#ffffff;
+  --wine:#7a1c2e;
+  --wine-light:#f5e8eb;
+  --text-dark:#1a1917;
+  --text-mid:#4a4540;
+  --text-muted:#8a8070;
+  --border:#d8d0c0;
+  --ok:#1a4a2e;
+  --ok-bg:#d8f0e0;
+  --err:#7a1c2e;
+  --err-bg:#f5e8eb;
+  --warn:#6b3a0a;
+  --warn-bg:#fef3d8;
+  --blue:#1a2e5a;
+  --blue-bg:#e0e8f5;
+  --radius:10px;
+  --radius-sm:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
-header{background:var(--green);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.logo{display:flex;align-items:center;gap:12px;color:white}
-.logo-mark{width:30px;height:30px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:500;font-size:16px;color:#7dcf95}
-.logo-text{font-family:'Fraunces',serif;font-weight:400;font-size:16px;color:white;letter-spacing:-0.3px}
-.logo-sub{font-size:11px;color:rgba(255,255,255,0.5);font-weight:300}
-main{max-width:920px;margin:0 auto;padding:2rem 1.5rem 4rem}
-.page-title{font-family:'Fraunces',serif;font-size:28px;font-weight:400;letter-spacing:-0.5px;margin-bottom:4px}
-.page-sub{font-size:13px;color:var(--text2);margin-bottom:2rem}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
-.step-num{width:24px;height:24px;background:var(--green);color:white;border-radius:50%;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.card-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.8px;color:var(--text2)}
-label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:5px}
-input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
+body{font-family:'DM Sans',sans-serif;background:var(--cream3);color:var(--text-dark);min-height:100vh;font-size:14px;line-height:1.6}
+
+header{
+  background:var(--dark);
+  padding:0 2.5rem;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.logo-img{height:28px;filter:brightness(0) invert(1);opacity:0.9}
+.header-right{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.8px;text-transform:uppercase;font-family:'DM Sans',sans-serif}
+
+main{max-width:940px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+
+.page-header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.page-eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--wine);font-weight:500;margin-bottom:8px}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;letter-spacing:-0.5px;color:var(--dark);line-height:1.1;margin-bottom:6px}
+.page-sub{font-size:12px;color:var(--text-muted)}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+.card-eyebrow{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.card-eyebrow::before{content:'';display:inline-block;width:16px;height:1px;background:var(--wine)}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--dark);margin-bottom:1rem}
+
+label{font-size:11px;letter-spacing:0.5px;text-transform:uppercase;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--cream3);color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
 input[type=password]{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px}
-input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(42,92,62,.08)}
+input:focus,select:focus,textarea:focus{border-color:var(--wine);box-shadow:0 0 0 3px rgba(122,28,46,.07);background:var(--surface)}
+
 .row{display:flex;gap:12px;flex-wrap:wrap}
 .row>*{flex:1;min-width:130px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
-.btn-primary{background:var(--green);color:white}
-.btn-primary:hover{background:#1f4730}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.btn-secondary{background:transparent;color:var(--text);border-color:var(--border)}
-.btn-secondary:hover{background:var(--surface2)}
-.btn-ghost{background:transparent;color:var(--text2);border-color:transparent;font-size:12px;padding:5px 10px}
-.btn-ghost:hover{color:var(--text);background:var(--surface2)}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;letter-spacing:0.2px}
+.btn-primary{background:var(--dark);color:var(--cream);border-color:var(--dark)}
+.btn-primary:hover{background:#2d2b28}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-secondary{background:transparent;color:var(--text-dark);border-color:var(--border)}
+.btn-secondary:hover{background:var(--cream2);border-color:var(--text-muted)}
+.btn-ghost{background:transparent;color:var(--text-muted);border-color:transparent;font-size:12px;padding:6px 10px}
+.btn-ghost:hover{color:var(--text-dark);background:var(--cream2)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;letter-spacing:0.2px}
 .badge-ok{background:var(--ok-bg);color:var(--ok)}
-.badge-err{background:var(--red-bg);color:var(--red)}
-.badge-warn{background:var(--amber-bg);color:var(--amber)}
+.badge-err{background:var(--err-bg);color:var(--err)}
+.badge-warn{background:var(--warn-bg);color:var(--warn)}
 .badge-info{background:var(--blue-bg);color:var(--blue)}
+
 .pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;background:var(--blue-bg);color:var(--blue);margin:2px}
 .pill-x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
 .pill-x:hover{opacity:1}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
-.metric{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;text-align:center;border:1px solid var(--border)}
-.mv{font-family:'Fraunces',serif;font-size:28px;font-weight:400;line-height:1;margin-bottom:4px}
-.ml{font-size:11px;color:var(--text2)}
-.irow{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-bottom:1.25rem;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.metric{background:var(--surface);padding:18px 14px;text-align:center}
+.mv{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;line-height:1;margin-bottom:4px;color:var(--dark)}
+.ml{font-size:11px;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase}
+
+.irow{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .irow:last-child{border-bottom:none}
 .emp-name{font-size:14px;font-weight:500;margin-bottom:2px}
-.emp-dept{font-size:11px;color:var(--text3)}
-.inc-line{font-size:11px;color:var(--text2);margin-top:2px;font-family:'DM Mono',monospace}
+.emp-dept{font-size:11px;color:var(--text-muted);letter-spacing:0.2px}
+.inc-line{font-size:11px;color:var(--text-mid);margin-top:2px;font-family:'DM Mono',monospace}
+
 .email-block{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
-.email-hdr{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--surface2)}
-.email-to-name{font-size:13px;font-weight:500}
-.email-to-addr{font-size:11px;color:var(--text2);font-family:'DM Mono',monospace}
-.email-body{padding:14px;font-size:13px;line-height:1.75;white-space:pre-wrap;max-height:300px;overflow-y:auto;background:var(--surface)}
-.email-footer{padding:8px 14px;background:var(--surface2);display:flex;gap:6px;border-top:1px solid var(--border)}
+.email-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--cream3)}
+.email-to-name{font-size:13px;font-weight:500;color:var(--dark)}
+.email-dept{font-size:11px;color:var(--text-muted);letter-spacing:0.2px}
+.email-to-addr{font-size:11px;color:var(--text-muted);font-family:'DM Mono',monospace;margin-top:1px}
+.email-body{padding:16px;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:300px;overflow-y:auto;background:var(--surface);color:var(--text-dark)}
+.email-footer{padding:8px 16px;background:var(--cream3);display:flex;gap:6px;border-top:1px solid var(--border)}
+
 .alert{padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px}
-.alert-err{background:var(--red-bg);color:var(--red)}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+.alert-err{background:var(--err-bg);color:var(--err);border:1px solid rgba(122,28,46,.15)}
+
+.spinner{display:inline-block;width:13px;height:13px;border:1.5px solid var(--border);border-top-color:var(--wine);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
-.status-bar{font-size:12px;color:var(--text2);margin-top:8px;min-height:20px;display:flex;align-items:center;gap:6px}
+.status-bar{font-size:12px;color:var(--text-muted);margin-top:8px;min-height:20px;display:flex;align-items:center;gap:6px}
 .hidden{display:none}
-footer{text-align:center;padding:2rem;font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:2rem}
+
+.divider{height:1px;background:var(--border);margin:1.5rem 0}
+
+footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem;letter-spacing:0.3px}
+
 @media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)};main{padding:1rem}}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo">
-    <div class="logo-mark">B</div>
-    <div>
-      <div class="logo-text">Grupo Barragán Espinar</div>
-      <div class="logo-sub">Control de fichajes · RRHH</div>
-    </div>
-  </div>
+  <div style="font-family:'Cormorant Garamond',serif;color:white;line-height:1.1"><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.5;font-weight:400">Grupo</div><div style="font-size:18px;font-weight:400;letter-spacing:0.5px">Barragán Espinar</div></div>
+  <div class="header-right">Control de fichajes · RRHH</div>
 </header>
+
 <main>
-  <div class="page-title">Análisis semanal de fichajes</div>
-  <div class="page-sub">Conectado a Sesame HR · Región EU4 · Festivos Granada 2026 · Normativa 01/04/2026</div>
+  <div class="page-header">
+    <div class="page-eyebrow">Departamento de RRHH</div>
+    <div class="page-title">Análisis semanal de fichajes</div>
+    <div class="page-sub">Conectado a Sesame HR · Región EU4 · Festivos Granada 2026 · Normativa vigente 01/04/2026</div>
+  </div>
 
   <div class="card">
-    <div class="card-header"><div class="step-num">1</div><div class="card-title">Conexión con Sesame HR</div></div>
+    <div class="card-eyebrow">Paso 1</div>
+    <div class="card-title">Conexión con Sesame HR</div>
     <div style="margin-bottom:1rem">
       <label>Token de API</label>
       <input type="password" id="token" placeholder="eyJ0eXAiOiJKV1Qi..." autocomplete="off">
-      <div style="font-size:11px;color:var(--text3);margin-top:4px">El token solo vive en esta sesión. Al cerrar la pestaña se borra automáticamente.</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:5px">El token solo vive en esta sesión del navegador. Al cerrar la pestaña se borra automáticamente.</div>
     </div>
     <div class="row" style="margin-bottom:1rem">
       <div><label>Desde</label><input type="date" id="date-from"></div>
       <div><label>Hasta</label><input type="date" id="date-to"></div>
       <div style="flex:0;min-width:auto;display:flex;align-items:flex-end"><button class="btn btn-secondary" onclick="setLastWeek()">Semana anterior</button></div>
     </div>
-    <button class="btn btn-primary" id="load-btn" onclick="loadData()">↓ Cargar fichajes desde Sesame</button>
+    <button class="btn btn-primary" id="load-btn" onclick="loadData()">↓ &nbsp;Cargar fichajes desde Sesame</button>
     <div class="status-bar" id="status"></div>
     <div id="load-err" class="hidden alert alert-err"></div>
   </div>
 
   <div class="card">
-    <div class="card-header"><div class="step-num">2</div><div class="card-title">Días especiales — excluidos del análisis</div></div>
-    <div id="specials-wrap" style="margin-bottom:8px;min-height:24px"></div>
+    <div class="card-eyebrow">Paso 2</div>
+    <div class="card-title">Días especiales — excluidos del análisis</div>
+    <div id="specials-wrap" style="margin-bottom:10px;min-height:24px"></div>
     <div class="row">
-      <div style="flex:0;min-width:150px"><input type="date" id="sp-date"></div>
+      <div style="flex:0;min-width:155px"><input type="date" id="sp-date"></div>
       <div><input type="text" id="sp-desc" placeholder="Motivo (ej: formación IA, evento empresa...)"></div>
       <div style="flex:0;min-width:auto;display:flex;align-items:center"><button class="btn btn-secondary" onclick="addSpecial()">+ Añadir</button></div>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--text3)">Festivos Granada 2026 incluidos · Fines de semana excluidos automáticamente</div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Festivos Granada 2026 incluidos automáticamente · Fines de semana excluidos</div>
   </div>
 
   <div id="results" class="hidden">
     <div class="metrics">
       <div class="metric"><div class="mv" id="m-emp">—</div><div class="ml">Empleados</div></div>
       <div class="metric"><div class="mv" id="m-ok" style="color:var(--ok)">—</div><div class="ml">Sin incidencias</div></div>
-      <div class="metric"><div class="mv" id="m-inc" style="color:var(--red)">—</div><div class="ml">Con incidencias</div></div>
+      <div class="metric"><div class="mv" id="m-inc" style="color:var(--wine)">—</div><div class="ml">Con incidencias</div></div>
       <div class="metric"><div class="mv" id="m-dias">—</div><div class="ml">Días laborables</div></div>
     </div>
+
     <div class="card">
-      <div class="card-header" style="margin-bottom:.75rem"><div class="card-title">Incidencias detectadas</div></div>
+      <div class="card-eyebrow">Resumen</div>
+      <div class="card-title">Incidencias detectadas</div>
       <div id="incidents-wrap"></div>
     </div>
+
     <div class="card">
-      <div class="card-header" style="margin-bottom:.75rem"><div class="card-title">Borradores de correo por responsable</div></div>
+      <div class="card-eyebrow">Comunicación</div>
+      <div class="card-title">Borradores de correo por responsable</div>
       <div style="margin-bottom:1rem">
         <label>Nota adicional para esta semana (opcional)</label>
-        <textarea id="extra-note" rows="2" placeholder="Contexto especial que quieras añadir..."></textarea>
+        <textarea id="extra-note" rows="2" placeholder="Contexto especial que quieras añadir a todos los correos..."></textarea>
       </div>
       <div id="emails-wrap"></div>
     </div>
   </div>
 
-  <div id="demo-wrap" style="text-align:center;padding:1rem 0">
+  <div id="demo-wrap" style="text-align:center;padding:1.5rem 0">
     <button class="btn btn-ghost" onclick="loadDemo()">Ver ejemplo con datos reales →</button>
   </div>
 </main>
-<footer>Grupo Barragán Espinar · RRHH · smesa@soldealba.com<br>Normativa vigente desde 01/04/2026 · Herramienta interna</footer>
+
+<footer>
+  Grupo Barragán Espinar &nbsp;·&nbsp; Departamento RRHH &nbsp;·&nbsp; smesa@soldealba.com<br>
+  Normativa vigente desde 01/04/2026 &nbsp;·&nbsp; Herramienta de uso interno
+</footer>
 
 <script>
 const SESAME_BASE='https://api-eu4.sesametime.com';
 const HOLIDAYS=['2026-01-01','2026-01-06','2026-02-28','2026-04-02','2026-04-03','2026-05-01','2026-06-24','2026-08-05','2026-10-12','2026-11-02','2026-12-07','2026-12-08','2026-12-25'];
 
 const RESPONSABLES=[
-  {nombre:'Reinhardt Liszka',nombreCompleto:'Reinhardt Liszka Mesas',email:'rliszka@grupobarraganespinar.com',equipo:'Responsables / Dirección',color:'#2a5c3e',
+  {nombre:'Reinhardt Liszka',nombreCompleto:'Reinhardt Liszka Mesas',email:'rliszka@grupobarraganespinar.com',equipo:'Responsables / Dirección',color:'#1a1917',
    empleados:['ANA RAMIREZ LOPEZ-FRIAS','IBON PACHE LEGARRETA','IGNACIO OLMEDO REYES','BEATRIZ MONREAL MUÑOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
-  {nombre:'Ignacio Olmedo',nombreCompleto:'Ignacio Olmedo Reyes',email:'iolmedo@soldealba.com',equipo:'Admon Ventas / Export',color:'#1e3a6e',
+  {nombre:'Ignacio Olmedo',nombreCompleto:'Ignacio Olmedo Reyes',email:'iolmedo@soldealba.com',equipo:'Admon Ventas / Export',color:'#1a2e5a',
    empleados:['AZUCENA ORTIZ LUQUE','CHRISTOPHER T. WEYBURN','IBTISSAM BYAR CHADI','JOSE LUIS ALCALA GILABERT','JUAN CARLOS MARTINEZ RAMON','RAQUEL LOPEZ GONZALEZ','SERGIO VERA DE LAS HERAS']},
-  {nombre:'Carmen Ruiz',nombreCompleto:'Carmen María Ruiz Cabello',email:'cmruiz@grupobarraganespinar.com',equipo:'Administración',color:'#6b21a8',
+  {nombre:'Carmen Ruiz',nombreCompleto:'Carmen María Ruiz Cabello',email:'cmruiz@grupobarraganespinar.com',equipo:'Administración',color:'#3a1a4a',
    empleados:['ANTONIA MASIA','DANIEL LENDINEZ LOPEZ','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ']},
-  {nombre:'Ana Ramírez',nombreCompleto:'Ana Ramírez López-Frías',email:'aramirez@grupobarraganespinar.com',equipo:'Marketing',color:'#be123c',
+  {nombre:'Ana Ramírez',nombreCompleto:'Ana Ramírez López-Frías',email:'aramirez@grupobarraganespinar.com',equipo:'Marketing',color:'#7a1c2e',
    empleados:['BEATRIZ MONREAL MUÑOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
-  {nombre:'Daniel Lendínez',nombreCompleto:'Daniel Lendínez López',email:'dlendinez@grupobarraganespinar.com',equipo:'IT / Informática',color:'#92400e',
+  {nombre:'Daniel Lendínez',nombreCompleto:'Daniel Lendínez López',email:'dlendinez@grupobarraganespinar.com',equipo:'IT / Informática',color:'#4a2e0a',
    empleados:['JOSE LEONARDO ORTEGA PINTO']}
 ];
 
@@ -164,40 +219,31 @@ const JORNADA_REDUCIDA=['ANTONIA MASIA','ISABEL MARIA CORTES PARRA','SONIA QUINT
 const PERFIL_MOVILIDAD=['IBON PACHE LEGARRETA','DANIEL LENDINEZ LOPEZ','JOSE LEONARDO ORTEGA PINTO'];
 
 let specials=[], analysisResult=null;
-
-(function init(){renderSpecials();setLastWeek();})();
+(function(){renderSpecials();setLastWeek();})();
 
 function setLastWeek(){
   const now=new Date(),day=now.getDay()||7,mon=new Date(now);
-  mon.setDate(now.getDate()-day-6);
-  const fri=new Date(mon);fri.setDate(mon.getDate()+4);
+  mon.setDate(now.getDate()-day-6);const fri=new Date(mon);fri.setDate(mon.getDate()+4);
   const fmt=d=>d.toISOString().slice(0,10);
-  document.getElementById('date-from').value=fmt(mon);
-  document.getElementById('date-to').value=fmt(fri);
+  document.getElementById('date-from').value=fmt(mon);document.getElementById('date-to').value=fmt(fri);
 }
 
 function renderSpecials(){
   const w=document.getElementById('specials-wrap');
-  w.innerHTML=specials.length===0
-    ?'<span style="font-size:12px;color:var(--text3)">Sin días especiales esta semana</span>'
+  w.innerHTML=specials.length===0?'<span style="font-size:12px;color:var(--text-muted)">Sin días especiales esta semana</span>'
     :specials.map((s,i)=>`<span class="pill">${s.date.slice(5)} — ${s.desc}<span class="pill-x" onclick="removeSpecial(${i})">×</span></span>`).join('');
 }
-
 function addSpecial(){
   const d=document.getElementById('sp-date').value,desc=document.getElementById('sp-desc').value.trim();
-  if(!d||!desc)return;
-  specials.push({date:d,desc});renderSpecials();
+  if(!d||!desc)return;specials.push({date:d,desc});renderSpecials();
   document.getElementById('sp-date').value='';document.getElementById('sp-desc').value='';
 }
-
 function removeSpecial(i){specials.splice(i,1);renderSpecials();}
 
-function isExcluded(dateStr){
-  if(HOLIDAYS.includes(dateStr))return{excluded:true,reason:'festivo'};
-  const sp=specials.find(s=>s.date===dateStr);
-  if(sp)return{excluded:true,reason:sp.desc};
-  const dow=new Date(dateStr+'T12:00:00Z').getDay();
-  if(dow===0||dow===6)return{excluded:true,reason:'fin de semana'};
+function isExcluded(ds){
+  if(HOLIDAYS.includes(ds))return{excluded:true,reason:'festivo'};
+  const sp=specials.find(s=>s.date===ds);if(sp)return{excluded:true,reason:sp.desc};
+  const dow=new Date(ds+'T12:00:00Z').getDay();if(dow===0||dow===6)return{excluded:true};
   return{excluded:false};
 }
 
@@ -206,7 +252,7 @@ function setError(msg){const el=document.getElementById('load-err');el.classList
 function timeToMin(t){if(!t)return null;const m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return null;return parseInt(m[1])*60+parseInt(m[2]);}
 function minToStr(m){if(m===null)return'--';const a=Math.abs(m),h=Math.floor(a/60),mn=a%60;return(m<0?'-':'')+(h>0?h+'h ':' ')+(mn>0?mn+'min':'');}
 function getDatesInRange(from,to){const d=[];let c=new Date(from+'T12:00:00Z');const e=new Date(to+'T12:00:00Z');while(c<=e){d.push(c.toISOString().slice(0,10));c.setDate(c.getDate()+1);}return d;}
-function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[̀-ͯ]/g,'');}
 
 async function apiGet(path){
   const token=document.getElementById('token').value.trim();
@@ -226,7 +272,7 @@ async function loadData(){
     setStatus('Conectando con Sesame HR...',true);
     const empResp=await apiGet('/core/v3/employees?limit=200&status=active');
     const employees=empResp.data||empResp||[];
-    setStatus(`${employees.length} empleados. Cargando fichajes...`,true);
+    setStatus(`${employees.length} empleados encontrados. Cargando fichajes...`,true);
     const wrResp=await apiGet(`/core/v3/work-entries?from=${from}&to=${to}&limit=2000`);
     const entries=wrResp.data||wrResp||[];
     setStatus('Analizando incidencias...',true);
@@ -241,21 +287,15 @@ async function loadData(){
 function processData(employees,entries,from,to){
   const byEmp={};
   employees.forEach(emp=>{
-    const nombreNorm=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));
-    byEmp[emp.id]={
-      id:emp.id,
-      nombre:[emp.firstName,emp.lastName].filter(Boolean).join(' '),
-      nombreNorm,
+    const nN=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));
+    byEmp[emp.id]={id:emp.id,nombre:[emp.firstName,emp.lastName].filter(Boolean).join(' '),nombreNorm:nN,
       departamento:emp.department?.name||'Sin departamento',
-      jornada:JORNADA_REDUCIDA.some(n=>norm(n)===nombreNorm)?7*60+30:8*60,
-      movilidad:PERFIL_MOVILIDAD.some(n=>norm(n)===nombreNorm),
-      fichajes:{}
-    };
+      jornada:JORNADA_REDUCIDA.some(n=>norm(n)===nN)?7*60+30:8*60,
+      movilidad:PERFIL_MOVILIDAD.some(n=>norm(n)===nN),fichajes:{}};
   });
   entries.forEach(e=>{
     if(!byEmp[e.employeeId])return;
-    const date=(e.checkedIn||e.date||'').slice(0,10);
-    if(!date)return;
+    const date=(e.checkedIn||e.date||'').slice(0,10);if(!date)return;
     if(!byEmp[e.employeeId].fichajes[date])byEmp[e.employeeId].fichajes[date]=[];
     byEmp[e.employeeId].fichajes[date].push(e);
   });
@@ -272,23 +312,13 @@ function processData(employees,entries,from,to){
       let diaOk=true;
       if(entradas.length>0){
         const p=Math.min(...entradas);
-        if(p>9*60+30){
-          const diff=p-(9*60+30);
-          incidents.push({type:'tarde',date,detail:`Entrada a las ${Math.floor(p/60)}:${String(p%60).padStart(2,'0')} — ${minToStr(diff)} sobre el límite de 9:30h`});
-          diaOk=false;
-        }
+        if(p>9*60+30){const diff=p-(9*60+30);incidents.push({type:'tarde',date,detail:`Entrada a las ${Math.floor(p/60)}:${String(p%60).padStart(2,'0')} — ${minToStr(diff)} sobre el límite de 9:30h`});diaOk=false;}
       }
       if(entradas.length>0&&salidas.length>0){
-        const p=Math.min(...entradas),u=Math.max(...salidas),trabajado=u-p;
-        const tieneRequest=fichs.some(f=>{
-          const dev=(f.deviceType||f.source||'').toLowerCase();
-          return dev==='request'||f.workCheckType==='check-request';
-        });
-        if(trabajado<emp.jornada-15){
-          incidents.push({type:'salida',date,detail:`Jornada de ${minToStr(trabajado)}, faltan ${minToStr(emp.jornada-trabajado)}`});diaOk=false;
-        } else if(!tieneRequest&&trabajado>emp.jornada+45){
-          incidents.push({type:'extra',date,detail:`${minToStr(trabajado-emp.jornada)} de horas extra sin solicitud previa por plataforma`});diaOk=false;
-        }
+        const p=Math.min(...entradas),u=Math.max(...salidas),trab=u-p;
+        const tieneReq=fichs.some(f=>(f.deviceType||f.source||'').toLowerCase()==='request'||f.workCheckType==='check-request');
+        if(trab<emp.jornada-15){incidents.push({type:'salida',date,detail:`Jornada de ${minToStr(trab)}, faltan ${minToStr(emp.jornada-trab)}`});diaOk=false;}
+        else if(!tieneReq&&trab>emp.jornada+45){incidents.push({type:'extra',date,detail:`${minToStr(trab-emp.jornada)} de horas extra sin solicitud previa`});diaOk=false;}
       }
       if(diaOk)diasOk++;
     });
@@ -327,8 +357,7 @@ function renderEmails(){
   if(!analysisResult)return;
   const{result,from,to}=analysisResult;
   const nota=document.getElementById('extra-note').value.trim();
-  const fromStr=from.split('-').reverse().join('/');
-  const toStr=to.split('-').reverse().join('/');
+  const fromStr=from.split('-').reverse().join('/');const toStr=to.split('-').reverse().join('/');
   const fw=document.getElementById('emails-wrap');fw.innerHTML='';
   const tl={tarde:'Llegada fuera del horario flexible',salida:'Salida anticipada',extra:'Horas extra sin solicitud previa por plataforma',sin_fichaje:'Jornada sin fichaje registrado'};
 
@@ -342,50 +371,79 @@ function renderEmails(){
     const sinExtras=!empDeResp.some(e=>e.incidents.some(i=>i.type==='extra'));
     const primerNombre=resp.nombre.split(' ')[0];
 
-    let c=`Hola ${primerNombre},\n\n`;
-    c+=`Tras revisar el informe de fichajes del equipo de ${resp.equipo} correspondiente a las semanas del ${fromStr} al ${toStr}, te traslado un resumen del nivel de cumplimiento en relación con el protocolo de jornada y presencialidad:\n\n`;
-    c+=`VALORACIÓN GENERAL:\n`;
+    let c=`Hola ${primerNombre},
+
+`;
+    c+=`Tras revisar el informe de fichajes del equipo de ${resp.equipo} correspondiente a las semanas del ${fromStr} al ${toStr}, te traslado un resumen del nivel de cumplimiento en relación con el protocolo de jornada y presencialidad:
+
+`;
+    c+=`VALORACIÓN GENERAL:
+`;
     c+=`El nivel de cumplimiento puede considerarse ${nivel}, ya que`;
-    c+=conInc.length===0
-      ?` el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.\n\n`
-      :` el equipo cumple en términos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.\n\n`;
-    c+=`ASPECTOS POSITIVOS:\n`;
-    if(todosJornada||conInc.length===0)c+=`• Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.\n`;
-    if(todosEnFranja)c+=`• Los horarios de entrada se mantienen dentro de la franja flexible establecida.\n`;
-    c+=`• La automatización de la salida de jornada está correctamente aplicada.\n`;
-    if(sinExtras)c+=`• No se detectan horas extra sin formalizar.\n`;
+    c+=conInc.length===0?` el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.
+
+`:` el equipo cumple en términos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.
+
+`;
+    c+=`ASPECTOS POSITIVOS:
+`;
+    if(todosJornada||conInc.length===0)c+=`• Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.
+`;
+    if(todosEnFranja)c+=`• Los horarios de entrada se mantienen dentro de la franja flexible establecida.
+`;
+    c+=`• La automatización de la salida de jornada está correctamente aplicada.
+`;
+    if(sinExtras)c+=`• No se detectan horas extra sin formalizar.
+`;
 
     if(conInc.length>0){
-      c+=`\nASPECTOS A REVISAR / INCIDENCIAS:\nSe han detectado las siguientes incidencias:\n\n`;
+      c+=`
+ASPECTOS A REVISAR / INCIDENCIAS:
+Se han detectado las siguientes incidencias:
+
+`;
       conInc.forEach(emp=>{
-        c+=`▸ ${emp.nombre}:\n`;
-        emp.incidents.forEach(i=>{c+=`  • ${i.date.slice(5)}: ${tl[i.type]||i.type} — ${i.detail}\n`;});
-        c+='\n';
+        c+=`▸ ${emp.nombre}:
+`;
+        emp.incidents.forEach(i=>{c+=`  • ${i.date.slice(5)}: ${tl[i.type]||i.type} — ${i.detail}
+`;});
+        c+='
+';
       });
-      c+=`Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.\n`;
+      c+=`Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.
+`;
     }
 
-    const specialsEnPeriodo=specials.filter(s=>{
-      const d=new Date(s.date+'T12:00:00Z');
-      return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');
-    });
-    if(specialsEnPeriodo.length>0){
-      c+=`\nCONSIDERACIÓN EXCEPCIONAL:\n`;
-      specialsEnPeriodo.forEach(s=>{
-        const fecha=new Date(s.date+'T12:00:00Z');
-        const dia=fecha.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-        c+=`El ${dia} se ha considerado como día excepcional (${s.desc}), aplicando mayor flexibilidad en la valoración.\n`;
+    const spe=specials.filter(s=>{const d=new Date(s.date+'T12:00:00Z');return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');});
+    if(spe.length>0){
+      c+=`
+CONSIDERACIÓN EXCEPCIONAL:
+`;
+      spe.forEach(s=>{
+        const dia=new Date(s.date+'T12:00:00Z').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+        c+=`El ${dia} se ha considerado como día excepcional (${s.desc}), aplicando mayor flexibilidad en la valoración.
+`;
       });
     }
-    if(nota)c+=`\nNota adicional: ${nota}\n`;
-    c+=`\nQuedo a tu disposición para comentarlo si lo consideras oportuno.\n\nUn saludo,\n\nSandra Mesa\nDepartamento RRHH · Tostaderos Sol de Alba S.L.\nTelf. Móvil: +34 638 72 40 03 · Centralita: +34 958 46 67 60`;
+    if(nota)c+=`
+Nota adicional: ${nota}
+`;
+    c+=`
+Quedo a tu disposición para comentarlo si lo consideras oportuno.
+
+Un saludo,
+
+Sandra Mesa
+Departamento RRHH · Tostaderos Sol de Alba S.L.
+Telf. Móvil: +34 638 72 40 03 · Centralita: +34 958 46 67 60`;
 
     const asunto=`Revisión cumplimiento normas fichaje — ${resp.equipo} — ${fromStr}–${toStr}`;
     const block=document.createElement('div');block.className='email-block';
     block.innerHTML=`
       <div class="email-hdr" style="border-left:3px solid ${resp.color}">
         <div>
-          <div class="email-to-name">${resp.nombreCompleto} <span style="font-size:11px;font-weight:400;color:var(--text3)">${resp.equipo}</span></div>
+          <div class="email-to-name">${resp.nombreCompleto}</div>
+          <div class="email-dept">${resp.equipo}</div>
           <div class="email-to-addr">${resp.email}</div>
         </div>
         <span class="badge ${conInc.length>0?'badge-err':'badge-ok'}">${conInc.length>0?conInc.length+' incidencia'+(conInc.length>1?'s':''):'Sin incidencias'}</span>
@@ -401,19 +459,15 @@ function renderEmails(){
 }
 
 function copyEmail(idx,btn){
-  navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent).then(()=>{
-    btn.textContent='¡Copiado!';setTimeout(()=>{btn.textContent='Copiar correo';},2000);
-  });
+  navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent).then(()=>{btn.textContent='¡Copiado!';setTimeout(()=>{btn.textContent='Copiar correo';},2000);});
 }
-
 function openOutlook(email,subject,idx){
   window.open(`mailto:${email}?subject=${subject}&body=${encodeURIComponent(document.getElementById('body-'+idx).textContent)}`,'_blank');
 }
 
 function loadDemo(){
   document.getElementById('demo-wrap').style.display='none';
-  document.getElementById('date-from').value='2026-04-14';
-  document.getElementById('date-to').value='2026-04-25';
+  document.getElementById('date-from').value='2026-04-14';document.getElementById('date-to').value='2026-04-25';
   specials=[{date:'2026-04-21',desc:'Formación IA'}];renderSpecials();
   analysisResult={from:'2026-04-14',to:'2026-04-25',diasLaborables:8,result:[
     {nombre:'Beatriz Monreal Muñoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
@@ -426,14 +480,10 @@ function loadDemo(){
     {nombre:'Ignacio Olmedo Reyes',nombreNorm:'IGNACIO OLMEDO REYES',departamento:'Responsable Ventas',jornada:480,movilidad:false,incidents:[],diasOk:8},
     {nombre:'Azucena Ortiz Luque',nombreNorm:'AZUCENA ORTIZ LUQUE',departamento:'Ventas Nacional',jornada:480,movilidad:false,incidents:[],diasOk:8},
     {nombre:'Raquel López González',nombreNorm:'RAQUEL LOPEZ GONZALEZ',departamento:'Admon Ventas',jornada:480,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" el 21/04 — revisar si el procedimiento se siguió correctamente'}],diasOk:7},
+      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" el 21/04 — revisar procedimiento'}],diasOk:7},
     {nombre:'Christopher T. Weyburn',nombreNorm:'CHRISTOPHER T. WEYBURN',departamento:'Export',jornada:480,movilidad:true,incidents:[],diasOk:8},
     {nombre:'Daniel Lendínez López',nombreNorm:'DANIEL LENDINEZ LOPEZ',departamento:'Administración',jornada:480,movilidad:false,
-      incidents:[
-        {type:'extra',date:'2026-04-13',detail:'Extensión vía "request" — 13/04'},
-        {type:'extra',date:'2026-04-16',detail:'Extensión vía "request" — 16/04'},
-        {type:'extra',date:'2026-04-22',detail:'Extensión vía "request" — 22/04'}
-      ],diasOk:5},
+      incidents:[{type:'extra',date:'2026-04-13',detail:'Extensión vía "request" — 13/04'},{type:'extra',date:'2026-04-16',detail:'Extensión vía "request" — 16/04'},{type:'extra',date:'2026-04-22',detail:'Extensión vía "request" — 22/04'}],diasOk:5},
     {nombre:'Isabel María Cortés Parra',nombreNorm:'ISABEL MARIA CORTES PARRA',departamento:'Administración',jornada:450,movilidad:false,
       incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" — 21/04'}],diasOk:7},
     {nombre:'Antonia Masía',nombreNorm:'ANTONIA MASIA',departamento:'Tesorería',jornada:450,movilidad:false,incidents:[],diasOk:8},
