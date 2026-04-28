@@ -231,7 +231,7 @@ function setLastWeek(){
 function renderSpecials(){
   const w=document.getElementById('specials-wrap');
   w.innerHTML=specials.length===0?'<span style="font-size:12px;color:var(--text-muted)">Sin días especiales esta semana</span>'
-    :specials.map((s,i)=>`<span class="pill">${s.date.slice(5)} — ${s.desc}<span class="pill-x" onclick="removeSpecial(${i})">×</span></span>`).join('');
+    :specials.map((s,i)=>`<span class="pill">${s.date.slice(5)} -- ${s.desc}<span class="pill-x" onclick="removeSpecial(${i})">×</span></span>`).join('');
 }
 function addSpecial(){
   const d=document.getElementById('sp-date').value,desc=document.getElementById('sp-desc').value.trim();
@@ -312,7 +312,7 @@ function processData(employees,entries,from,to){
       let diaOk=true;
       if(entradas.length>0){
         const p=Math.min(...entradas);
-        if(p>9*60+30){const diff=p-(9*60+30);incidents.push({type:'tarde',date,detail:`Entrada a las ${Math.floor(p/60)}:${String(p%60).padStart(2,'0')} — ${minToStr(diff)} sobre el límite de 9:30h`});diaOk=false;}
+        if(p>9*60+30){const diff=p-(9*60+30);incidents.push({type:'tarde',date,detail:`Entrada a las ${Math.floor(p/60)}:${String(p%60).padStart(2,'0')} -- ${minToStr(diff)} sobre el límite de 9:30h`});diaOk=false;}
       }
       if(entradas.length>0&&salidas.length>0){
         const p=Math.min(...entradas),u=Math.max(...salidas),trab=u-p;
@@ -345,7 +345,7 @@ function renderResults(){
     } else {
       const tipos=[...new Set(emp.incidents.map(i=>i.type))];
       const badges=tipos.map(t=>`<span class="badge badge-err" style="margin-right:3px">${tl[t]||t}</span>`).join('');
-      const dets=emp.incidents.map(i=>`<div class="inc-line">${i.date.slice(5)} — ${i.detail}</div>`).join('');
+      const dets=emp.incidents.map(i=>`<div class="inc-line">${i.date.slice(5)} -- ${i.detail}</div>`).join('');
       div.innerHTML=`<span class="badge badge-err" style="flex-shrink:0">!</span><div style="flex:1"><div class="emp-name">${emp.nombre} <span class="emp-dept" style="display:inline">${emp.departamento}</span></div><div style="margin:4px 0">${badges}</div>${dets}</div>`;
     }
     iw.appendChild(div);
@@ -387,13 +387,13 @@ function renderEmails(){
 `;
     c+=`ASPECTOS POSITIVOS:
 `;
-    if(todosJornada||conInc.length===0)c+=`• Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.
+    if(todosJornada||conInc.length===0)c+=`* Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.
 `;
-    if(todosEnFranja)c+=`• Los horarios de entrada se mantienen dentro de la franja flexible establecida.
+    if(todosEnFranja)c+=`* Los horarios de entrada se mantienen dentro de la franja flexible establecida.
 `;
-    c+=`• La automatización de la salida de jornada está correctamente aplicada.
+    c+=`* La automatización de la salida de jornada está correctamente aplicada.
 `;
-    if(sinExtras)c+=`• No se detectan horas extra sin formalizar.
+    if(sinExtras)c+=`* No se detectan horas extra sin formalizar.
 `;
 
     if(conInc.length>0){
@@ -403,9 +403,9 @@ Se han detectado las siguientes incidencias:
 
 `;
       conInc.forEach(emp=>{
-        c+=`▸ ${emp.nombre}:
+        c+=`> ${emp.nombre}:
 `;
-        emp.incidents.forEach(i=>{c+=`  • ${i.date.slice(5)}: ${tl[i.type]||i.type} — ${i.detail}
+        emp.incidents.forEach(i=>{c+=`  * ${i.date.slice(5)}: ${tl[i.type]||i.type} -- ${i.detail}
 `;});
         c+='
 ';
@@ -434,10 +434,10 @@ Quedo a tu disposición para comentarlo si lo consideras oportuno.
 Un saludo,
 
 Sandra Mesa
-Departamento RRHH · Tostaderos Sol de Alba S.L.
-Telf. Móvil: +34 638 72 40 03 · Centralita: +34 958 46 67 60`;
+Departamento RRHH . Tostaderos Sol de Alba S.L.
+Telf. Móvil: +34 638 72 40 03 . Centralita: +34 958 46 67 60`;
 
-    const asunto=`Revisión cumplimiento normas fichaje — ${resp.equipo} — ${fromStr}–${toStr}`;
+    const asunto=`Revisión cumplimiento normas fichaje -- ${resp.equipo} -- ${fromStr}-${toStr}`;
     const block=document.createElement('div');block.className='email-block';
     block.innerHTML=`
       <div class="email-hdr" style="border-left:3px solid ${resp.color}">
@@ -451,7 +451,7 @@ Telf. Móvil: +34 638 72 40 03 · Centralita: +34 958 46 67 60`;
       <div class="email-body" id="body-${idx}">${c}</div>
       <div class="email-footer">
         <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail(${idx},this)">Copiar correo</button>
-        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook('${resp.email}','${encodeURIComponent(asunto)}',${idx})">Abrir en Outlook ↗</button>
+        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook('${resp.email}','${encodeURIComponent(asunto)}',${idx})">Abrir en Outlook </button>
       </div>`;
     fw.appendChild(block);
   });
@@ -480,12 +480,12 @@ function loadDemo(){
     {nombre:'Ignacio Olmedo Reyes',nombreNorm:'IGNACIO OLMEDO REYES',departamento:'Responsable Ventas',jornada:480,movilidad:false,incidents:[],diasOk:8},
     {nombre:'Azucena Ortiz Luque',nombreNorm:'AZUCENA ORTIZ LUQUE',departamento:'Ventas Nacional',jornada:480,movilidad:false,incidents:[],diasOk:8},
     {nombre:'Raquel López González',nombreNorm:'RAQUEL LOPEZ GONZALEZ',departamento:'Admon Ventas',jornada:480,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" el 21/04 — revisar procedimiento'}],diasOk:7},
+      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" el 21/04 -- revisar procedimiento'}],diasOk:7},
     {nombre:'Christopher T. Weyburn',nombreNorm:'CHRISTOPHER T. WEYBURN',departamento:'Export',jornada:480,movilidad:true,incidents:[],diasOk:8},
     {nombre:'Daniel Lendínez López',nombreNorm:'DANIEL LENDINEZ LOPEZ',departamento:'Administración',jornada:480,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-13',detail:'Extensión vía "request" — 13/04'},{type:'extra',date:'2026-04-16',detail:'Extensión vía "request" — 16/04'},{type:'extra',date:'2026-04-22',detail:'Extensión vía "request" — 22/04'}],diasOk:5},
+      incidents:[{type:'extra',date:'2026-04-13',detail:'Extensión vía "request" -- 13/04'},{type:'extra',date:'2026-04-16',detail:'Extensión vía "request" -- 16/04'},{type:'extra',date:'2026-04-22',detail:'Extensión vía "request" -- 22/04'}],diasOk:5},
     {nombre:'Isabel María Cortés Parra',nombreNorm:'ISABEL MARIA CORTES PARRA',departamento:'Administración',jornada:450,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" — 21/04'}],diasOk:7},
+      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" -- 21/04'}],diasOk:7},
     {nombre:'Antonia Masía',nombreNorm:'ANTONIA MASIA',departamento:'Tesorería',jornada:450,movilidad:false,incidents:[],diasOk:8},
     {nombre:'Sonia Quintero Fernández',nombreNorm:'SONIA QUINTERO FERNANDEZ',departamento:'Administración',jornada:450,movilidad:false,incidents:[],diasOk:8},
     {nombre:'José Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',departamento:'IT',jornada:480,movilidad:true,incidents:[],diasOk:8},
