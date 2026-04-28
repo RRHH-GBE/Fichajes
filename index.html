@@ -201,276 +201,42 @@ footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);bor
 <script>
 const SESAME_BASE='https://sesame-proxy.jfajardo.workers.dev';
 const HOLIDAYS=['2026-01-01','2026-01-06','2026-02-28','2026-04-02','2026-04-03','2026-05-01','2026-06-24','2026-08-05','2026-10-12','2026-11-02','2026-12-07','2026-12-08','2026-12-25'];
-
 const RESPONSABLES=[
-  {nombre:'Reinhardt Liszka',nombreCompleto:'Reinhardt Liszka Mesas',email:'rliszka@grupobarraganespinar.com',equipo:'Responsables / Dirección',color:'#1a1917',
-   empleados:['ANA RAMIREZ LOPEZ-FRIAS','IBON PACHE LEGARRETA','IGNACIO OLMEDO REYES','BEATRIZ MONREAL MUÑOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
+  {nombre:'Reinhardt Liszka',nombreCompleto:'Reinhardt Liszka Mesas',email:'rliszka@grupobarraganespinar.com',equipo:'Responsables / Direccion',color:'#1a1917',
+   empleados:['ANA RAMIREZ LOPEZ-FRIAS','IBON PACHE LEGARRETA','IGNACIO OLMEDO REYES','BEATRIZ MONREAL MUNOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
   {nombre:'Ignacio Olmedo',nombreCompleto:'Ignacio Olmedo Reyes',email:'iolmedo@soldealba.com',equipo:'Admon Ventas / Export',color:'#1a2e5a',
    empleados:['AZUCENA ORTIZ LUQUE','CHRISTOPHER T. WEYBURN','IBTISSAM BYAR CHADI','JOSE LUIS ALCALA GILABERT','JUAN CARLOS MARTINEZ RAMON','RAQUEL LOPEZ GONZALEZ','SERGIO VERA DE LAS HERAS']},
-  {nombre:'Carmen Ruiz',nombreCompleto:'Carmen María Ruiz Cabello',email:'cmruiz@grupobarraganespinar.com',equipo:'Administración',color:'#3a1a4a',
+  {nombre:'Carmen Ruiz',nombreCompleto:'Carmen Maria Ruiz Cabello',email:'cmruiz@grupobarraganespinar.com',equipo:'Administracion',color:'#3a1a4a',
    empleados:['ANTONIA MASIA','DANIEL LENDINEZ LOPEZ','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ']},
-  {nombre:'Ana Ramírez',nombreCompleto:'Ana Ramírez López-Frías',email:'aramirez@grupobarraganespinar.com',equipo:'Marketing',color:'#7a1c2e',
-   empleados:['BEATRIZ MONREAL MUÑOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
-  {nombre:'Daniel Lendínez',nombreCompleto:'Daniel Lendínez López',email:'dlendinez@grupobarraganespinar.com',equipo:'IT / Informática',color:'#4a2e0a',
+  {nombre:'Ana Ramirez',nombreCompleto:'Ana Ramirez Lopez-Frias',email:'aramirez@grupobarraganespinar.com',equipo:'Marketing',color:'#7a1c2e',
+   empleados:['BEATRIZ MONREAL MUNOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
+  {nombre:'Daniel Lendinez',nombreCompleto:'Daniel Lendinez Lopez',email:'dlendinez@grupobarraganespinar.com',equipo:'IT / Informatica',color:'#4a2e0a',
    empleados:['JOSE LEONARDO ORTEGA PINTO']}
 ];
-
 const JORNADA_REDUCIDA=['ANTONIA MASIA','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ'];
 const PERFIL_MOVILIDAD=['IBON PACHE LEGARRETA','DANIEL LENDINEZ LOPEZ','JOSE LEONARDO ORTEGA PINTO'];
-
 let specials=[], analysisResult=null;
 (function(){renderSpecials();setLastWeek();})();
-
-function setLastWeek(){
-  const now=new Date(),day=now.getDay()||7,mon=new Date(now);
-  mon.setDate(now.getDate()-day-6);const fri=new Date(mon);fri.setDate(mon.getDate()+4);
-  const fmt=d=>d.toISOString().slice(0,10);
-  document.getElementById('date-from').value=fmt(mon);document.getElementById('date-to').value=fmt(fri);
-}
-
-function renderSpecials(){
-  const w=document.getElementById('specials-wrap');
-  w.innerHTML=specials.length===0?'<span style="font-size:12px;color:var(--text-muted)">Sin días especiales esta semana</span>'
-    :specials.map((s,i)=>`<span class="pill">${s.date.slice(5)} -- ${s.desc}<span class="pill-x" onclick="removeSpecial(${i})">×</span></span>`).join('');
-}
-function addSpecial(){
-  const d=document.getElementById('sp-date').value,desc=document.getElementById('sp-desc').value.trim();
-  if(!d||!desc)return;specials.push({date:d,desc});renderSpecials();
-  document.getElementById('sp-date').value='';document.getElementById('sp-desc').value='';
-}
+function setLastWeek(){var now=new Date(),day=now.getDay()||7,mon=new Date(now);mon.setDate(now.getDate()-day-6);var fri=new Date(mon);fri.setDate(mon.getDate()+4);var fmt=function(d){return d.toISOString().slice(0,10);};document.getElementById('date-from').value=fmt(mon);document.getElementById('date-to').value=fmt(fri);}
+function renderSpecials(){var w=document.getElementById('specials-wrap');w.innerHTML=specials.length===0?'<span style="font-size:12px;color:var(--text-muted)">Sin dias especiales esta semana</span>':specials.map(function(s,i){return '<span class="pill">'+s.date.slice(5)+' - '+s.desc+'<span class="pill-x" onclick="removeSpecial('+i+')">x</span></span>';}).join('');}
+function addSpecial(){var d=document.getElementById('sp-date').value,desc=document.getElementById('sp-desc').value.trim();if(!d||!desc)return;specials.push({date:d,desc:desc});renderSpecials();document.getElementById('sp-date').value='';document.getElementById('sp-desc').value='';}
 function removeSpecial(i){specials.splice(i,1);renderSpecials();}
-
-function isExcluded(ds){
-  if(HOLIDAYS.includes(ds))return{excluded:true,reason:'festivo'};
-  const sp=specials.find(s=>s.date===ds);if(sp)return{excluded:true,reason:sp.desc};
-  const dow=new Date(ds+'T12:00:00Z').getDay();if(dow===0||dow===6)return{excluded:true};
-  return{excluded:false};
-}
-
-function setStatus(msg,loading=false){document.getElementById('status').innerHTML=(loading?'<span class="spinner"></span> ':'')+msg;}
-function setError(msg){const el=document.getElementById('load-err');el.classList.toggle('hidden',!msg);el.textContent=msg||'';}
-function timeToMin(t){if(!t)return null;const m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return null;return parseInt(m[1])*60+parseInt(m[2]);}
-function minToStr(m){if(m===null)return'--';const a=Math.abs(m),h=Math.floor(a/60),mn=a%60;return(m<0?'-':'')+(h>0?h+'h ':' ')+(mn>0?mn+'min':'');}
-function getDatesInRange(from,to){const d=[];let c=new Date(from+'T12:00:00Z');const e=new Date(to+'T12:00:00Z');while(c<=e){d.push(c.toISOString().slice(0,10));c.setDate(c.getDate()+1);}return d;}
+function isExcluded(ds){if(HOLIDAYS.includes(ds))return{excluded:true,reason:'festivo'};var sp=specials.find(function(s){return s.date===ds;});if(sp)return{excluded:true,reason:sp.desc};var dow=new Date(ds+'T12:00:00Z').getDay();if(dow===0||dow===6)return{excluded:true};return{excluded:false};}
+function setStatus(msg,loading){document.getElementById('status').innerHTML=(loading?'<span class="spinner"></span> ':'')+msg;}
+function setError(msg){var el=document.getElementById('load-err');el.classList.toggle('hidden',!msg);el.textContent=msg||'';}
+function timeToMin(t){if(!t)return null;var m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return null;return parseInt(m[1])*60+parseInt(m[2]);}
+function minToStr(m){if(m===null)return '--';var a=Math.abs(m),h=Math.floor(a/60),mn=a%60;return(m<0?'-':'')+(h>0?h+'h ':' ')+(mn>0?mn+'min':'');}
+function getDatesInRange(from,to){var d=[];var c=new Date(from+'T12:00:00Z');var e=new Date(to+'T12:00:00Z');while(c<=e){d.push(c.toISOString().slice(0,10));c.setDate(c.getDate()+1);}return d;}
 function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+async function apiGet(path){var token=document.getElementById('token').value.trim();var r=await fetch(SESAME_BASE+path,{headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}});if(!r.ok){var t=await r.text().catch(function(){return '';});throw new Error('Error '+r.status+': '+t.slice(0,200));}return r.json();}
+async function loadData(){var token=document.getElementById('token').value.trim();if(!token){setError('Introduce el token primero.');return;}var from=document.getElementById('date-from').value,to=document.getElementById('date-to').value;if(!from||!to){setError('Selecciona el periodo.');return;}setError('');document.getElementById('load-btn').disabled=true;document.getElementById('results').classList.add('hidden');document.getElementById('demo-wrap').style.display='none';try{setStatus('Conectando con Sesame HR...',true);var empResp=await apiGet('/core/v3/employees?limit=200&status=active');var employees=empResp.data||empResp||[];setStatus(employees.length+' empleados encontrados. Cargando fichajes...',true);var wrResp=await apiGet('/core/v3/work-entries?from='+from+'&to='+to+'&limit=2000');var entries=wrResp.data||wrResp||[];setStatus('Analizando incidencias...',true);analysisResult=processData(employees,entries,from,to);renderResults();setStatus('');}catch(e){setError('No se pudo conectar con Sesame: '+e.message);setStatus('');document.getElementById('demo-wrap').style.display='block';}finally{document.getElementById('load-btn').disabled=false;}}
+function processData(employees,entries,from,to){var byEmp={};employees.forEach(function(emp){var nN=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));byEmp[emp.id]={id:emp.id,nombre:[emp.firstName,emp.lastName].filter(Boolean).join(' '),nombreNorm:nN,departamento:(emp.department&&emp.department.name)||'Sin departamento',jornada:JORNADA_REDUCIDA.some(function(n){return norm(n)===nN;})?450:480,movilidad:PERFIL_MOVILIDAD.some(function(n){return norm(n)===nN;}),fichajes:{}};});entries.forEach(function(e){if(!byEmp[e.employeeId])return;var date=(e.checkedIn||e.date||'').slice(0,10);if(!date)return;if(!byEmp[e.employeeId].fichajes[date])byEmp[e.employeeId].fichajes[date]=[];byEmp[e.employeeId].fichajes[date].push(e);});var allDates=getDatesInRange(from,to);var diasLaborables=allDates.filter(function(d){return !isExcluded(d).excluded;}).length;var result=Object.values(byEmp).filter(function(emp){return emp.nombre.trim();}).map(function(emp){var incidents=[];var diasOk=0;allDates.forEach(function(date){if(isExcluded(date).excluded)return;var fichs=emp.fichajes[date]||[];if(fichs.length===0){incidents.push({type:'sin_fichaje',date:date,detail:'Jornada sin fichaje registrado'});return;}var entradas=fichs.map(function(f){return timeToMin((f.checkedIn||'').slice(11,16));}).filter(function(x){return x!==null;});var salidas=fichs.map(function(f){return timeToMin((f.checkedOut||'').slice(11,16));}).filter(function(x){return x!==null;});var diaOk=true;if(entradas.length>0){var p=Math.min.apply(null,entradas);if(p>9*60+30){var diff=p-(9*60+30);incidents.push({type:'tarde',date:date,detail:'Entrada a las '+Math.floor(p/60)+':'+String(p%60).padStart(2,'0')+' - '+minToStr(diff)+' sobre el limite de 9:30h'});diaOk=false;}}if(entradas.length>0&&salidas.length>0){var pE=Math.min.apply(null,entradas),uS=Math.max.apply(null,salidas),trab=uS-pE;var tieneReq=fichs.some(function(f){return (f.deviceType||f.source||'').toLowerCase()==='request'||f.workCheckType==='check-request';});if(trab<emp.jornada-15){incidents.push({type:'salida',date:date,detail:'Jornada de '+minToStr(trab)+', faltan '+minToStr(emp.jornada-trab)});diaOk=false;}else if(!tieneReq&&trab>emp.jornada+45){incidents.push({type:'extra',date:date,detail:minToStr(trab-emp.jornada)+' de horas extra sin solicitud previa'});diaOk=false;}}if(diaOk)diasOk++;});return Object.assign({},emp,{incidents:incidents,diasOk:diasOk});});return{result:result,from:from,to:to,diasLaborables:diasLaborables};}
+function renderResults(){if(!analysisResult)return;var result=analysisResult.result,diasLaborables=analysisResult.diasLaborables;document.getElementById('results').classList.remove('hidden');var conInc=result.filter(function(e){return e.incidents.length>0;}).length;document.getElementById('m-emp').textContent=result.length;document.getElementById('m-ok').textContent=result.length-conInc;document.getElementById('m-inc').textContent=conInc;document.getElementById('m-dias').textContent=diasLaborables;var iw=document.getElementById('incidents-wrap');iw.innerHTML='';var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};result.forEach(function(emp){var div=document.createElement('div');div.className='irow';if(emp.incidents.length===0){div.innerHTML='<span class="badge badge-ok" style="flex-shrink:0">OK</span><div><div class="emp-name">'+emp.nombre+'</div><div class="emp-dept">'+emp.departamento+'</div></div>';}else{var tipos=emp.incidents.map(function(i){return i.type;}).filter(function(v,i,a){return a.indexOf(v)===i;});var badges=tipos.map(function(t){return '<span class="badge badge-err" style="margin-right:3px">'+(tl[t]||t)+'</span>';}).join('');var dets=emp.incidents.map(function(i){return '<div class="inc-line">'+i.date.slice(5)+' - '+i.detail+'</div>';}).join('');div.innerHTML='<span class="badge badge-err" style="flex-shrink:0">!</span><div style="flex:1"><div class="emp-name">'+emp.nombre+' <span class="emp-dept" style="display:inline">'+emp.departamento+'</span></div><div style="margin:4px 0">'+badges+'</div>'+dets+'</div>';}iw.appendChild(div);});renderEmails();}
+function renderEmails(){if(!analysisResult)return;var result=analysisResult.result,from=analysisResult.from,to=analysisResult.to;var nota=document.getElementById('extra-note').value.trim();var fromStr=from.split('-').reverse().join('/');var toStr=to.split('-').reverse().join('/');var fw=document.getElementById('emails-wrap');fw.innerHTML='';var tl={tarde:'Llegada fuera del horario flexible',salida:'Salida anticipada',extra:'Horas extra sin solicitud previa',sin_fichaje:'Jornada sin fichaje registrado'};RESPONSABLES.forEach(function(resp,idx){var empDeResp=result.filter(function(e){return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});});var conInc=empDeResp.filter(function(e){return e.incidents.length>0;});var pct=empDeResp.length>0?conInc.length/empDeResp.length:0;var nivel=pct===0?'Alto':pct<=0.3?'Alto':pct<=0.6?'Medio':'Bajo';var todosEnFranja=!empDeResp.some(function(e){return e.incidents.some(function(i){return i.type==='tarde';});});var todosJornada=!empDeResp.some(function(e){return e.incidents.some(function(i){return i.type==='salida';});});var sinExtras=!empDeResp.some(function(e){return e.incidents.some(function(i){return i.type==='extra';});});var primerNombre=resp.nombre.split(' ')[0];var c='Hola '+primerNombre+',\n\n';c+='Tras revisar el informe de fichajes del equipo de '+resp.equipo+' correspondiente a las semanas del '+fromStr+' al '+toStr+', te traslado un resumen del nivel de cumplimiento en relacion con el protocolo de jornada y presencialidad:\n\n';c+='VALORACION GENERAL:\n';c+='El nivel de cumplimiento puede considerarse '+nivel+', ya que';c+=conInc.length===0?' el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.\n\n':' el equipo cumple en terminos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.\n\n';c+='ASPECTOS POSITIVOS:\n';if(todosJornada||conInc.length===0)c+='* Se observa un cumplimiento general de la jornada diaria y semanal.\n';if(todosEnFranja)c+='* Los horarios de entrada se mantienen dentro de la franja flexible (7:00-9:30h).\n';c+='* La automatizacion de la salida de jornada esta correctamente aplicada.\n';if(sinExtras)c+='* No se detectan horas extra sin formalizar.\n';if(conInc.length>0){c+='\nASPECTOS A REVISAR:\nSe han detectado las siguientes incidencias:\n\n';conInc.forEach(function(emp){c+='> '+emp.nombre+':\n';emp.incidents.forEach(function(i){c+='  * '+i.date.slice(5)+': '+(tl[i.type]||i.type)+' - '+i.detail+'\n';});c+='\n';});c+='Te pido que les comentes estas incidencias para que regularicen su situacion en Sesame.\n';}var spe=specials.filter(function(s){var d=new Date(s.date+'T12:00:00Z');return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');});if(spe.length>0){c+='\nCONSIDERACION EXCEPCIONAL:\n';spe.forEach(function(s){var dia=new Date(s.date+'T12:00:00Z').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});c+='El '+dia+' se ha considerado dia excepcional ('+s.desc+').\n';});}if(nota)c+='\nNota adicional: '+nota+'\n';c+='\nQuedo a tu disposicion para comentarlo.\n\nUn saludo,\n\nSandra Mesa\nDepartamento RRHH - Tostaderos Sol de Alba S.L.\nTelf: +34 638 72 40 03';var asunto='Revision cumplimiento normas fichaje - '+resp.equipo+' - '+fromStr+'-'+toStr;var block=document.createElement('div');block.className='email-block';block.innerHTML='<div class="email-hdr" style="border-left:3px solid '+resp.color+'"><div><div class="email-to-name">'+resp.nombreCompleto+'</div><div class="email-dept">'+resp.equipo+'</div><div class="email-to-addr">'+resp.email+'</div></div><span class="badge '+(conInc.length>0?'badge-err':'badge-ok')+'">'+(conInc.length>0?conInc.length+' incidencia'+(conInc.length>1?'s':''):'Sin incidencias')+'</span></div><div class="email-body" id="body-'+idx+'">'+c+'</div><div class="email-footer"><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail('+idx+',this)">Copiar correo</button><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook(\''+resp.email+'\',\''+encodeURIComponent(asunto)+'\','+idx+')">Abrir en Outlook</button></div>';fw.appendChild(block);});document.getElementById('extra-note').oninput=renderEmails;}
+function copyEmail(idx,btn){navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent).then(function(){btn.textContent='Copiado!';setTimeout(function(){btn.textContent='Copiar correo';},2000);});}
+function openOutlook(email,subject,idx){window.open('mailto:'+email+'?subject='+subject+'&body='+encodeURIComponent(document.getElementById('body-'+idx).textContent),'_blank');}
+function loadDemo(){document.getElementById('demo-wrap').style.display='none';document.getElementById('date-from').value='2026-04-14';document.getElementById('date-to').value='2026-04-25';specials=[{date:'2026-04-21',desc:'Formacion IA'}];renderSpecials();analysisResult={from:'2026-04-14',to:'2026-04-25',diasLaborables:8,result:[{nombre:'Beatriz Monreal Munoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},{nombre:'Julia Caro Martin',nombreNorm:'JULIA CARO MARTIN',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},{nombre:'Ana Ramirez Lopez-Frias',nombreNorm:'ANA RAMIREZ LOPEZ-FRIAS',departamento:'Responsables',jornada:480,movilidad:false,incidents:[{type:'extra',date:'2026-04-13',detail:'2h de horas extra sin solicitud previa'}],diasOk:7},{nombre:'Raquel Lopez Gonzalez',nombreNorm:'RAQUEL LOPEZ GONZALEZ',departamento:'Admon Ventas',jornada:480,movilidad:false,incidents:[{type:'extra',date:'2026-04-21',detail:'Extension via request el 21/04 - revisar procedimiento'}],diasOk:7},{nombre:'Daniel Lendinez Lopez',nombreNorm:'DANIEL LENDINEZ LOPEZ',departamento:'Administracion',jornada:480,movilidad:false,incidents:[{type:'extra',date:'2026-04-13',detail:'Extension via request - 13/04'},{type:'extra',date:'2026-04-16',detail:'Extension via request - 16/04'}],diasOk:6},{nombre:'Antonia Masia',nombreNorm:'ANTONIA MASIA',departamento:'Tesoreria',jornada:450,movilidad:false,incidents:[],diasOk:8},{nombre:'Jose Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',departamento:'IT',jornada:480,movilidad:true,incidents:[],diasOk:8}]};renderResults();}
 
-async function apiGet(path){
-  const token=document.getElementById('token').value.trim();
-  const r=await fetch(SESAME_BASE+path,{headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}});
-  if(!r.ok){const t=await r.text().catch(()=>'');throw new Error(`Error ${r.status}: ${t.slice(0,200)}`);}
-  return r.json();
-}
-
-async function loadData(){
-  const token=document.getElementById('token').value.trim();
-  if(!token){setError('Introduce el token primero.');return;}
-  const from=document.getElementById('date-from').value,to=document.getElementById('date-to').value;
-  if(!from||!to){setError('Selecciona el periodo.');return;}
-  setError('');document.getElementById('load-btn').disabled=true;
-  document.getElementById('results').classList.add('hidden');document.getElementById('demo-wrap').style.display='none';
-  try{
-    setStatus('Conectando con Sesame HR...',true);
-    const empResp=await apiGet('/core/v3/employees?limit=200&status=active');
-    const employees=empResp.data||empResp||[];
-    setStatus(`${employees.length} empleados encontrados. Cargando fichajes...`,true);
-    const wrResp=await apiGet(`/core/v3/work-entries?from=${from}&to=${to}&limit=2000`);
-    const entries=wrResp.data||wrResp||[];
-    setStatus('Analizando incidencias...',true);
-    analysisResult=processData(employees,entries,from,to);
-    renderResults();setStatus('');
-  }catch(e){
-    setError('No se pudo conectar con Sesame: '+e.message);setStatus('');
-    document.getElementById('demo-wrap').style.display='block';
-  }finally{document.getElementById('load-btn').disabled=false;}
-}
-
-function processData(employees,entries,from,to){
-  const byEmp={};
-  employees.forEach(emp=>{
-    const nN=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));
-    byEmp[emp.id]={id:emp.id,nombre:[emp.firstName,emp.lastName].filter(Boolean).join(' '),nombreNorm:nN,
-      departamento:emp.department?.name||'Sin departamento',
-      jornada:JORNADA_REDUCIDA.some(n=>norm(n)===nN)?7*60+30:8*60,
-      movilidad:PERFIL_MOVILIDAD.some(n=>norm(n)===nN),fichajes:{}};
-  });
-  entries.forEach(e=>{
-    if(!byEmp[e.employeeId])return;
-    const date=(e.checkedIn||e.date||'').slice(0,10);if(!date)return;
-    if(!byEmp[e.employeeId].fichajes[date])byEmp[e.employeeId].fichajes[date]=[];
-    byEmp[e.employeeId].fichajes[date].push(e);
-  });
-  const allDates=getDatesInRange(from,to);
-  const diasLaborables=allDates.filter(d=>!isExcluded(d).excluded).length;
-  const result=Object.values(byEmp).filter(emp=>emp.nombre.trim()).map(emp=>{
-    const incidents=[];let diasOk=0;
-    allDates.forEach(date=>{
-      if(isExcluded(date).excluded)return;
-      const fichs=emp.fichajes[date]||[];
-      if(fichs.length===0){incidents.push({type:'sin_fichaje',date,detail:'Jornada sin fichaje registrado'});return;}
-      const entradas=fichs.map(f=>timeToMin((f.checkedIn||'').slice(11,16))).filter(x=>x!==null);
-      const salidas=fichs.map(f=>timeToMin((f.checkedOut||'').slice(11,16))).filter(x=>x!==null);
-      let diaOk=true;
-      if(entradas.length>0){
-        const p=Math.min(...entradas);
-        if(p>9*60+30){const diff=p-(9*60+30);incidents.push({type:'tarde',date,detail:`Entrada a las ${Math.floor(p/60)}:${String(p%60).padStart(2,'0')} -- ${minToStr(diff)} sobre el límite de 9:30h`});diaOk=false;}
-      }
-      if(entradas.length>0&&salidas.length>0){
-        const p=Math.min(...entradas),u=Math.max(...salidas),trab=u-p;
-        const tieneReq=fichs.some(f=>(f.deviceType||f.source||'').toLowerCase()==='request'||f.workCheckType==='check-request');
-        if(trab<emp.jornada-15){incidents.push({type:'salida',date,detail:`Jornada de ${minToStr(trab)}, faltan ${minToStr(emp.jornada-trab)}`});diaOk=false;}
-        else if(!tieneReq&&trab>emp.jornada+45){incidents.push({type:'extra',date,detail:`${minToStr(trab-emp.jornada)} de horas extra sin solicitud previa`});diaOk=false;}
-      }
-      if(diaOk)diasOk++;
-    });
-    return{...emp,incidents,diasOk};
-  });
-  return{result,from,to,diasLaborables};
-}
-
-function renderResults(){
-  if(!analysisResult)return;
-  const{result,diasLaborables}=analysisResult;
-  document.getElementById('results').classList.remove('hidden');
-  const conInc=result.filter(e=>e.incidents.length>0).length;
-  document.getElementById('m-emp').textContent=result.length;
-  document.getElementById('m-ok').textContent=result.length-conInc;
-  document.getElementById('m-inc').textContent=conInc;
-  document.getElementById('m-dias').textContent=diasLaborables;
-  const iw=document.getElementById('incidents-wrap');iw.innerHTML='';
-  const tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
-  result.forEach(emp=>{
-    const div=document.createElement('div');div.className='irow';
-    if(emp.incidents.length===0){
-      div.innerHTML=`<span class="badge badge-ok" style="flex-shrink:0">✓</span><div><div class="emp-name">${emp.nombre}</div><div class="emp-dept">${emp.departamento}</div></div>`;
-    } else {
-      const tipos=[...new Set(emp.incidents.map(i=>i.type))];
-      const badges=tipos.map(t=>`<span class="badge badge-err" style="margin-right:3px">${tl[t]||t}</span>`).join('');
-      const dets=emp.incidents.map(i=>`<div class="inc-line">${i.date.slice(5)} -- ${i.detail}</div>`).join('');
-      div.innerHTML=`<span class="badge badge-err" style="flex-shrink:0">!</span><div style="flex:1"><div class="emp-name">${emp.nombre} <span class="emp-dept" style="display:inline">${emp.departamento}</span></div><div style="margin:4px 0">${badges}</div>${dets}</div>`;
-    }
-    iw.appendChild(div);
-  });
-  renderEmails();
-}
-
-function renderEmails(){
-  if(!analysisResult)return;
-  const{result,from,to}=analysisResult;
-  const nota=document.getElementById('extra-note').value.trim();
-  const fromStr=from.split('-').reverse().join('/');const toStr=to.split('-').reverse().join('/');
-  const fw=document.getElementById('emails-wrap');fw.innerHTML='';
-  const tl={tarde:'Llegada fuera del horario flexible',salida:'Salida anticipada',extra:'Horas extra sin solicitud previa por plataforma',sin_fichaje:'Jornada sin fichaje registrado'};
-
-  RESPONSABLES.forEach((resp,idx)=>{
-    const empDeResp=result.filter(e=>resp.empleados.some(re=>norm(re)===e.nombreNorm));
-    const conInc=empDeResp.filter(e=>e.incidents.length>0);
-    const pct=empDeResp.length>0?conInc.length/empDeResp.length:0;
-    const nivel=pct===0?'Alto':pct<=0.3?'Alto':pct<=0.6?'Medio':'Bajo';
-    const todosEnFranja=!empDeResp.some(e=>e.incidents.some(i=>i.type==='tarde'));
-    const todosJornada=!empDeResp.some(e=>e.incidents.some(i=>i.type==='salida'));
-    const sinExtras=!empDeResp.some(e=>e.incidents.some(i=>i.type==='extra'));
-    const primerNombre=resp.nombre.split(' ')[0];
-
-    let c=`Hola ${primerNombre},
-`;
-    c+=`Tras revisar el informe de fichajes del equipo de ${resp.equipo} correspondiente a las semanas del ${fromStr} al ${toStr}, te traslado un resumen del nivel de cumplimiento en relación con el protocolo de jornada y presencialidad:
-`;
-    c+=`VALORACIÓN GENERAL:`;
-    c+=`El nivel de cumplimiento puede considerarse ${nivel}, ya que`;
-    c+=conInc.length===0?` el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.
-
-`:` el equipo cumple en términos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.
-`;
-    c+=`ASPECTOS POSITIVOS:`;
-    if(todosJornada||conInc.length===0)c+=`* Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.`;
-    if(todosEnFranja)c+=`* Los horarios de entrada se mantienen dentro de la franja flexible establecida.`;
-    c+=`* La automatización de la salida de jornada está correctamente aplicada.`;
-    if(sinExtras)c+=`* No se detectan horas extra sin formalizar.`;
-
-    if(conInc.length>0){
-      c+=`\nASPECTOS A REVISAR / INCIDENCIAS:
-Se han detectado las siguientes incidencias:
-`;
-      conInc.forEach(emp=>{
-        c+=`> ${emp.nombre}:`;
-        emp.incidents.forEach(i=>{c+=`  * ${i.date.slice(5)}: ${tl[i.type]||i.type} -- ${i.detail}
-`;});
-        c+='';
-      });
-      c+=`Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.`;
-    }
-
-    const spe=specials.filter(s=>{const d=new Date(s.date+'T12:00:00Z');return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');});
-    if(spe.length>0){
-      c+=`\nCONSIDERACIÓN EXCEPCIONAL:`;
-      spe.forEach(s=>{
-        const dia=new Date(s.date+'T12:00:00Z').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-        c+=`El ${dia} se ha considerado como día excepcional (${s.desc}), aplicando mayor flexibilidad en la valoración.`;
-      });
-    }
-    if(nota)c+=`\nNota adicional: ${nota}`;
-    c+=`\nQuedo a tu disposición para comentarlo si lo consideras oportuno.
-
-Un saludo,
-
-Sandra Mesa
-Departamento RRHH . Tostaderos Sol de Alba S.L.
-Telf. Móvil: +34 638 72 40 03 . Centralita: +34 958 46 67 60`;
-
-    const asunto=`Revisión cumplimiento normas fichaje -- ${resp.equipo} -- ${fromStr}-${toStr}`;
-    const block=document.createElement('div');block.className='email-block';
-    block.innerHTML=`\n      <div class="email-hdr" style="border-left:3px solid ${resp.color}">
-        <div>
-          <div class="email-to-name">${resp.nombreCompleto}</div>
-          <div class="email-dept">${resp.equipo}</div>
-          <div class="email-to-addr">${resp.email}</div>
-        </div>
-        <span class="badge ${conInc.length>0?'badge-err':'badge-ok'}">${conInc.length>0?conInc.length+' incidencia'+(conInc.length>1?'s':''):'Sin incidencias'}</span>
-      </div>
-      <div class="email-body" id="body-${idx}">${c}</div>
-      <div class="email-footer">
-        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail(${idx},this)">Copiar correo</button>
-        <button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook('${resp.email}','${encodeURIComponent(asunto)}',${idx})">Abrir en Outlook </button>
-      </div>`;
-    fw.appendChild(block);
-  });
-  document.getElementById('extra-note').oninput=renderEmails;
-}
-
-function copyEmail(idx,btn){
-  navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent).then(()=>{btn.textContent='¡Copiado!';setTimeout(()=>{btn.textContent='Copiar correo';},2000);});
-}
-function openOutlook(email,subject,idx){
-  window.open(`mailto:${email}?subject=${subject}&body=${encodeURIComponent(document.getElementById('body-'+idx).textContent)}`,'_blank');
-}
-
-function loadDemo(){
-  document.getElementById('demo-wrap').style.display='none';
-  document.getElementById('date-from').value='2026-04-14';document.getElementById('date-to').value='2026-04-25';
-  specials=[{date:'2026-04-21',desc:'Formación IA'}];renderSpecials();
-  analysisResult={from:'2026-04-14',to:'2026-04-25',diasLaborables:8,result:[
-    {nombre:'Beatriz Monreal Muñoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'Julia Caro Martín',nombreNorm:'JULIA CARO MARTIN',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'Clidia Ruiz Morales',nombreNorm:'CLIDIA RUIZ MORALES',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'María Melanie Quintana',nombreNorm:'MARIA MELANIE QUINTANA GARCIA',departamento:'Marketing',jornada:480,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'Ana Ramírez López-Frías',nombreNorm:'ANA RAMIREZ LOPEZ-FRIAS',departamento:'Responsables',jornada:480,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-13',detail:'2h de horas extra sin solicitud previa por plataforma'}],diasOk:7},
-    {nombre:'Ibon Pache Legarreta',nombreNorm:'IBON PACHE LEGARRETA',departamento:'Comercial',jornada:480,movilidad:true,incidents:[],diasOk:8},
-    {nombre:'Ignacio Olmedo Reyes',nombreNorm:'IGNACIO OLMEDO REYES',departamento:'Responsable Ventas',jornada:480,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'Azucena Ortiz Luque',nombreNorm:'AZUCENA ORTIZ LUQUE',departamento:'Ventas Nacional',jornada:480,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'Raquel López González',nombreNorm:'RAQUEL LOPEZ GONZALEZ',departamento:'Admon Ventas',jornada:480,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" el 21/04 -- revisar procedimiento'}],diasOk:7},
-    {nombre:'Christopher T. Weyburn',nombreNorm:'CHRISTOPHER T. WEYBURN',departamento:'Export',jornada:480,movilidad:true,incidents:[],diasOk:8},
-    {nombre:'Daniel Lendínez López',nombreNorm:'DANIEL LENDINEZ LOPEZ',departamento:'Administración',jornada:480,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-13',detail:'Extensión vía "request" -- 13/04'},{type:'extra',date:'2026-04-16',detail:'Extensión vía "request" -- 16/04'},{type:'extra',date:'2026-04-22',detail:'Extensión vía "request" -- 22/04'}],diasOk:5},
-    {nombre:'Isabel María Cortés Parra',nombreNorm:'ISABEL MARIA CORTES PARRA',departamento:'Administración',jornada:450,movilidad:false,
-      incidents:[{type:'extra',date:'2026-04-21',detail:'Extensión vía "request" -- 21/04'}],diasOk:7},
-    {nombre:'Antonia Masía',nombreNorm:'ANTONIA MASIA',departamento:'Tesorería',jornada:450,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'Sonia Quintero Fernández',nombreNorm:'SONIA QUINTERO FERNANDEZ',departamento:'Administración',jornada:450,movilidad:false,incidents:[],diasOk:8},
-    {nombre:'José Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',departamento:'IT',jornada:480,movilidad:true,incidents:[],diasOk:8},
-  ]};
-  renderResults();
-}
 </script>
 </body>
 </html>
