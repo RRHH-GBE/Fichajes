@@ -372,64 +372,44 @@ function renderEmails(){
     const primerNombre=resp.nombre.split(' ')[0];
 
     let c=`Hola ${primerNombre},
-
 `;
     c+=`Tras revisar el informe de fichajes del equipo de ${resp.equipo} correspondiente a las semanas del ${fromStr} al ${toStr}, te traslado un resumen del nivel de cumplimiento en relación con el protocolo de jornada y presencialidad:
-
 `;
-    c+=`VALORACIÓN GENERAL:
-`;
+    c+=`VALORACIÓN GENERAL:`;
     c+=`El nivel de cumplimiento puede considerarse ${nivel}, ya que`;
     c+=conInc.length===0?` el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.
 
 `:` el equipo cumple en términos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.
-
 `;
-    c+=`ASPECTOS POSITIVOS:
-`;
-    if(todosJornada||conInc.length===0)c+=`* Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.
-`;
-    if(todosEnFranja)c+=`* Los horarios de entrada se mantienen dentro de la franja flexible establecida.
-`;
-    c+=`* La automatización de la salida de jornada está correctamente aplicada.
-`;
-    if(sinExtras)c+=`* No se detectan horas extra sin formalizar.
-`;
+    c+=`ASPECTOS POSITIVOS:`;
+    if(todosJornada||conInc.length===0)c+=`* Se observa un cumplimiento general de la jornada diaria y semanal, con cómputos cercanos al tiempo teórico.`;
+    if(todosEnFranja)c+=`* Los horarios de entrada se mantienen dentro de la franja flexible establecida.`;
+    c+=`* La automatización de la salida de jornada está correctamente aplicada.`;
+    if(sinExtras)c+=`* No se detectan horas extra sin formalizar.`;
 
     if(conInc.length>0){
-      c+=`
-ASPECTOS A REVISAR / INCIDENCIAS:
+      c+=`\nASPECTOS A REVISAR / INCIDENCIAS:
 Se han detectado las siguientes incidencias:
-
 `;
       conInc.forEach(emp=>{
-        c+=`> ${emp.nombre}:
-`;
+        c+=`> ${emp.nombre}:`;
         emp.incidents.forEach(i=>{c+=`  * ${i.date.slice(5)}: ${tl[i.type]||i.type} -- ${i.detail}
 `;});
-        c+='
-';
+        c+='';
       });
-      c+=`Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.
-`;
+      c+=`Te pido que, si es posible, les comentes estas incidencias para que regularicen su situación en Sesame o te expliquen si existe alguna justificación que debamos registrar.`;
     }
 
     const spe=specials.filter(s=>{const d=new Date(s.date+'T12:00:00Z');return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');});
     if(spe.length>0){
-      c+=`
-CONSIDERACIÓN EXCEPCIONAL:
-`;
+      c+=`\nCONSIDERACIÓN EXCEPCIONAL:`;
       spe.forEach(s=>{
         const dia=new Date(s.date+'T12:00:00Z').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-        c+=`El ${dia} se ha considerado como día excepcional (${s.desc}), aplicando mayor flexibilidad en la valoración.
-`;
+        c+=`El ${dia} se ha considerado como día excepcional (${s.desc}), aplicando mayor flexibilidad en la valoración.`;
       });
     }
-    if(nota)c+=`
-Nota adicional: ${nota}
-`;
-    c+=`
-Quedo a tu disposición para comentarlo si lo consideras oportuno.
+    if(nota)c+=`\nNota adicional: ${nota}`;
+    c+=`\nQuedo a tu disposición para comentarlo si lo consideras oportuno.
 
 Un saludo,
 
@@ -439,8 +419,7 @@ Telf. Móvil: +34 638 72 40 03 . Centralita: +34 958 46 67 60`;
 
     const asunto=`Revisión cumplimiento normas fichaje -- ${resp.equipo} -- ${fromStr}-${toStr}`;
     const block=document.createElement('div');block.className='email-block';
-    block.innerHTML=`
-      <div class="email-hdr" style="border-left:3px solid ${resp.color}">
+    block.innerHTML=`\n      <div class="email-hdr" style="border-left:3px solid ${resp.color}">
         <div>
           <div class="email-to-name">${resp.nombreCompleto}</div>
           <div class="email-dept">${resp.equipo}</div>
