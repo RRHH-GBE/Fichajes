@@ -427,6 +427,8 @@ function processData(employees,entries,from,to){
 }
 
 /* ─── EXCEL EXPORT ─────────────────────────────────────────────────────── */
+function s(v){return v===null||v===undefined?'':String(v);}
+
 function descargarExcel(idx){
   if(!analysisResult)return;
   var resp=RESPONSABLES[idx];
@@ -434,52 +436,42 @@ function descargarExcel(idx){
     return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});
   });
 
-  var wb=XLSX.utils.book_new();
+  try{
+    var wb=XLSX.utils.book_new();
 
-  // ── Hoja 1: Detalle de fichajes ──────────────────────────────────────
-  var headers=['Empleado','Empresa','Fecha','Día','Entrada','Salida','Horas trabajadas','Tipo','Incidencia'];
-  var data=[headers];
-  empDeResp.forEach(function(emp){
-    (emp.filasFichaje||[]).forEach(function(f){
-      data.push([
-        emp.nombre,
-        EMPRESAS[emp.empresa]||'',
-        f.date,
-        f.diasem,
-        f.entrada,
-        f.salida,
-        f.horas,
-        f.tipo,
-        f.incidencia||''
-      ]);
-    });
-  });
-
-  var ws=XLSX.utils.aoa_to_sheet(data);
-  ws['!cols']=[{wch:28},{wch:22},{wch:12},{wch:6},{wch:8},{wch:8},{wch:17},{wch:14},{wch:22}];
-  XLSX.utils.book_append_sheet(wb,'Fichajes',ws);
-
-  // ── Hoja 2: Resumen de incidencias ───────────────────────────────────
-  var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
-  var resHeaders=['Empleado','Empresa','Tipo incidencia','Fecha','Detalle'];
-  var resData=[resHeaders];
-  empDeResp.forEach(function(emp){
-    if(emp.incidents.length===0){
-      resData.push([emp.nombre,EMPRESAS[emp.empresa]||'','Sin incidencias','—','—']);
-    } else {
-      emp.incidents.forEach(function(inc){
-        resData.push([emp.nombre,EMPRESAS[emp.empresa]||'',(tl[inc.type]||inc.type),inc.date,inc.detail]);
+    // ── Hoja 1: Detalle de fichajes ──────────────────────────────────────
+    var csvFichajes='Empleado\tEmpresa\tFecha\tDia\tEntrada\tSalida\tHoras trabajadas\tTipo\tIncidencia\n';
+    empDeResp.forEach(function(emp){
+      (emp.filasFichaje||[]).forEach(function(f){
+        csvFichajes+=s(emp.nombre)+'\t'+s(EMPRESAS[emp.empresa])+'\t'+s(f.date)+'\t'+s(f.diasem)+'\t'+s(f.entrada)+'\t'+s(f.salida)+'\t'+s(f.horas)+'\t'+s(f.tipo)+'\t'+s(f.incidencia)+'\n';
       });
-    }
-  });
+    });
+    var ws=XLSX.utils.aoa_to_sheet(csvFichajes.split('\n').map(function(r){return r.split('\t');}));
+    ws['!cols']=[{wch:28},{wch:22},{wch:12},{wch:6},{wch:8},{wch:8},{wch:17},{wch:14},{wch:22}];
+    XLSX.utils.book_append_sheet(wb,'Fichajes',ws);
 
-  var wsRes=XLSX.utils.aoa_to_sheet(resData);
-  wsRes['!cols']=[{wch:28},{wch:22},{wch:22},{wch:12},{wch:45}];
-  XLSX.utils.book_append_sheet(wb,'Incidencias',wsRes);
+    // ── Hoja 2: Resumen de incidencias ───────────────────────────────────
+    var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
+    var csvInc='Empleado\tEmpresa\tTipo incidencia\tFecha\tDetalle\n';
+    empDeResp.forEach(function(emp){
+      if(emp.incidents.length===0){
+        csvInc+=s(emp.nombre)+'\t'+s(EMPRESAS[emp.empresa])+'\tSin incidencias\t\t\n';
+      } else {
+        emp.incidents.forEach(function(inc){
+          csvInc+=s(emp.nombre)+'\t'+s(EMPRESAS[emp.empresa])+'\t'+s(tl[inc.type]||inc.type)+'\t'+s(inc.date)+'\t'+s(inc.detail)+'\n';
+        });
+      }
+    });
+    var wsRes=XLSX.utils.aoa_to_sheet(csvInc.split('\n').map(function(r){return r.split('\t');}));
+    wsRes['!cols']=[{wch:28},{wch:22},{wch:22},{wch:12},{wch:45}];
+    XLSX.utils.book_append_sheet(wb,'Incidencias',wsRes);
 
-  // ── Descargar ─────────────────────────────────────────────────────────
-  var nombreArchivo='Fichajes_'+resp.equipo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+analysisResult.from+'_'+analysisResult.to+'.xlsx';
-  XLSX.writeFile(wb,nombreArchivo);
+    var nombreArchivo='Fichajes_'+resp.equipo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+analysisResult.from+'_'+analysisResult.to+'.xlsx';
+    XLSX.writeFile(wb,nombreArchivo);
+  }catch(err){
+    alert('Error al generar Excel: '+err.message);
+    console.error(err);
+  }
 }
 /* ─────────────────────────────────────────────────────────────────────── */
 
