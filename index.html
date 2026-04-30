@@ -118,6 +118,22 @@ input:focus,select:focus,textarea:focus{border-color:var(--wine);box-shadow:0 0 
 footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem;letter-spacing:0.3px}
 
 @media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)};main{padding:1rem}}
+
+/* Token collapsible */
+.token-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.token-toggle:hover .toggle-label{color:var(--text-dark)}
+.toggle-label{font-size:11px;letter-spacing:0.5px;color:var(--text-muted);display:flex;align-items:center;gap:6px;transition:color .15s}
+.toggle-arrow{display:inline-block;transition:transform .2s;font-size:10px}
+.token-body{overflow:hidden;transition:max-height .3s ease,opacity .3s ease;max-height:200px;opacity:1}
+.token-body.collapsed{max-height:0;opacity:0}
+
+/* Gauge */
+.gauge-wrap{display:flex;align-items:center;gap:2rem;padding:1.25rem 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1rem}
+.gauge-svg-wrap{flex-shrink:0}
+.gauge-info{flex:1}
+.gauge-pct{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;line-height:1;margin-bottom:2px}
+.gauge-label{font-size:12px;letter-spacing:0.5px;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.gauge-sub{font-size:11px;color:var(--text-muted)}
 </style>
 </head>
 <body>
@@ -135,22 +151,29 @@ footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);bor
   </div>
 
   
-  <div class="card" id="config-section">
-    <div class="card-eyebrow">Configuracion</div>
-    <div class="card-title">Tokens de API por empresa</div>
-    <div style="font-size:12px;color:var(--text-muted);margin-bottom:1rem">Los tokens se guardan en tu navegador y no tienes que volverte a introducirlos.</div>
-    <div class="row" style="margin-bottom:1rem">
-      <div>
-        <label>Tostaderos Sol de Alba <span id="status-tsa" style="margin-left:6px;font-size:11px">Pendiente</span></label>
-        <input type="password" id="token-tsa" placeholder="Token TSA..." autocomplete="off" oninput="updateTokenStatus()">
+  <div class="card" id="config-section" style="padding:1rem 1.5rem">
+    <div class="token-toggle" onclick="toggleTokens()">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="card-eyebrow" style="margin-bottom:0">Configuracion</div>
+        <div id="token-summary" style="font-size:11px;color:var(--text-muted)"></div>
       </div>
-      <div>
-        <label>Grupo Barragan Espinar <span id="status-gbe" style="margin-left:6px;font-size:11px">Pendiente</span></label>
-        <input type="password" id="token-gbe" placeholder="Token GBE..." autocomplete="off" oninput="updateTokenStatus()">
-      </div>
+      <div class="toggle-label">Tokens de API <span class="toggle-arrow" id="toggle-arrow">▼</span></div>
     </div>
-    <button class="btn btn-primary" id="save-tokens-btn" onclick="saveTokens()">Guardar tokens</button>
-    <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Los tokens se guardan en este navegador. Si Sandra usa otro navegador u ordenador debera introducirlos de nuevo una vez.</div>
+    <div class="token-body" id="token-body">
+      <div style="margin-top:1rem;font-size:12px;color:var(--text-muted);margin-bottom:1rem">Los tokens se guardan en tu navegador y no tienes que volverte a introducirlos.</div>
+      <div class="row" style="margin-bottom:1rem">
+        <div>
+          <label>Tostaderos Sol de Alba <span id="status-tsa" style="margin-left:6px;font-size:11px">Pendiente</span></label>
+          <input type="password" id="token-tsa" placeholder="Token TSA..." autocomplete="off" oninput="updateTokenStatus()">
+        </div>
+        <div>
+          <label>Grupo Barragan Espinar <span id="status-gbe" style="margin-left:6px;font-size:11px">Pendiente</span></label>
+          <input type="password" id="token-gbe" placeholder="Token GBE..." autocomplete="off" oninput="updateTokenStatus()">
+        </div>
+      </div>
+      <button class="btn btn-primary" id="save-tokens-btn" onclick="saveTokens()">Guardar tokens</button>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Los tokens se guardan en este navegador. Si Sandra usa otro navegador u ordenador debera introducirlos de nuevo una vez.</div>
+    </div>
   </div>
 
   <div class="card">
@@ -179,6 +202,21 @@ footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);bor
   </div>
 
   <div id="results" class="hidden">
+    <div class="gauge-wrap" id="gauge-wrap">
+      <div class="gauge-svg-wrap">
+        <svg id="gauge-svg" width="130" height="80" viewBox="0 0 130 80">
+          <!-- Track -->
+          <path d="M15,70 A50,50 0 0,1 115,70" fill="none" stroke="#e8e2d5" stroke-width="13" stroke-linecap="round"/>
+          <!-- Fill arc — pathLength=100 so dashoffset = 100-pct -->
+          <path id="gauge-arc" d="M15,70 A50,50 0 0,1 115,70" fill="none" stroke="#1a4a2e" stroke-width="13" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+        </svg>
+      </div>
+      <div class="gauge-info">
+        <div class="gauge-pct" id="gauge-pct">—</div>
+        <div class="gauge-label" id="gauge-label">Cumplimiento horario</div>
+        <div class="gauge-sub" id="gauge-sub">Carga los fichajes para ver el análisis</div>
+      </div>
+    </div>
     <div class="metrics">
       <div class="metric"><div class="mv" id="m-emp">—</div><div class="ml">Empleados</div></div>
       <div class="metric"><div class="mv" id="m-ok" style="color:var(--ok)">—</div><div class="ml">Sin incidencias</div></div>
@@ -267,7 +305,19 @@ function loadTokensFromStorage(){
     if(tsa)document.getElementById('token-tsa').value=tsa;
     if(gbe)document.getElementById('token-gbe').value=gbe;
     updateTokenStatus();
+    // Auto-collapse if both tokens already set
+    if(tsa&&gbe){
+      document.getElementById('token-body').classList.add('collapsed');
+      document.getElementById('toggle-arrow').style.transform='rotate(-90deg)';
+    }
   }catch(e){}
+}
+
+function toggleTokens(){
+  var body=document.getElementById('token-body');
+  var arrow=document.getElementById('toggle-arrow');
+  var collapsed=body.classList.toggle('collapsed');
+  arrow.style.transform=collapsed?'rotate(-90deg)':'rotate(0deg)';
 }
 
 function saveTokens(){
@@ -290,6 +340,10 @@ function updateTokenStatus(){
   document.getElementById('status-tsa').style.color=tsa?'var(--ok)':'var(--err)';
   document.getElementById('status-gbe').textContent=gbe?'Configurado':'Pendiente';
   document.getElementById('status-gbe').style.color=gbe?'var(--ok)':'var(--err)';
+  var sum=document.getElementById('token-summary');
+  if(tsa&&gbe){sum.textContent='Ambos tokens configurados';sum.style.color='var(--ok)';}
+  else if(tsa||gbe){sum.textContent='Falta un token';sum.style.color='var(--warn)';}
+  else{sum.textContent='Sin configurar';sum.style.color='var(--err)';}
 }
 
 function getToken(empresa){
@@ -363,63 +417,129 @@ async function loadData(){
 }
 
 function processData(employees,entries,from,to){
-  var byEmp={};
+  // Construir mapa id->nombre desde Sesame, pero SIEMPRE incluir los 19 de la lista
+  var byNorm={};// normName -> empData
+  // Primero registrar todos los de Sesame que coincidan
   employees.forEach(function(emp){
     var nN=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));
-    byEmp[emp.id]={id:emp.id,nombre:[emp.firstName,emp.lastName].filter(Boolean).join(' '),
-      nombreNorm:nN,departamento:(emp.department&&emp.department.name)||'Sin departamento',
-      empresa:emp._empresa,
-      jornada:JORNADA_REDUCIDA.some(function(n){return norm(n)===nN;})?450:480,
-      movilidad:PERFIL_MOVILIDAD.some(function(n){return norm(n)===nN;}),fichajes:{}};
+    // Buscar coincidencia en nuestra lista (flexible: incluido dentro del nombre Sesame)
+    var match=TODOS_EMPLEADOS.find(function(te){
+      var nte=norm(te);
+      return nte===nN||nN.indexOf(nte)!==-1||nte.indexOf(nN)!==-1;
+    });
+    if(!match)return;
+    var mN=norm(match);
+    if(byNorm[mN])return;// ya lo tenemos
+    byNorm[mN]={
+      id:emp.id,
+      nombre:match.split(' ').map(function(w){return w.charAt(0)+w.slice(1).toLowerCase();}).join(' '),
+      nombreNorm:mN,
+      empresa:emp._empresa||EMPLEADOS_EMPRESA[match]||'TSA',
+      jornada:JORNADA_REDUCIDA.some(function(n){return norm(n)===mN;})?450:480,
+      movilidad:PERFIL_MOVILIDAD.some(function(n){return norm(n)===mN;}),
+      fichajes:{}
+    };
   });
+
+  // Para los que no vinieron de Sesame, añadirlos igual (sin fichajes, aparecerán como sin fichaje)
+  TODOS_EMPLEADOS.forEach(function(te){
+    var mN=norm(te);
+    if(!byNorm[mN]){
+      byNorm[mN]={
+        id:'__'+mN,
+        nombre:te.split(' ').map(function(w){return w.charAt(0)+w.slice(1).toLowerCase();}).join(' '),
+        nombreNorm:mN,
+        empresa:EMPLEADOS_EMPRESA[te]||'TSA',
+        jornada:JORNADA_REDUCIDA.some(function(n){return norm(n)===mN;})?450:480,
+        movilidad:PERFIL_MOVILIDAD.some(function(n){return norm(n)===mN;}),
+        fichajes:{}
+      };
+    }
+  });
+
+  // Indexar también por id para asignar fichajes
+  var byId={};
+  Object.values(byNorm).forEach(function(e){byId[e.id]=e;});
 
   entries.forEach(function(e){
     var empId=e.employee&&e.employee.id;
-    if(!empId||!byEmp[empId])return;
+    if(!empId||!byId[empId])return;
     var dateIn=(e.workEntryIn&&e.workEntryIn.date)||'';
     var date=dateIn.slice(0,10);if(!date)return;
-    if(!byEmp[empId].fichajes[date])byEmp[empId].fichajes[date]=[];
-    byEmp[empId].fichajes[date].push({
+    var emp=byId[empId];
+    if(!emp.fichajes[date])emp.fichajes[date]=[];
+    emp.fichajes[date].push({
       entrada:extractTime(e.workEntryIn&&e.workEntryIn.date),
       salida:extractTime(e.workEntryOut&&e.workEntryOut.date),
-      tipo:e.workEntryType||'',origen:(e.workEntryIn&&e.workEntryIn.origin)||'',
-      segundos:e.workedSeconds||0
+      origen:(e.workEntryIn&&e.workEntryIn.origin)||''
     });
   });
 
   var allDates=getDatesInRange(from,to);
   var diasLaborables=allDates.filter(function(d){return !isExcluded(d).excluded;}).length;
 
-  var result=Object.values(byEmp).filter(function(emp){return emp.nombre.trim();}).map(function(emp){
+  var result=Object.values(byNorm).map(function(emp){
     var incidents=[],filasFichaje=[];
     allDates.forEach(function(date){
       var excl=isExcluded(date);
       var diasem=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'][new Date(date+'T12:00:00Z').getDay()];
-      var fichs=emp.fichajes[date]||[];
-      if(excl.excluded){filasFichaje.push({date:date,diasem:diasem,entrada:'-',salida:'-',horas:'-',tipo:excl.reason,incidencia:''});return;}
+      var fichs=(emp.fichajes[date]||[]).slice().sort(function(a,b){
+        return (timeToMin(a.entrada)||0)-(timeToMin(b.entrada)||0);
+      });
+
+      if(excl.excluded){
+        filasFichaje.push({date:date,diasem:diasem,tramos:[],minTrab:null,horasTrab:'-',tipo:excl.reason||'',incidencia:'',diferencia:''});
+        return;
+      }
       if(fichs.length===0){
         incidents.push({type:'sin_fichaje',date:date,detail:'Jornada sin fichaje registrado'});
-        filasFichaje.push({date:date,diasem:diasem,entrada:'--',salida:'--',horas:'--',tipo:'',incidencia:'Sin fichaje'});return;
+        filasFichaje.push({date:date,diasem:diasem,tramos:[],minTrab:null,horasTrab:'--',tipo:'',incidencia:'Sin fichaje',diferencia:''});
+        return;
       }
-      var entradas=fichs.map(function(f){return timeToMin(f.entrada);}).filter(function(x){return x!==null;});
-      var salidas=fichs.map(function(f){return timeToMin(f.salida);}).filter(function(x){return x!==null;});
-      var incText='',diaOk=true;
-      if(!emp.movilidad&&entradas.length>0){
-        var p=Math.min.apply(null,entradas);
-        if(p>9*60+30){var diff=p-(9*60+30);incidents.push({type:'tarde',date:date,detail:'Entrada a las '+Math.floor(p/60)+':'+String(p%60).padStart(2,'0')+' - '+minToStr(diff)+' tarde'});incText='Llegada tarde';diaOk=false;}
+
+      // Calcular minutos netos sumando tramos: (salida1-entrada1)+(salida2-entrada2)+...
+      var minTrab=0;
+      var tramosCols=[];// [{entrada,salida}]
+      fichs.forEach(function(f){
+        var eMin=timeToMin(f.entrada);
+        var sMin=timeToMin(f.salida);
+        tramosCols.push({entrada:f.entrada||'',salida:f.salida||'',origen:f.origen});
+        if(eMin!==null&&sMin!==null&&sMin>eMin){
+          minTrab+=sMin-eMin;
+        }
+      });
+
+      var primerEntrada=fichs[0]&&fichs[0].entrada||'--';
+      var ultimaSalida=fichs[fichs.length-1]&&fichs[fichs.length-1].salida||'--';
+      var horasTrab=minTrab>0?(Math.floor(minTrab/60)+'h '+String(minTrab%60).padStart(2,'0')+'min'):'--';
+
+      var dif=minTrab-emp.jornada;
+      var difStr=minTrab>0?(dif===0?'0h 00min':((dif>0?'+':'-')+Math.floor(Math.abs(dif)/60)+'h '+String(Math.abs(dif)%60).padStart(2,'0')+'min')):'';
+
+      var incText='';
+      var primerMin=timeToMin(primerEntrada);
+      if(!emp.movilidad&&primerMin!==null&&primerMin>9*60+30){
+        var tard=primerMin-(9*60+30);
+        incidents.push({type:'tarde',date:date,detail:'Entrada a las '+primerEntrada+' — '+minToStr(tard)+' tarde'});
+        incText='Llegada tarde';
       }
-      if(entradas.length>0&&salidas.length>0){
-        var pE=Math.min.apply(null,entradas),uS=Math.max.apply(null,salidas),trab=uS-pE;
-        var tieneReq=fichs.some(function(f){return f.origen==='request'||f.tipo==='request';});
-        if(trab<emp.jornada-15){incidents.push({type:'salida',date:date,detail:'Jornada de '+minToStr(trab)+', faltan '+minToStr(emp.jornada-trab)});incText=(incText?incText+' / ':'')+'Salida anticipada';diaOk=false;}
-        else if(!tieneReq&&trab>emp.jornada+45){incidents.push({type:'extra',date:date,detail:minToStr(trab-emp.jornada)+' horas extra sin solicitud'});incText=(incText?incText+' / ':'')+'Horas extra';diaOk=false;}
+      if(minTrab>0){
+        var tieneReq=fichs.some(function(f){return f.origen==='request';});
+        if(minTrab<emp.jornada-30){
+          incidents.push({type:'salida',date:date,detail:'Trabajó '+horasTrab+', faltan '+minToStr(emp.jornada-minTrab)});
+          incText=(incText?incText+' / ':'')+'Salida anticipada';
+        } else if(!tieneReq&&minTrab>emp.jornada+30){
+          incidents.push({type:'extra',date:date,detail:minToStr(minTrab-emp.jornada)+' horas extra sin solicitud'});
+          incText=(incText?incText+' / ':'')+'Horas extra';
+        }
       }
-      var totalSegs=fichs.reduce(function(s,f){return s+f.segundos;},0);
-      var horasTrab=totalSegs>0?Math.floor(totalSegs/3600)+'h '+Math.floor((totalSegs%3600)/60)+'min':(entradas.length>0&&salidas.length>0?minToStr(Math.max.apply(null,salidas)-Math.min.apply(null,entradas)):'--');
-      var entradaStr=entradas.length>0?Math.floor(Math.min.apply(null,entradas)/60)+':'+String(Math.min.apply(null,entradas)%60).padStart(2,'0'):'--';
-      var salidaStr=salidas.length>0?Math.floor(Math.max.apply(null,salidas)/60)+':'+String(Math.max.apply(null,salidas)%60).padStart(2,'0'):'--';
-      var tipoStr=fichs[0].origen==='web'?'Teletrabajo':(fichs[0].origen==='tablet'||fichs[0].origen==='kiosk'?'Presencial':'Trabajo');
-      filasFichaje.push({date:date,diasem:diasem,entrada:entradaStr,salida:salidaStr,horas:horasTrab,tipo:tipoStr,incidencia:incText});
+
+      var origen0=fichs[0]&&fichs[0].origen||'';
+      var tipoStr=origen0==='web'?'Teletrabajo':(origen0==='tablet'||origen0==='kiosk'?'Presencial':'Trabajo');
+
+      filasFichaje.push({date:date,diasem:diasem,tramos:tramosCols,
+        primerEntrada:primerEntrada,ultimaSalida:ultimaSalida,
+        minTrab:minTrab,horasTrab:horasTrab,tipo:tipoStr,incidencia:incText,diferencia:difStr});
     });
     return Object.assign({},emp,{incidents:incidents,filasFichaje:filasFichaje});
   });
@@ -429,9 +549,9 @@ function processData(employees,entries,from,to){
 /* ─── EXCEL EXPORT (XML nativo, sin librería) ───────────────────────── */
 function s(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function xmlSheet(rows){
-  var xml='<Worksheet ss:Name=""><Table>';
-  rows.forEach(function(row,ri){
+function xmlSheet(rows,name){
+  var xml='<Worksheet ss:Name="'+s(name)+'"><Table>';
+  rows.forEach(function(row){
     xml+='<Row>';
     row.forEach(function(cell){
       xml+='<Cell><Data ss:Type="String">'+s(cell)+'</Data></Cell>';
@@ -451,15 +571,39 @@ function descargarExcel(idx){
 
   var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
 
-  // Hoja 1: Fichajes
-  var filas1=[['Empleado','Empresa','Fecha','Dia','Entrada','Salida','Horas trabajadas','Tipo','Incidencia']];
+  // Calcular max tramos en este grupo para definir columnas dinámicas
+  var maxTramos=1;
   empDeResp.forEach(function(emp){
     (emp.filasFichaje||[]).forEach(function(f){
-      filas1.push([emp.nombre,EMPRESAS[emp.empresa]||'',f.date,f.diasem,f.entrada,f.salida,f.horas,f.tipo,f.incidencia||'']);
+      if(f.tramos&&f.tramos.length>maxTramos)maxTramos=f.tramos.length;
     });
   });
 
-  // Hoja 2: Incidencias
+  // Cabecera dinámica
+  var cols=['Empleado','Empresa','Fecha','Día','Modalidad'];
+  for(var t=0;t<maxTramos;t++){
+    cols.push('Entrada '+(t+1));
+    cols.push('Salida '+(t+1));
+  }
+  cols.push('Horas netas','Diferencia jornada','Incidencia');
+
+  var filas1=[cols];
+  empDeResp.forEach(function(emp){
+    (emp.filasFichaje||[]).forEach(function(f){
+      var row=[emp.nombre,EMPRESAS[emp.empresa]||'',f.date,f.diasem,f.tipo||''];
+      var tramos=f.tramos||[];
+      for(var t=0;t<maxTramos;t++){
+        row.push(tramos[t]?tramos[t].entrada:'');
+        row.push(tramos[t]?tramos[t].salida:'');
+      }
+      row.push(f.horasTrab||'');
+      row.push(f.diferencia||'');
+      row.push(f.incidencia||'');
+      filas1.push(row);
+    });
+  });
+
+  // Hoja 2: Resumen incidencias
   var filas2=[['Empleado','Empresa','Tipo incidencia','Fecha','Detalle']];
   empDeResp.forEach(function(emp){
     if(emp.incidents.length===0){
@@ -471,25 +615,21 @@ function descargarExcel(idx){
     }
   });
 
-  var ws1=xmlSheet(filas1).replace('<Worksheet ss:Name="">','<Worksheet ss:Name="Fichajes">');
-  var ws2=xmlSheet(filas2).replace('<Worksheet ss:Name="">','<Worksheet ss:Name="Incidencias">');
-
   var xml='<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>'
     +'<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" '
     +'xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
-    +ws1+ws2+'</Workbook>';
+    +xmlSheet(filas1,'Fichajes detallados')
+    +xmlSheet(filas2,'Incidencias')
+    +'</Workbook>';
 
   var blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');
   a.href=url;
   a.download='Fichajes_'+resp.equipo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+analysisResult.from+'_'+analysisResult.to+'.xls';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
 }
-/* ─────────────────────────────────────────────────────────────────────── */
 /* ─────────────────────────────────────────────────────────────────────── */
 
 function renderResults(){
@@ -497,10 +637,26 @@ function renderResults(){
   var result=analysisResult.result,diasLaborables=analysisResult.diasLaborables;
   document.getElementById('results').classList.remove('hidden');
   var conInc=result.filter(function(e){return e.incidents.length>0;}).length;
-  document.getElementById('m-emp').textContent=result.length;
-  document.getElementById('m-ok').textContent=result.length-conInc;
+  var total=result.length;
+  document.getElementById('m-emp').textContent=total;
+  document.getElementById('m-ok').textContent=total-conInc;
   document.getElementById('m-inc').textContent=conInc;
   document.getElementById('m-dias').textContent=diasLaborables;
+
+  // Gauge — pathLength=100, dashoffset = 100-pct fills the arc
+  var pct=total>0?Math.round(((total-conInc)/total)*100):100;
+  var color=pct>=70?'#1a4a2e':pct>=40?'#b35a00':'#7a1c2e';
+  var labelTxt=pct>=70?'Cumplimiento alto':pct>=40?'Cumplimiento medio':'Cumplimiento bajo';
+  var subTxt=(total-conInc)+' de '+total+' empleados sin incidencias esta semana';
+  document.getElementById('gauge-pct').textContent=pct+'%';
+  document.getElementById('gauge-pct').style.color=color;
+  document.getElementById('gauge-label').textContent=labelTxt;
+  document.getElementById('gauge-label').style.color=color;
+  document.getElementById('gauge-sub').textContent=subTxt;
+  var arc=document.getElementById('gauge-arc');
+  arc.setAttribute('stroke',color);
+  arc.setAttribute('stroke-dashoffset',String(100-pct));
+
   var iw=document.getElementById('incidents-wrap');iw.innerHTML='';
   var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
   result.forEach(function(emp){
@@ -569,13 +725,22 @@ function loadDemo(){
   document.getElementById('demo-wrap').style.display='none';
   document.getElementById('date-from').value='2026-04-14';document.getElementById('date-to').value='2026-04-25';
   specials=[{date:'2026-04-21',desc:'Formacion IA'}];renderSpecials();
-  var mkDays=function(inc){return getDatesInRange('2026-04-14','2026-04-25').map(function(date){var excl=isExcluded(date);var diasem=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'][new Date(date+'T12:00:00Z').getDay()];if(excl.excluded)return{date:date,diasem:diasem,entrada:'-',salida:'-',horas:'-',tipo:excl.reason,incidencia:''};var incRow=inc.find(function(i){return i.date===date;});return{date:date,diasem:diasem,entrada:'08:00',salida:'16:00',horas:'8h 0min',tipo:'Presencial',incidencia:incRow?incRow.det:''};});};
+  var mkDays=function(incs){return getDatesInRange('2026-04-14','2026-04-25').map(function(date){
+    var excl=isExcluded(date);
+    var diasem=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'][new Date(date+'T12:00:00Z').getDay()];
+    if(excl.excluded)return{date:date,diasem:diasem,tramos:[],minTrab:null,horasTrab:'-',tipo:excl.reason||'',incidencia:'',diferencia:''};
+    var incRow=incs.find(function(i){return i.date===date;});
+    var tramos=[{entrada:'07:30',salida:'14:00',origen:'tablet'},{entrada:'14:30',salida:'17:00',origen:'tablet'}];
+    // (14:00-07:30)+(17:00-14:30) = 390+150 = 540min = 9h
+    return{date:date,diasem:diasem,tramos:tramos,primerEntrada:'07:30',ultimaSalida:'17:00',
+      minTrab:540,horasTrab:'9h 00min',tipo:'Presencial',incidencia:incRow?incRow.det:'',diferencia:'+1h 00min'};
+  });};
   analysisResult={from:'2026-04-14',to:'2026-04-25',diasLaborables:8,result:[
-    {nombre:'Beatriz Monreal Munoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',departamento:'Marketing',empresa:'TSA',jornada:480,movilidad:false,incidents:[],filasFichaje:mkDays([])},
-    {nombre:'Ana Ramirez Lopez-Frias',nombreNorm:'ANA RAMIREZ LOPEZ-FRIAS',departamento:'Responsables',empresa:'GBE',jornada:480,movilidad:false,incidents:[{type:'extra',date:'2026-04-13',detail:'2h extra sin solicitud'}],filasFichaje:mkDays([{date:'2026-04-13',det:'Horas extra'}])},
-    {nombre:'Raquel Lopez Gonzalez',nombreNorm:'RAQUEL LOPEZ GONZALEZ',departamento:'Admon Ventas',empresa:'TSA',jornada:480,movilidad:false,incidents:[{type:'tarde',date:'2026-04-15',detail:'Entrada a las 09:45 - 15min tarde'}],filasFichaje:mkDays([{date:'2026-04-15',det:'Llegada tarde'}])},
-    {nombre:'Antonia Masia',nombreNorm:'ANTONIA MASIA',departamento:'Tesoreria',empresa:'GBE',jornada:450,movilidad:false,incidents:[],filasFichaje:mkDays([])},
-    {nombre:'Jose Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',departamento:'IT',empresa:'TSA',jornada:480,movilidad:true,incidents:[],filasFichaje:mkDays([])}
+    {nombre:'Beatriz Monreal Munoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',empresa:'TSA',jornada:480,movilidad:false,incidents:[],filasFichaje:mkDays([])},
+    {nombre:'Ana Ramirez Lopez-Frias',nombreNorm:'ANA RAMIREZ LOPEZ-FRIAS',empresa:'GBE',jornada:480,movilidad:false,incidents:[{type:'extra',date:'2026-04-15',detail:'1h extra sin solicitud'}],filasFichaje:mkDays([{date:'2026-04-15',det:'Horas extra'}])},
+    {nombre:'Raquel Lopez Gonzalez',nombreNorm:'RAQUEL LOPEZ GONZALEZ',empresa:'TSA',jornada:480,movilidad:false,incidents:[{type:'tarde',date:'2026-04-15',detail:'Entrada a las 09:45 — 15min tarde'}],filasFichaje:mkDays([{date:'2026-04-15',det:'Llegada tarde'}])},
+    {nombre:'Antonia Masia',nombreNorm:'ANTONIA MASIA',empresa:'GBE',jornada:450,movilidad:false,incidents:[],filasFichaje:mkDays([])},
+    {nombre:'Jose Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',empresa:'TSA',jornada:480,movilidad:true,incidents:[],filasFichaje:mkDays([])}
   ]};
   renderResults();
 }
