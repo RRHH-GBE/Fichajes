@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fichajes — Grupo Barragán Espinar</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 <style>
 :root {
   --dark:#1a1917;
@@ -426,8 +426,21 @@ function processData(employees,entries,from,to){
   return{result:result,from:from,to:to,diasLaborables:diasLaborables};
 }
 
-/* ─── EXCEL EXPORT ─────────────────────────────────────────────────────── */
-function s(v){return v===null||v===undefined?'':String(v);}
+/* ─── EXCEL EXPORT (XML nativo, sin librería) ───────────────────────── */
+function s(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function xmlSheet(rows){
+  var xml='<Worksheet ss:Name=""><Table>';
+  rows.forEach(function(row,ri){
+    xml+='<Row>';
+    row.forEach(function(cell){
+      xml+='<Cell><Data ss:Type="String">'+s(cell)+'</Data></Cell>';
+    });
+    xml+='</Row>';
+  });
+  xml+='</Table></Worksheet>';
+  return xml;
+}
 
 function descargarExcel(idx){
   if(!analysisResult)return;
@@ -436,43 +449,47 @@ function descargarExcel(idx){
     return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});
   });
 
-  try{
-    var wb=XLSX.utils.book_new();
+  var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
 
-    // ── Hoja 1: Detalle de fichajes ──────────────────────────────────────
-    var csvFichajes='Empleado\tEmpresa\tFecha\tDia\tEntrada\tSalida\tHoras trabajadas\tTipo\tIncidencia\n';
-    empDeResp.forEach(function(emp){
-      (emp.filasFichaje||[]).forEach(function(f){
-        csvFichajes+=s(emp.nombre)+'\t'+s(EMPRESAS[emp.empresa])+'\t'+s(f.date)+'\t'+s(f.diasem)+'\t'+s(f.entrada)+'\t'+s(f.salida)+'\t'+s(f.horas)+'\t'+s(f.tipo)+'\t'+s(f.incidencia)+'\n';
+  // Hoja 1: Fichajes
+  var filas1=[['Empleado','Empresa','Fecha','Dia','Entrada','Salida','Horas trabajadas','Tipo','Incidencia']];
+  empDeResp.forEach(function(emp){
+    (emp.filasFichaje||[]).forEach(function(f){
+      filas1.push([emp.nombre,EMPRESAS[emp.empresa]||'',f.date,f.diasem,f.entrada,f.salida,f.horas,f.tipo,f.incidencia||'']);
+    });
+  });
+
+  // Hoja 2: Incidencias
+  var filas2=[['Empleado','Empresa','Tipo incidencia','Fecha','Detalle']];
+  empDeResp.forEach(function(emp){
+    if(emp.incidents.length===0){
+      filas2.push([emp.nombre,EMPRESAS[emp.empresa]||'','Sin incidencias','','']);
+    } else {
+      emp.incidents.forEach(function(inc){
+        filas2.push([emp.nombre,EMPRESAS[emp.empresa]||'',tl[inc.type]||inc.type,inc.date,inc.detail]);
       });
-    });
-    var ws=XLSX.utils.aoa_to_sheet(csvFichajes.split('\n').map(function(r){return r.split('\t');}));
-    ws['!cols']=[{wch:28},{wch:22},{wch:12},{wch:6},{wch:8},{wch:8},{wch:17},{wch:14},{wch:22}];
-    XLSX.utils.book_append_sheet(wb,'Fichajes',ws);
+    }
+  });
 
-    // ── Hoja 2: Resumen de incidencias ───────────────────────────────────
-    var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
-    var csvInc='Empleado\tEmpresa\tTipo incidencia\tFecha\tDetalle\n';
-    empDeResp.forEach(function(emp){
-      if(emp.incidents.length===0){
-        csvInc+=s(emp.nombre)+'\t'+s(EMPRESAS[emp.empresa])+'\tSin incidencias\t\t\n';
-      } else {
-        emp.incidents.forEach(function(inc){
-          csvInc+=s(emp.nombre)+'\t'+s(EMPRESAS[emp.empresa])+'\t'+s(tl[inc.type]||inc.type)+'\t'+s(inc.date)+'\t'+s(inc.detail)+'\n';
-        });
-      }
-    });
-    var wsRes=XLSX.utils.aoa_to_sheet(csvInc.split('\n').map(function(r){return r.split('\t');}));
-    wsRes['!cols']=[{wch:28},{wch:22},{wch:22},{wch:12},{wch:45}];
-    XLSX.utils.book_append_sheet(wb,'Incidencias',wsRes);
+  var ws1=xmlSheet(filas1).replace('<Worksheet ss:Name="">','<Worksheet ss:Name="Fichajes">');
+  var ws2=xmlSheet(filas2).replace('<Worksheet ss:Name="">','<Worksheet ss:Name="Incidencias">');
 
-    var nombreArchivo='Fichajes_'+resp.equipo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+analysisResult.from+'_'+analysisResult.to+'.xlsx';
-    XLSX.writeFile(wb,nombreArchivo);
-  }catch(err){
-    alert('Error al generar Excel: '+err.message);
-    console.error(err);
-  }
+  var xml='<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>'
+    +'<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" '
+    +'xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
+    +ws1+ws2+'</Workbook>';
+
+  var blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  a.download='Fichajes_'+resp.equipo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+analysisResult.from+'_'+analysisResult.to+'.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
+/* ─────────────────────────────────────────────────────────────────────── */
 /* ─────────────────────────────────────────────────────────────────────── */
 
 function renderResults(){
