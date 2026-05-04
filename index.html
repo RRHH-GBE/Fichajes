@@ -5,141 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fichajes — Grupo Barragán Espinar</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-:root {
-  --dark:#1a1917;
-  --dark2:#242220;
-  --cream:#f0ebe0;
-  --cream2:#e8e2d5;
-  --cream3:#f7f4ee;
-  --surface:#ffffff;
-  --wine:#7a1c2e;
-  --wine-light:#f5e8eb;
-  --text-dark:#1a1917;
-  --text-mid:#4a4540;
-  --text-muted:#8a8070;
-  --border:#d8d0c0;
-  --ok:#1a4a2e;
-  --ok-bg:#d8f0e0;
-  --err:#7a1c2e;
-  --err-bg:#f5e8eb;
-  --warn:#6b3a0a;
-  --warn-bg:#fef3d8;
-  --blue:#1a2e5a;
-  --blue-bg:#e0e8f5;
-  --radius:10px;
-  --radius-sm:6px;
+:root{
+  --dark:#1a1917;--cream:#f0ebe0;--cream2:#e8e2d5;--cream3:#f7f4ee;
+  --surface:#ffffff;--wine:#7a1c2e;--text-dark:#1a1917;--text-mid:#4a4540;
+  --text-muted:#8a8070;--border:#d8d0c0;--ok:#1a4a2e;--ok-bg:#d8f0e0;
+  --err:#7a1c2e;--err-bg:#f5e8eb;--warn:#6b3a0a;--warn-bg:#fef3d8;
+  --blue:#1a2e5a;--blue-bg:#e0e8f5;--radius:10px;--radius-sm:6px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--cream3);color:var(--text-dark);min-height:100vh;font-size:14px;line-height:1.6}
-
-header{
-  background:var(--dark);
-  padding:0 2.5rem;
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-}
-.logo-img{height:28px;filter:brightness(0) invert(1);opacity:0.9}
-.header-right{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.8px;text-transform:uppercase;font-family:'DM Sans',sans-serif}
-
-main{max-width:940px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
-
+header{background:var(--dark);padding:0 2.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.06)}
+.header-right{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.8px;text-transform:uppercase}
+main{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
 .page-header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .page-eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--wine);font-weight:500;margin-bottom:8px}
 .page-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;letter-spacing:-0.5px;color:var(--dark);line-height:1.1;margin-bottom:6px}
 .page-sub{font-size:12px;color:var(--text-muted)}
-
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
 .card-eyebrow{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
 .card-eyebrow::before{content:'';display:inline-block;width:16px;height:1px;background:var(--wine)}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--dark);margin-bottom:1rem}
-
+.card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--dark);margin-bottom:.75rem}
 label{font-size:11px;letter-spacing:0.5px;text-transform:uppercase;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--cream3);color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
-input[type=password]{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px}
-input:focus,select:focus,textarea:focus{border-color:var(--wine);box-shadow:0 0 0 3px rgba(122,28,46,.07);background:var(--surface)}
-
-.row{display:flex;gap:12px;flex-wrap:wrap}
-.row>*{flex:1;min-width:130px}
-
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;letter-spacing:0.2px}
+textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--cream3);color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s}
+textarea:focus{border-color:var(--wine);background:var(--surface)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap}
 .btn-primary{background:var(--dark);color:var(--cream);border-color:var(--dark)}
 .btn-primary:hover{background:#2d2b28}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed}
 .btn-secondary{background:transparent;color:var(--text-dark);border-color:var(--border)}
 .btn-secondary:hover{background:var(--cream2);border-color:var(--text-muted)}
-.btn-ghost{background:transparent;color:var(--text-muted);border-color:transparent;font-size:12px;padding:6px 10px}
-.btn-ghost:hover{color:var(--text-dark);background:var(--cream2)}
-
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;letter-spacing:0.2px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
 .badge-ok{background:var(--ok-bg);color:var(--ok)}
 .badge-err{background:var(--err-bg);color:var(--err)}
 .badge-warn{background:var(--warn-bg);color:var(--warn)}
-.badge-info{background:var(--blue-bg);color:var(--blue)}
-
-.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;background:var(--blue-bg);color:var(--blue);margin:2px}
-.pill-x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
-.pill-x:hover{opacity:1}
-
+.irow{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.irow:last-child{border-bottom:none}
+.emp-name{font-size:14px;font-weight:500;margin-bottom:2px}
+.emp-dept{font-size:11px;color:var(--text-muted)}
+.inc-line{font-size:11px;color:var(--text-mid);margin-top:2px;font-family:'DM Mono',monospace}
+.email-block{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
+.email-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--cream3)}
+.email-to-name{font-size:13px;font-weight:500;color:var(--dark)}
+.email-dept{font-size:11px;color:var(--text-muted)}
+.email-to-addr{font-size:11px;color:var(--text-muted);font-family:'DM Mono',monospace;margin-top:1px}
+.email-body{padding:16px;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:320px;overflow-y:auto;background:var(--surface)}
+.email-footer{padding:8px 16px;background:var(--cream3);display:flex;gap:6px;border-top:1px solid var(--border)}
+.alert{padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px}
+.alert-err{background:var(--err-bg);color:var(--err);border:1px solid rgba(122,28,46,.15)}
+.hidden{display:none}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-bottom:1.25rem;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .metric{background:var(--surface);padding:18px 14px;text-align:center}
 .mv{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;line-height:1;margin-bottom:4px;color:var(--dark)}
 .ml{font-size:11px;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase}
-
-.irow{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
-.irow:last-child{border-bottom:none}
-.emp-name{font-size:14px;font-weight:500;margin-bottom:2px}
-.emp-dept{font-size:11px;color:var(--text-muted);letter-spacing:0.2px}
-.inc-line{font-size:11px;color:var(--text-mid);margin-top:2px;font-family:'DM Mono',monospace}
-
-.email-block{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden}
-.email-hdr{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--cream3)}
-.email-to-name{font-size:13px;font-weight:500;color:var(--dark)}
-.email-dept{font-size:11px;color:var(--text-muted);letter-spacing:0.2px}
-.email-to-addr{font-size:11px;color:var(--text-muted);font-family:'DM Mono',monospace;margin-top:1px}
-.email-body{padding:16px;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:300px;overflow-y:auto;background:var(--surface);color:var(--text-dark)}
-.email-footer{padding:8px 16px;background:var(--cream3);display:flex;gap:6px;border-top:1px solid var(--border)}
-
-.alert{padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px}
-.alert-err{background:var(--err-bg);color:var(--err);border:1px solid rgba(122,28,46,.15)}
-
-.spinner{display:inline-block;width:13px;height:13px;border:1.5px solid var(--border);border-top-color:var(--wine);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
-@keyframes spin{to{transform:rotate(360deg)}}
-.status-bar{font-size:12px;color:var(--text-muted);margin-top:8px;min-height:20px;display:flex;align-items:center;gap:6px}
-.hidden{display:none}
-
-.divider{height:1px;background:var(--border);margin:1.5rem 0}
-
-footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem;letter-spacing:0.3px}
-
-@media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)};main{padding:1rem}}
-
-/* Token collapsible */
-.token-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
-.token-toggle:hover .toggle-label{color:var(--text-dark)}
-.toggle-label{font-size:11px;letter-spacing:0.5px;color:var(--text-muted);display:flex;align-items:center;gap:6px;transition:color .15s}
-.toggle-arrow{display:inline-block;transition:transform .2s;font-size:10px}
-.token-body{overflow:hidden;transition:max-height .3s ease,opacity .3s ease;max-height:200px;opacity:1}
-.token-body.collapsed{max-height:0;opacity:0}
-
-/* Gauge */
+.upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--cream3)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--wine);background:#fdf5f6}
+.upload-zone.has-file{border-color:var(--ok);background:var(--ok-bg);border-style:solid}
+.upload-icon{font-size:36px;margin-bottom:12px}
+.upload-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--dark);margin-bottom:4px}
+.upload-sub{font-size:12px;color:var(--text-muted)}
 .gauge-wrap{display:flex;align-items:center;gap:2rem;padding:1.25rem 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1rem}
-.gauge-svg-wrap{flex-shrink:0}
 .gauge-info{flex:1}
-.gauge-pct{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;line-height:1;margin-bottom:2px}
+.gauge-pct{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:400;line-height:1;margin-bottom:2px}
 .gauge-label{font-size:12px;letter-spacing:0.5px;text-transform:uppercase;font-weight:500;margin-bottom:4px}
 .gauge-sub{font-size:11px;color:var(--text-muted)}
+footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem;letter-spacing:0.3px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;background:var(--blue-bg);color:var(--blue);margin:2px}
+.pill-x{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
+.pill-x:hover{opacity:1}
+@media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)};main{padding:1rem}}
 </style>
 </head>
 <body>
 
 <header>
-  <div style="font-family:'Cormorant Garamond',serif;color:white;line-height:1.1"><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.5;font-weight:400">Grupo</div><div style="font-size:18px;font-weight:400;letter-spacing:0.5px">Barragán Espinar</div></div>
+  <div style="font-family:'Cormorant Garamond',serif;color:white;line-height:1.1">
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.5;font-weight:400">Grupo</div>
+    <div style="font-size:18px;font-weight:400;letter-spacing:0.5px">Barragán Espinar</div>
+  </div>
   <div class="header-right">Control de fichajes · RRHH</div>
 </header>
 
@@ -147,81 +90,87 @@ footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);bor
   <div class="page-header">
     <div class="page-eyebrow">Departamento de RRHH</div>
     <div class="page-title">Análisis semanal de fichajes</div>
-    <div class="page-sub">Conectado a Sesame HR · Región EU4 · Festivos Granada 2026 · Normativa vigente 01/04/2026</div>
+    <div class="page-sub">Sube el Excel maestro de Sesame · La herramienta genera los informes y correos automáticamente</div>
   </div>
 
-  
-  <div class="card" id="config-section" style="padding:1rem 1.5rem">
-    <div class="token-toggle" onclick="toggleTokens()">
+  <div class="card" style="padding:1rem 1.5rem">
+    <div onclick="toggleSpecials()" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none">
       <div style="display:flex;align-items:center;gap:10px">
-        <div class="card-eyebrow" style="margin-bottom:0">Configuracion</div>
-        <div id="token-summary" style="font-size:11px;color:var(--text-muted)"></div>
+        <div class="card-eyebrow" style="margin-bottom:0">Antes de empezar — Opcional</div>
+        <span id="specials-summary" style="font-size:11px;color:var(--text-muted)"></span>
       </div>
-      <div class="toggle-label">Tokens de API <span class="toggle-arrow" id="toggle-arrow">▼</span></div>
+      <span id="specials-arrow" style="font-size:10px;color:var(--text-muted);transition:transform .2s;display:inline-block;transform:rotate(-90deg)">▼</span>
     </div>
-    <div class="token-body" id="token-body">
-      <div style="margin-top:1rem;font-size:12px;color:var(--text-muted);margin-bottom:1rem">Los tokens se guardan en tu navegador y no tienes que volverte a introducirlos.</div>
-      <div class="row" style="margin-bottom:1rem">
-        <div>
-          <label>Tostaderos Sol de Alba <span id="status-tsa" style="margin-left:6px;font-size:11px">Pendiente</span></label>
-          <input type="password" id="token-tsa" placeholder="Token TSA..." autocomplete="off" oninput="updateTokenStatus()">
+    <div id="specials-body" style="overflow:hidden;max-height:0;opacity:0;transition:max-height .3s ease,opacity .3s ease">
+      <div style="padding-top:1rem">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:1rem">Añade festivos, formaciones o cualquier día que no deba contar como incidencia de fichaje.</div>
+        <div id="specials-wrap" style="margin-bottom:10px;min-height:24px">
+          <span style="font-size:12px;color:var(--text-muted)">Sin días especiales configurados</span>
         </div>
-        <div>
-          <label>Grupo Barragan Espinar <span id="status-gbe" style="margin-left:6px;font-size:11px">Pendiente</span></label>
-          <input type="password" id="token-gbe" placeholder="Token GBE..." autocomplete="off" oninput="updateTokenStatus()">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+          <div style="flex:0;min-width:155px">
+            <label>Fecha</label>
+            <input type="date" id="sp-date" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--cream3);color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:13px;outline:none">
+          </div>
+          <div style="flex:1;min-width:200px">
+            <label>Motivo</label>
+            <input type="text" id="sp-desc" placeholder="ej: Festivo, Formación IA, Evento empresa..." style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--cream3);color:var(--text-dark);font-family:'DM Sans',sans-serif;font-size:13px;outline:none">
+          </div>
+          <div style="flex:0">
+            <button class="btn btn-secondary" onclick="addSpecial()" style="padding:8px 16px">+ Añadir</button>
+          </div>
         </div>
       </div>
-      <button class="btn btn-primary" id="save-tokens-btn" onclick="saveTokens()">Guardar tokens</button>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Los tokens se guardan en este navegador. Si Sandra usa otro navegador u ordenador debera introducirlos de nuevo una vez.</div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-eyebrow">Paso 1</div>
-    <div class="card-title">Selecciona el periodo</div>
-    <div class="row" style="margin-bottom:1rem">
-      <div><label>Desde</label><input type="date" id="date-from"></div>
-      <div><label>Hasta</label><input type="date" id="date-to"></div>
-      <div style="flex:0;min-width:auto;display:flex;align-items:flex-end"><button class="btn btn-secondary" onclick="setLastWeek()">Semana anterior</button></div>
+    <div class="card-title">Sube el Excel de Sesame</div>
+    <div class="upload-zone" id="upload-zone"
+         onclick="document.getElementById('file-input').click()"
+         ondragover="event.preventDefault();document.getElementById('upload-zone').classList.add('drag')"
+         ondragleave="document.getElementById('upload-zone').classList.remove('drag')"
+         ondrop="onDrop(event)">
+      <div class="upload-icon">📂</div>
+      <div class="upload-title" id="upload-title">Arrastra el Excel aquí o haz clic para seleccionar</div>
+      <div class="upload-sub" id="upload-sub">Informe de fichajes diario (detallado) descargado desde Sesame · formato .xlsx</div>
     </div>
-    <button class="btn btn-primary" id="load-btn" onclick="loadData()">Cargar fichajes desde Sesame</button>
-    <div class="status-bar" id="status"></div>
-    <div id="load-err" class="hidden alert alert-err"></div>
-  </div></div>
+    <input type="file" id="file-input" accept=".xlsx" style="display:none" onchange="onFileSelected(event)">
+    <div id="upload-err" class="hidden alert alert-err"></div>
+  </div>
 
-  <div class="card">
-    <div class="card-eyebrow">Paso 2</div>
-    <div class="card-title">Días especiales — excluidos del análisis</div>
-    <div id="specials-wrap" style="margin-bottom:10px;min-height:24px"></div>
-    <div class="row">
-      <div style="flex:0;min-width:155px"><input type="date" id="sp-date"></div>
-      <div><input type="text" id="sp-desc" placeholder="Motivo (ej: formación IA, evento empresa...)"></div>
-      <div style="flex:0;min-width:auto;display:flex;align-items:center"><button class="btn btn-secondary" onclick="addSpecial()">+ Añadir</button></div>
+  <div class="card" id="note-card" style="display:none">
+    <div class="card-eyebrow">Paso 2 — Opcional</div>
+    <div class="card-title">Nota adicional para esta semana</div>
+    <textarea id="extra-note" rows="2" placeholder="Contexto especial que quieras añadir a todos los correos..."></textarea>
+    <div style="margin-top:12px">
+      <button class="btn btn-primary" onclick="renderResults()">Regenerar correos</button>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Festivos Granada 2026 incluidos automáticamente · Fines de semana excluidos</div>
   </div>
 
   <div id="results" class="hidden">
-    <div class="gauge-wrap" id="gauge-wrap">
-      <div class="gauge-svg-wrap">
-        <svg id="gauge-svg" width="130" height="80" viewBox="0 0 130 80">
-          <!-- Track -->
-          <path d="M15,70 A50,50 0 0,1 115,70" fill="none" stroke="#e8e2d5" stroke-width="13" stroke-linecap="round"/>
-          <!-- Fill arc — pathLength=100 so dashoffset = 100-pct -->
-          <path id="gauge-arc" d="M15,70 A50,50 0 0,1 115,70" fill="none" stroke="#1a4a2e" stroke-width="13" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+
+    <div class="gauge-wrap">
+      <div>
+        <svg width="72" height="72" viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="32" fill="#e8e2d5"/>
+          <circle id="gauge-circle" cx="36" cy="36" r="32" fill="#1a4a2e"/>
+          <circle cx="36" cy="36" r="20" fill="white"/>
         </svg>
       </div>
       <div class="gauge-info">
         <div class="gauge-pct" id="gauge-pct">—</div>
         <div class="gauge-label" id="gauge-label">Cumplimiento horario</div>
-        <div class="gauge-sub" id="gauge-sub">Carga los fichajes para ver el análisis</div>
+        <div class="gauge-sub" id="gauge-sub"></div>
       </div>
     </div>
+
     <div class="metrics">
       <div class="metric"><div class="mv" id="m-emp">—</div><div class="ml">Empleados</div></div>
       <div class="metric"><div class="mv" id="m-ok" style="color:var(--ok)">—</div><div class="ml">Sin incidencias</div></div>
       <div class="metric"><div class="mv" id="m-inc" style="color:var(--wine)">—</div><div class="ml">Con incidencias</div></div>
-      <div class="metric"><div class="mv" id="m-dias">—</div><div class="ml">Días laborables</div></div>
+      <div class="metric"><div class="mv" id="m-periodo" style="font-size:16px;padding-top:8px">—</div><div class="ml">Período</div></div>
     </div>
 
     <div class="card">
@@ -233,16 +182,9 @@ footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);bor
     <div class="card">
       <div class="card-eyebrow">Comunicación</div>
       <div class="card-title">Borradores de correo por responsable</div>
-      <div style="margin-bottom:1rem">
-        <label>Nota adicional para esta semana (opcional)</label>
-        <textarea id="extra-note" rows="2" placeholder="Contexto especial que quieras añadir a todos los correos..."></textarea>
-      </div>
       <div id="emails-wrap"></div>
     </div>
-  </div>
 
-  <div id="demo-wrap" style="text-align:center;padding:1.5rem 0">
-    <button class="btn btn-ghost" onclick="loadDemo()">Ver ejemplo con datos reales →</button>
   </div>
 </main>
 
@@ -252,499 +194,592 @@ footer{text-align:center;padding:2rem;font-size:11px;color:var(--text-muted);bor
 </footer>
 
 <script>
-const PROXY='https://sesame-proxy.jfajardo.workers.dev';
-const HOLIDAYS=['2026-01-01','2026-01-06','2026-02-28','2026-04-02','2026-04-03','2026-05-01','2026-06-24','2026-08-05','2026-10-12','2026-11-02','2026-12-07','2026-12-08','2026-12-25'];
+// ── CONFIG ────────────────────────────────────────────────────────────────────
 
-const EMPRESAS={
-  TSA:'Tostaderos Sol de Alba',
-  GBE:'Grupo Barragan Espinar'
+const EMPLEADOS_CONFIG = {
+  'ANA RAMIREZ LOPEZ-FRIAS':        {jornada:480, movilidad:true},
+  'IBON PACHE LEGARRETA':           {jornada:480, movilidad:true},
+  'IGNACIO OLMEDO REYES':           {jornada:480, movilidad:false},
+  'BEATRIZ MONREAL MUNOZ':          {jornada:480, movilidad:false},
+  'CLIDIA RUIZ MORALES':            {jornada:480, movilidad:false},
+  'JULIA CARO MARTIN':              {jornada:480, movilidad:false},
+  'MARIA MELANIE QUINTANA GARCIA':  {jornada:480, movilidad:false},
+  'AZUCENA ORTIZ LUQUE':            {jornada:480, movilidad:false},
+  'CHRISTOPHER T. WEYBURN':         {jornada:480, movilidad:true},
+  'IBTISSAM BYAR CHADI':            {jornada:480, movilidad:false},
+  'JOSE LUIS ALCALA GILABERT':      {jornada:480, movilidad:false},
+  'JUAN CARLOS MARTINEZ RAMON':     {jornada:480, movilidad:true},
+  'RAQUEL LOPEZ GONZALEZ':          {jornada:480, movilidad:false},
+  'SERGIO VERA LAS HERAS':          {jornada:480, movilidad:false},
+  'JOSE LEONARDO ORTEGA PINTO':     {jornada:480, movilidad:true},
+  'ANTONIA MASIA':                  {jornada:450, movilidad:false},
+  'ISABEL MARIA CORTES PARRA':      {jornada:450, movilidad:false},
+  'SONIA QUINTERO FERNANDEZ':       {jornada:450, movilidad:false},
+  'DANIEL LENDINEZ LOPEZ':          {jornada:480, movilidad:true, teleLibre:true}
 };
 
-const RESPONSABLES=[
-  {nombre:'Reinhardt Liszka',nombreCompleto:'Reinhardt Liszka Mesas',email:'rliszka@grupobarraganespinar.com',equipo:'Responsables / Direccion',color:'#1a1917',
-   empleados:['ANA RAMIREZ LOPEZ-FRIAS','IBON PACHE LEGARRETA','IGNACIO OLMEDO REYES','BEATRIZ MONREAL MUNOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
-  {nombre:'Ignacio Olmedo',nombreCompleto:'Ignacio Olmedo Reyes',email:'iolmedo@soldealba.com',equipo:'Admon Ventas / Export',color:'#1a2e5a',
-   empleados:['AZUCENA ORTIZ LUQUE','CHRISTOPHER T. WEYBURN','IBTISSAM BYAR CHADI','JOSE LUIS ALCALA GILABERT','JUAN CARLOS MARTINEZ RAMON','RAQUEL LOPEZ GONZALEZ','SERGIO VERA DE LAS HERAS']},
-  {nombre:'Carmen Ruiz',nombreCompleto:'Carmen Maria Ruiz Cabello',email:'cmruiz@grupobarraganespinar.com',equipo:'Administracion',color:'#3a1a4a',
+const RESPONSABLES = [
+  {nombre:'Reinhardt Liszka', nombreCompleto:'Reinhardt Liszka Mesas', email:'rliszka@grupobarraganespinar.com', equipo:'Responsables / Dirección', color:'#1a1917',
+   empleados:['ANA RAMIREZ LOPEZ-FRIAS','IBON PACHE LEGARRETA','IGNACIO OLMEDO REYES']},
+  {nombre:'Ignacio Olmedo', nombreCompleto:'Ignacio Olmedo Reyes', email:'iolmedo@soldealba.com', equipo:'Admon Ventas / Export', color:'#1a2e5a',
+   empleados:['AZUCENA ORTIZ LUQUE','CHRISTOPHER T. WEYBURN','IBTISSAM BYAR CHADI','JOSE LUIS ALCALA GILABERT','JUAN CARLOS MARTINEZ RAMON','RAQUEL LOPEZ GONZALEZ','SERGIO VERA LAS HERAS']},
+  {nombre:'Carmen Ruiz', nombreCompleto:'Carmen Maria Ruiz Cabello', email:'cmruiz@grupobarraganespinar.com', equipo:'Administración', color:'#3a1a4a',
    empleados:['ANTONIA MASIA','DANIEL LENDINEZ LOPEZ','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ']},
-  {nombre:'Ana Ramirez',nombreCompleto:'Ana Ramirez Lopez-Frias',email:'aramirez@grupobarraganespinar.com',equipo:'Marketing',color:'#7a1c2e',
+  {nombre:'Ana Ramírez', nombreCompleto:'Ana Ramirez Lopez-Frias', email:'aramirez@grupobarraganespinar.com', equipo:'Marketing', color:'#7a1c2e',
    empleados:['BEATRIZ MONREAL MUNOZ','CLIDIA RUIZ MORALES','JULIA CARO MARTIN','MARIA MELANIE QUINTANA GARCIA']},
-  {nombre:'Daniel Lendinez',nombreCompleto:'Daniel Lendinez Lopez',email:'dlendinez@grupobarraganespinar.com',equipo:'IT / Informatica',color:'#4a2e0a',
+  {nombre:'Daniel Lendínez', nombreCompleto:'Daniel Lendinez Lopez', email:'dlendinez@grupobarraganespinar.com', equipo:'IT / Informática', color:'#4a2e0a',
    empleados:['JOSE LEONARDO ORTEGA PINTO']}
 ];
 
-const EMPLEADOS_EMPRESA={
-  'JOSE LEONARDO ORTEGA PINTO':'TSA',
-  'BEATRIZ MONREAL MUNOZ':'TSA','CLIDIA RUIZ MORALES':'TSA',
-  'JULIA CARO MARTIN':'TSA','MARIA MELANIE QUINTANA GARCIA':'TSA',
-  'ANTONIA MASIA':'GBE','DANIEL LENDINEZ LOPEZ':'GBE',
-  'ISABEL MARIA CORTES PARRA':'GBE','SONIA QUINTERO FERNANDEZ':'GBE',
-  'AZUCENA ORTIZ LUQUE':'TSA','CHRISTOPHER T. WEYBURN':'TSA',
-  'IBTISSAM BYAR CHADI':'TSA','JOSE LUIS ALCALA GILABERT':'TSA',
-  'JUAN CARLOS MARTINEZ RAMON':'TSA','RAQUEL LOPEZ GONZALEZ':'TSA',
-  'SERGIO VERA DE LAS HERAS':'TSA','ANA RAMIREZ LOPEZ-FRIAS':'GBE',
-  'IBON PACHE LEGARRETA':'GBE','IGNACIO OLMEDO REYES':'TSA'
-};
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 
-const TODOS_EMPLEADOS=Object.keys(EMPLEADOS_EMPRESA);
-const JORNADA_REDUCIDA=['ANTONIA MASIA','ISABEL MARIA CORTES PARRA','SONIA QUINTERO FERNANDEZ'];
-const PERFIL_MOVILIDAD=['IBON PACHE LEGARRETA','DANIEL LENDINEZ LOPEZ','JOSE LEONARDO ORTEGA PINTO','JUAN CARLOS MARTINEZ RAMON'];
+function norm(s) {
+  return (s||'').toUpperCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');
+}
 
-let specials=[], analysisResult=null;
+function matchEmp(rawName) {
+  var n = norm(rawName);
+  if (EMPLEADOS_CONFIG[n]) return n;
+  return Object.keys(EMPLEADOS_CONFIG).find(function(k) {
+    return n.indexOf(k) !== -1 || k.indexOf(n) !== -1;
+  }) || null;
+}
 
-(function init(){
+function timeToMin(t) {
+  if (!t) return null;
+  var m = String(t).match(/(\d{1,2}):(\d{2})/);
+  if (!m) return null;
+  return parseInt(m[1]) * 60 + parseInt(m[2]);
+}
+
+function minToHM(m) {
+  if (m === null || m === undefined || m <= 0) return '--';
+  return Math.floor(m/60) + 'h ' + String(m%60).padStart(2,'0') + 'min';
+}
+
+function isTeletrabajo(disp, tipo) {
+  var d = ((disp||'') + ' ' + (tipo||'')).toLowerCase();
+  return d.indexOf('web') !== -1 || d.indexOf('teletrabajo') !== -1;
+}
+
+function isTablet(disp) {
+  var d = (disp||'').toLowerCase();
+  return d.indexOf('tablet') !== -1 || d.indexOf('kiosk') !== -1;
+}
+
+function xmlSheet(rows, name) {
+  var x = '<Worksheet ss:Name="' + (name||'').replace(/[<>&"]/g,'') + '"><Table>';
+  rows.forEach(function(row) {
+    x += '<Row>';
+    row.forEach(function(cell) {
+      var v = String(cell===null||cell===undefined?'':cell)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      x += '<Cell><Data ss:Type="String">' + v + '</Data></Cell>';
+    });
+    x += '</Row>';
+  });
+  return x + '</Table></Worksheet>';
+}
+
+function downloadXLS(sheets, filename) {
+  var xml = '<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>'
+    + '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" '
+    + 'xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+  sheets.forEach(function(s) { xml += xmlSheet(s.rows, s.name); });
+  xml += '</Workbook>';
+  var blob = new Blob([xml], {type:'application/vnd.ms-excel;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ── SPECIAL DAYS ─────────────────────────────────────────────────────────────
+
+// Festivos Granada precargados (dd/mm/yyyy)
+var FESTIVOS_GRANADA = [
+  {fecha:'01/01/2026', desc:'Festivo — Año Nuevo'},
+  {fecha:'06/01/2026', desc:'Festivo — Reyes Magos'},
+  {fecha:'28/02/2026', desc:'Festivo — Día de Andalucía'},
+  {fecha:'02/04/2026', desc:'Festivo — Jueves Santo'},
+  {fecha:'03/04/2026', desc:'Festivo — Viernes Santo'},
+  {fecha:'01/05/2026', desc:'Festivo — Fiesta del Trabajo'},
+  {fecha:'04/06/2026', desc:'Festivo — Corpus Christi'},
+  {fecha:'24/06/2026', desc:'Festivo — San Juan'},
+  {fecha:'12/10/2026', desc:'Festivo — Fiesta Nacional'},
+  {fecha:'02/11/2026', desc:'Festivo — Todos los Santos'},
+  {fecha:'07/12/2026', desc:'Festivo — Día de la Constitución (traslado)'},
+  {fecha:'08/12/2026', desc:'Festivo — Inmaculada Concepción'},
+  {fecha:'24/12/2026', desc:'Festivo — Nochebuena'},
+  {fecha:'25/12/2026', desc:'Festivo — Navidad'},
+  {fecha:'31/12/2026', desc:'Festivo — Nochevieja'},
+  {fecha:'01/01/2027', desc:'Festivo — Año Nuevo'},
+  {fecha:'06/01/2027', desc:'Festivo — Reyes Magos'}
+];
+
+var specials = FESTIVOS_GRANADA.slice(); // start with holidays preloaded
+
+function toggleSpecials() {
+  var body  = document.getElementById('specials-body');
+  var arrow = document.getElementById('specials-arrow');
+  var isOpen = body.getAttribute('data-open') === '1';
+  if (isOpen) {
+    body.style.maxHeight = '0'; body.style.opacity = '0';
+    body.setAttribute('data-open','0');
+    arrow.style.transform = 'rotate(-90deg)';
+  } else {
+    body.style.maxHeight = '800px'; body.style.opacity = '1';
+    body.setAttribute('data-open','1');
+    arrow.style.transform = 'rotate(0deg)';
+  }
+}
+
+function addSpecial() {
+  var d    = document.getElementById('sp-date').value;
+  var desc = document.getElementById('sp-desc').value.trim();
+  if (!d || !desc) return;
+  var parts = d.split('-');
+  var fechaFmt = parts[2] + '/' + parts[1] + '/' + parts[0];
+  if (specials.some(function(s){return s.fecha===fechaFmt;})) return;
+  specials.push({fecha: fechaFmt, desc: desc});
   renderSpecials();
-  setLastWeek();
-  loadTokensFromStorage();
-})();
+  document.getElementById('sp-date').value = '';
+  document.getElementById('sp-desc').value = '';
+}
 
-function loadTokensFromStorage(){
-  try{
-    var tsa=localStorage.getItem('token_tsa')||'';
-    var gbe=localStorage.getItem('token_gbe')||'';
-    if(tsa)document.getElementById('token-tsa').value=tsa;
-    if(gbe)document.getElementById('token-gbe').value=gbe;
-    updateTokenStatus();
-    // Auto-collapse if both tokens already set
-    if(tsa&&gbe){
-      document.getElementById('token-body').classList.add('collapsed');
-      document.getElementById('toggle-arrow').style.transform='rotate(-90deg)';
+function removeSpecial(i) {
+  specials.splice(i, 1);
+  renderSpecials();
+}
+
+function renderSpecials() {
+  var w = document.getElementById('specials-wrap');
+  var sum = document.getElementById('specials-summary');
+  if (!w) return;
+  var festivos = specials.filter(function(s){return s.desc.indexOf('Festivo')===0;}).length;
+  var otros    = specials.length - festivos;
+  var parts    = [];
+  if (festivos > 0) parts.push(festivos + ' festivo' + (festivos>1?'s':''));
+  if (otros > 0)    parts.push(otros + ' especial' + (otros>1?'es':''));
+  if (sum) sum.textContent = parts.length > 0 ? parts.join(' · ') : '';
+
+  if (specials.length === 0) {
+    w.innerHTML = '<span style="font-size:12px;color:var(--text-muted)">Sin días especiales configurados</span>';
+  } else {
+    w.innerHTML = specials.map(function(s, i) {
+      return '<span class="pill">' + s.fecha + ' — ' + s.desc
+        + '<span class="pill-x" onclick="removeSpecial(' + i + ')">×</span></span>';
+    }).join('');
+  }
+}
+
+function isSpecialDay(fecha) {
+  return specials.some(function(s){return s.fecha === fecha;});
+}
+
+
+
+var analysisResult = null;
+
+// Init
+renderSpecials();
+
+function onDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag');
+  var f = e.dataTransfer && e.dataTransfer.files[0];
+  if (f) processFile(f);
+}
+
+function onFileSelected(e) {
+  var f = e.target.files[0];
+  if (f) processFile(f);
+}
+
+function processFile(file) {
+  var err = document.getElementById('upload-err');
+  err.classList.add('hidden');
+  if (!file.name.match(/\.xlsx$/i)) {
+    err.textContent = 'Solo se admiten archivos .xlsx descargados desde Sesame.';
+    err.classList.remove('hidden'); return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(e.target.result, {type:'array'});
+      var ws = wb.Sheets[wb.SheetNames[0]];
+      var rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:null});
+      parseAndAnalyze(rows);
+      var zone = document.getElementById('upload-zone');
+      zone.classList.add('has-file');
+      document.getElementById('upload-title').textContent = '✓ ' + file.name;
+      document.getElementById('upload-sub').textContent = 'Cargado · Haz clic para cambiar';
+      document.getElementById('note-card').style.display = 'block';
+    } catch(ex) {
+      err.textContent = 'Error al leer el archivo: ' + ex.message;
+      err.classList.remove('hidden');
     }
-  }catch(e){}
+  };
+  reader.readAsArrayBuffer(file);
 }
 
-function toggleTokens(){
-  var body=document.getElementById('token-body');
-  var arrow=document.getElementById('toggle-arrow');
-  var collapsed=body.classList.toggle('collapsed');
-  arrow.style.transform=collapsed?'rotate(-90deg)':'rotate(0deg)';
-}
+// ── PARSE & ANALYSE ───────────────────────────────────────────────────────────
 
-function saveTokens(){
-  try{
-    var tsa=document.getElementById('token-tsa').value.trim();
-    var gbe=document.getElementById('token-gbe').value.trim();
-    localStorage.setItem('token_tsa',tsa);
-    localStorage.setItem('token_gbe',gbe);
-    updateTokenStatus();
-    var btn=document.getElementById('save-tokens-btn');
-    btn.textContent='Guardado!';
-    setTimeout(function(){btn.textContent='Guardar tokens';},2000);
-  }catch(e){alert('Error al guardar tokens');}
-}
+function parseAndAnalyze(rows) {
+  // Column indices (0-based) from Excel header:
+  // 0=Empresa, 1=Empleado, 7=Día, 8=Fecha, 9=Dispositivo,
+  // 10=Ausencias, 11=Entrada, 12=Salida, 13=TiempoTrabajado, 16=TipoDeFichaje
+  var C = {emp:1, empresa:0, dia:7, fecha:8, disp:9, aus:10, ent:11, sal:12, tipo:16};
 
-function updateTokenStatus(){
-  var tsa=document.getElementById('token-tsa').value.trim();
-  var gbe=document.getElementById('token-gbe').value.trim();
-  document.getElementById('status-tsa').textContent=tsa?'Configurado':'Pendiente';
-  document.getElementById('status-tsa').style.color=tsa?'var(--ok)':'var(--err)';
-  document.getElementById('status-gbe').textContent=gbe?'Configurado':'Pendiente';
-  document.getElementById('status-gbe').style.color=gbe?'var(--ok)':'var(--err)';
-  var sum=document.getElementById('token-summary');
-  if(tsa&&gbe){sum.textContent='Ambos tokens configurados';sum.style.color='var(--ok)';}
-  else if(tsa||gbe){sum.textContent='Falta un token';sum.style.color='var(--warn)';}
-  else{sum.textContent='Sin configurar';sum.style.color='var(--err)';}
-}
+  var byEmp = {}; // normKey → data
 
-function getToken(empresa){
-  if(empresa==='TSA')return document.getElementById('token-tsa').value.trim();
-  if(empresa==='GBE')return document.getElementById('token-gbe').value.trim();
-  return '';
-}
+  rows.slice(1).forEach(function(row) {
+    if (!row || !row[C.emp]) return;
+    var rawName = String(row[C.emp]).trim();
+    if (norm(rawName).indexOf('TOTAL ') === 0) return; // skip total rows
 
-function setLastWeek(){var now=new Date(),day=now.getDay()||7,mon=new Date(now);mon.setDate(now.getDate()-day-6);var fri=new Date(mon);fri.setDate(mon.getDate()+4);var fmt=function(d){return d.toISOString().slice(0,10);};document.getElementById('date-from').value=fmt(mon);document.getElementById('date-to').value=fmt(fri);}
-function renderSpecials(){var w=document.getElementById('specials-wrap');w.innerHTML=specials.length===0?'<span style="font-size:12px;color:var(--text-muted)">Sin dias especiales esta semana</span>':specials.map(function(s,i){return '<span class="pill">'+s.date.slice(5)+' - '+s.desc+'<span class="pill-x" onclick="removeSpecial('+i+')">x</span></span>';}).join('');}
-function addSpecial(){var d=document.getElementById('sp-date').value,desc=document.getElementById('sp-desc').value.trim();if(!d||!desc)return;specials.push({date:d,desc:desc});renderSpecials();document.getElementById('sp-date').value='';document.getElementById('sp-desc').value='';}
-function removeSpecial(i){specials.splice(i,1);renderSpecials();}
-function isExcluded(ds){if(HOLIDAYS.includes(ds))return{excluded:true,reason:'festivo'};var sp=specials.find(function(s){return s.date===ds;});if(sp)return{excluded:true,reason:sp.desc};var dow=new Date(ds+'T12:00:00Z').getDay();if(dow===0||dow===6)return{excluded:true};return{excluded:false};}
-function setStatus(msg,loading){document.getElementById('status').innerHTML=(loading?'<span class="spinner"></span> ':'')+msg;}
-function setError(msg){var el=document.getElementById('load-err');el.classList.toggle('hidden',!msg);el.textContent=msg||'';}
-function timeToMin(t){if(!t)return null;var m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return null;return parseInt(m[1])*60+parseInt(m[2]);}
-function minToStr(m){if(m===null)return '--';var a=Math.abs(m),h=Math.floor(a/60),mn=a%60;return(m<0?'-':'')+(h>0?h+'h ':' ')+(mn>0?mn+'min':'');}
-function getDatesInRange(from,to){var d=[];var c=new Date(from+'T12:00:00Z');var e=new Date(to+'T12:00:00Z');while(c<=e){d.push(c.toISOString().slice(0,10));c.setDate(c.getDate()+1);}return d;}
-function norm(n){return(n||'').toUpperCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function extractTime(dateStr){if(!dateStr)return null;var m=dateStr.match(/T(\d{2}:\d{2})/);return m?m[1]:null;}
+    var key = matchEmp(rawName);
+    if (!key) return; // not one of our 19
 
-async function apiGet(path,empresa){
-  var token=getToken(empresa);
-  if(!token)throw new Error('No hay token configurado para '+EMPRESAS[empresa]);
-  var r=await fetch(PROXY+path,{headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}});
-  if(!r.ok){var t=await r.text().catch(function(){return '';});throw new Error('Error '+r.status+' ('+EMPRESAS[empresa]+'): '+t.slice(0,200));}
-  return r.json();
-}
+    var fecha   = row[C.fecha] ? String(row[C.fecha]).trim() : null;
+    var diasem  = row[C.dia]   ? String(row[C.dia]).trim()   : '';
+    var disp    = row[C.disp]  ? String(row[C.disp]).trim()  : '';
+    var aus     = row[C.aus]   ? String(row[C.aus]).trim()   : '';
+    var entrada = row[C.ent]   ? String(row[C.ent]).trim()   : '';
+    var salida  = row[C.sal]   ? String(row[C.sal]).trim()   : '';
+    var tipo    = row[C.tipo]  ? String(row[C.tipo]).trim()  : '';
 
-async function loadData(){
-  var tsaToken=getToken('TSA'),gbeToken=getToken('GBE');
-  if(!tsaToken||!gbeToken){setError('Faltan tokens. Guarda los tokens de ambas empresas en la seccion de configuracion.');return;}
-  var from=document.getElementById('date-from').value,to=document.getElementById('date-to').value;
-  if(!from||!to){setError('Selecciona el periodo.');return;}
-  setError('');document.getElementById('load-btn').disabled=true;
-  document.getElementById('results').classList.add('hidden');document.getElementById('demo-wrap').style.display='none';
-  try{
-    setStatus('Cargando empleados de Tostaderos Sol de Alba...',true);
-    var empTSA=(await apiGet('/core/v3/employees?limit=200&status=active','TSA')).data||[];
-    setStatus('Cargando empleados de Grupo Barragan Espinar...',true);
-    var empGBE=(await apiGet('/core/v3/employees?limit=200&status=active','GBE')).data||[];
+    if (!fecha) return;
 
-    var allEmp=empTSA.map(function(e){return Object.assign({},e,{_empresa:'TSA'});})
-      .concat(empGBE.map(function(e){return Object.assign({},e,{_empresa:'GBE'});}));
+    if (!byEmp[key]) {
+      var cfg = EMPLEADOS_CONFIG[key];
+      byEmp[key] = {
+        nombreNorm: key,
+        nombre: rawName,
+        empresa: String(row[C.empresa]||'').trim(),
+        jornada: cfg.jornada,
+        movilidad: cfg.movilidad,
+        dias: {}
+      };
+    }
 
-    var employees=allEmp.filter(function(e){
-      var n=norm([e.firstName,e.lastName].filter(Boolean).join(' '));
-      return TODOS_EMPLEADOS.some(function(te){return norm(te)===n;});
+    if (!byEmp[key].dias[fecha]) {
+      byEmp[key].dias[fecha] = {diasem: diasem, ausencia: '', tramos: []};
+    }
+    var diaObj = byEmp[key].dias[fecha];
+
+    // Ausencia
+    if (aus && aus !== '-') diaObj.ausencia = aus;
+
+    // Skip automatic_pause rows and rows with no real times
+    if (disp.toLowerCase().indexOf('automatic_pause') !== -1) return;
+    if (!entrada || entrada === '-' || !salida || salida === '-') return;
+
+    var eMin = timeToMin(entrada);
+    var sMin = timeToMin(salida);
+    if (eMin === null || sMin === null) return;
+    var mins = sMin > eMin ? sMin - eMin : 0;
+    if (mins === 0) return; // skip zero-duration rows
+
+    diaObj.tramos.push({
+      entrada: entrada,
+      salida:  salida,
+      mins:    mins,
+      tele:    isTeletrabajo(disp, tipo),
+      tablet:  isTablet(disp),
+      disp:    disp
     });
-    setStatus(employees.length+' empleados relevantes. Cargando fichajes...',true);
+  });
 
-    var allEntries=[];
-    for(var emp of['TSA','GBE']){
-      var page=1,hasMore=true;
-      while(hasMore){
-        var wr=await apiGet('/schedule/v1/work-entries?from='+from+'&to='+to+'&limit=100&page='+page,emp);
-        var rows=wr.data||[];
-        allEntries=allEntries.concat(rows.map(function(r){return Object.assign({},r,{_empresa:emp});}));
-        var meta=wr.meta||{};
-        hasMore=meta.currentPage<meta.lastPage;
-        page++;if(page>30)break;
+  // Collect date range — sort correctly as real dates (dd/mm/yyyy)
+  var allFechas = [];
+  Object.values(byEmp).forEach(function(e) {
+    Object.keys(e.dias).forEach(function(f) { allFechas.push(f); });
+  });
+
+  function fechaToMs(f) {
+    var p = f.split('/');
+    return new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0])).getTime();
+  }
+  allFechas.sort(function(a,b){ return fechaToMs(a)-fechaToMs(b); });
+
+  // Deduplicate
+  allFechas = allFechas.filter(function(v,i,a){return a.indexOf(v)===i;});
+
+  function fechaToLabel(f) {
+    var p = f.split('/');
+    return p[0] + '/' + p[1] + '/' + p[2];
+  }
+  var periodo = allFechas.length > 0
+    ? fechaToLabel(allFechas[0]) + ' al ' + fechaToLabel(allFechas[allFechas.length-1])
+    : '';
+
+  // Analyse
+  var resultList = Object.values(byEmp).map(function(emp) {
+    var incidents = [];
+    var diasList  = [];
+    var nTele     = 0; // days with teletrabajo this week
+
+    Object.keys(emp.dias).sort(function(a,b) {
+      // Sort by date dd/mm/yyyy
+      var pa = a.split('/'), pb = b.split('/');
+      return new Date(pa[2],pa[1]-1,pa[0]) - new Date(pb[2],pb[1]-1,pb[0]);
+    }).forEach(function(fecha) {
+      var d      = emp.dias[fecha];
+      var diasem = d.diasem;
+      // Skip weekends
+      if (diasem === 'Sábado' || diasem === 'Domingo') return;
+
+      var totalMins    = d.tramos.reduce(function(s,t){return s+t.mins;},0);
+      var primerEnt    = d.tramos.length > 0 ? d.tramos[0].entrada : '--';
+      var ultimaSal    = d.tramos.length > 0 ? d.tramos[d.tramos.length-1].salida : '--';
+      var hayTele      = d.tramos.some(function(t){return t.tele;});
+      var hayTablet    = d.tramos.some(function(t){return t.tablet;});
+
+      var modalidad;
+      if (d.ausencia)           modalidad = d.ausencia;
+      else if (d.tramos.length === 0) modalidad = 'Sin fichaje';
+      else if (hayTele)         modalidad = 'Teletrabajo';
+      else if (hayTablet)       modalidad = 'Presencial';
+      else                      modalidad = 'Trabajo';
+
+      if (hayTele && !EMPLEADOS_CONFIG[emp.nombreNorm].teleLibre) nTele++;
+
+      var incText = '';
+
+      // Skip analysis for special days (festivos, formaciones, etc.)
+      if (isSpecialDay(fecha)) {
+        diasList.push({fecha:fecha, diasem:diasem, primerEntrada:'—', ultimaSalida:'—',
+          totalMins:0, horasTrab: specials.find(function(s){return s.fecha===fecha;}).desc,
+          modalidad:'Día especial', incidencia:''});
+        return;
       }
-    }
-    setStatus('Analizando '+allEntries.length+' fichajes...',true);
-    analysisResult=processData(employees,allEntries,from,to);
-    renderResults();setStatus('');
-  }catch(e){
-    setError('Error: '+e.message);setStatus('');
-    document.getElementById('demo-wrap').style.display='block';
-  }finally{document.getElementById('load-btn').disabled=false;}
-}
 
-function processData(employees,entries,from,to){
-  // Construir mapa id->nombre desde Sesame, pero SIEMPRE incluir los 19 de la lista
-  var byNorm={};// normName -> empData
-  // Primero registrar todos los de Sesame que coincidan
-  employees.forEach(function(emp){
-    var nN=norm([emp.firstName,emp.lastName].filter(Boolean).join(' '));
-    // Buscar coincidencia en nuestra lista (flexible: incluido dentro del nombre Sesame)
-    var match=TODOS_EMPLEADOS.find(function(te){
-      var nte=norm(te);
-      return nte===nN||nN.indexOf(nte)!==-1||nte.indexOf(nN)!==-1;
+      if (d.tramos.length === 0 && !d.ausencia) {
+        incidents.push({fecha:fecha, tipo:'sin_fichaje', detalle:'Sin fichaje registrado'});
+        incText = 'Sin fichaje';
+      }
+
+      if (d.tramos.length > 0 && !d.ausencia) {
+        // Jornada incompleta (>30 min short)
+        if (totalMins < emp.jornada - 30) {
+          incidents.push({fecha:fecha, tipo:'salida',
+            detalle:'Trabajó ' + minToHM(totalMins) + ', faltan ' + minToHM(emp.jornada - totalMins)});
+          incText = (incText ? incText + ' / ' : '') + 'Jornada incompleta';
+        }
+        // Horas extra (>30 min over), ignore if "Exceso de Jornada" type
+        else if (totalMins > emp.jornada + 30) {
+          var tieneExceso = d.tramos.some(function(t){
+            return t.disp && t.disp.toLowerCase().indexOf('request') !== -1;
+          });
+          if (!tieneExceso) {
+            incidents.push({fecha:fecha, tipo:'extra',
+              detalle: minToHM(totalMins - emp.jornada) + ' horas extra sin formalizar'});
+            incText = (incText ? incText + ' / ' : '') + 'Horas extra';
+          }
+        }
+      }
+
+      diasList.push({
+        fecha:        fecha,
+        diasem:       diasem,
+        primerEntrada: primerEnt,
+        ultimaSalida:  ultimaSal,
+        totalMins:    totalMins,
+        horasTrab:    totalMins > 0 ? minToHM(totalMins) : (d.ausencia ? d.ausencia : '--'),
+        modalidad:    modalidad,
+        incidencia:   incText
+      });
     });
-    if(!match)return;
-    var mN=norm(match);
-    if(byNorm[mN])return;// ya lo tenemos
-    byNorm[mN]={
-      id:emp.id,
-      nombre:match.split(' ').map(function(w){return w.charAt(0)+w.slice(1).toLowerCase();}).join(' '),
-      nombreNorm:mN,
-      empresa:emp._empresa||EMPLEADOS_EMPRESA[match]||'TSA',
-      jornada:JORNADA_REDUCIDA.some(function(n){return norm(n)===mN;})?450:480,
-      movilidad:PERFIL_MOVILIDAD.some(function(n){return norm(n)===mN;}),
-      fichajes:{}
+
+    // Teletrabajo excesivo — >2 days in the week
+    if (nTele > 2) {
+      incidents.push({fecha:'Semana', tipo:'teletrabajo',
+        detalle: nTele + ' días en teletrabajo (máximo: 2)'});
+      // Mark the excess days
+      var marked = 0;
+      diasList.forEach(function(d) {
+        if (d.modalidad === 'Teletrabajo' && marked >= 2) {
+          d.incidencia = (d.incidencia ? d.incidencia + ' / ' : '') + 'Exceso teletrabajo';
+        }
+        if (d.modalidad === 'Teletrabajo') marked++;
+      });
+    }
+
+    return {
+      nombreNorm: emp.nombreNorm,
+      nombre:     emp.nombre,
+      empresa:    emp.empresa,
+      jornada:    emp.jornada,
+      incidents:  incidents,
+      dias:       diasList
     };
   });
 
-  // Para los que no vinieron de Sesame, añadirlos igual (sin fichajes, aparecerán como sin fichaje)
-  TODOS_EMPLEADOS.forEach(function(te){
-    var mN=norm(te);
-    if(!byNorm[mN]){
-      byNorm[mN]={
-        id:'__'+mN,
-        nombre:te.split(' ').map(function(w){return w.charAt(0)+w.slice(1).toLowerCase();}).join(' '),
-        nombreNorm:mN,
-        empresa:EMPLEADOS_EMPRESA[te]||'TSA',
-        jornada:JORNADA_REDUCIDA.some(function(n){return norm(n)===mN;})?450:480,
-        movilidad:PERFIL_MOVILIDAD.some(function(n){return norm(n)===mN;}),
-        fichajes:{}
-      };
-    }
-  });
-
-  // Indexar también por id para asignar fichajes
-  var byId={};
-  Object.values(byNorm).forEach(function(e){byId[e.id]=e;});
-
-  entries.forEach(function(e){
-    var empId=e.employee&&e.employee.id;
-    if(!empId||!byId[empId])return;
-    var dateIn=(e.workEntryIn&&e.workEntryIn.date)||'';
-    var date=dateIn.slice(0,10);if(!date)return;
-    var emp=byId[empId];
-    if(!emp.fichajes[date])emp.fichajes[date]=[];
-    emp.fichajes[date].push({
-      entrada:extractTime(e.workEntryIn&&e.workEntryIn.date),
-      salida:extractTime(e.workEntryOut&&e.workEntryOut.date),
-      origen:(e.workEntryIn&&e.workEntryIn.origin)||''
-    });
-  });
-
-  var allDates=getDatesInRange(from,to);
-  var diasLaborables=allDates.filter(function(d){return !isExcluded(d).excluded;}).length;
-
-  var result=Object.values(byNorm).map(function(emp){
-    var incidents=[],filasFichaje=[];
-    allDates.forEach(function(date){
-      var excl=isExcluded(date);
-      var diasem=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'][new Date(date+'T12:00:00Z').getDay()];
-      var fichs=(emp.fichajes[date]||[]).slice().sort(function(a,b){
-        return (timeToMin(a.entrada)||0)-(timeToMin(b.entrada)||0);
-      });
-
-      if(excl.excluded){
-        filasFichaje.push({date:date,diasem:diasem,tramos:[],minTrab:null,horasTrab:'-',tipo:excl.reason||'',incidencia:'',diferencia:''});
-        return;
-      }
-      if(fichs.length===0){
-        incidents.push({type:'sin_fichaje',date:date,detail:'Jornada sin fichaje registrado'});
-        filasFichaje.push({date:date,diasem:diasem,tramos:[],minTrab:null,horasTrab:'--',tipo:'',incidencia:'Sin fichaje',diferencia:''});
-        return;
-      }
-
-      // Calcular minutos netos sumando tramos: (salida1-entrada1)+(salida2-entrada2)+...
-      var minTrab=0;
-      var tramosCols=[];// [{entrada,salida}]
-      fichs.forEach(function(f){
-        var eMin=timeToMin(f.entrada);
-        var sMin=timeToMin(f.salida);
-        tramosCols.push({entrada:f.entrada||'',salida:f.salida||'',origen:f.origen});
-        if(eMin!==null&&sMin!==null&&sMin>eMin){
-          minTrab+=sMin-eMin;
-        }
-      });
-
-      var primerEntrada=fichs[0]&&fichs[0].entrada||'--';
-      var ultimaSalida=fichs[fichs.length-1]&&fichs[fichs.length-1].salida||'--';
-      var horasTrab=minTrab>0?(Math.floor(minTrab/60)+'h '+String(minTrab%60).padStart(2,'0')+'min'):'--';
-
-      var dif=minTrab-emp.jornada;
-      var difStr=minTrab>0?(dif===0?'0h 00min':((dif>0?'+':'-')+Math.floor(Math.abs(dif)/60)+'h '+String(Math.abs(dif)%60).padStart(2,'0')+'min')):'';
-
-      var incText='';
-      var primerMin=timeToMin(primerEntrada);
-      if(!emp.movilidad&&primerMin!==null&&primerMin>9*60+30){
-        var tard=primerMin-(9*60+30);
-        incidents.push({type:'tarde',date:date,detail:'Entrada a las '+primerEntrada+' — '+minToStr(tard)+' tarde'});
-        incText='Llegada tarde';
-      }
-      if(minTrab>0){
-        var tieneReq=fichs.some(function(f){return f.origen==='request';});
-        if(minTrab<emp.jornada-30){
-          incidents.push({type:'salida',date:date,detail:'Trabajó '+horasTrab+', faltan '+minToStr(emp.jornada-minTrab)});
-          incText=(incText?incText+' / ':'')+'Salida anticipada';
-        } else if(!tieneReq&&minTrab>emp.jornada+30){
-          incidents.push({type:'extra',date:date,detail:minToStr(minTrab-emp.jornada)+' horas extra sin solicitud'});
-          incText=(incText?incText+' / ':'')+'Horas extra';
-        }
-      }
-
-      var origen0=fichs[0]&&fichs[0].origen||'';
-      var tipoStr=origen0==='web'?'Teletrabajo':(origen0==='tablet'||origen0==='kiosk'?'Presencial':'Trabajo');
-
-      filasFichaje.push({date:date,diasem:diasem,tramos:tramosCols,
-        primerEntrada:primerEntrada,ultimaSalida:ultimaSalida,
-        minTrab:minTrab,horasTrab:horasTrab,tipo:tipoStr,incidencia:incText,diferencia:difStr});
-    });
-    return Object.assign({},emp,{incidents:incidents,filasFichaje:filasFichaje});
-  });
-  return{result:result,from:from,to:to,diasLaborables:diasLaborables};
-}
-
-/* ─── EXCEL EXPORT (XML nativo, sin librería) ───────────────────────── */
-function s(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function xmlSheet(rows,name){
-  var xml='<Worksheet ss:Name="'+s(name)+'"><Table>';
-  rows.forEach(function(row){
-    xml+='<Row>';
-    row.forEach(function(cell){
-      xml+='<Cell><Data ss:Type="String">'+s(cell)+'</Data></Cell>';
-    });
-    xml+='</Row>';
-  });
-  xml+='</Table></Worksheet>';
-  return xml;
-}
-
-function descargarExcel(idx){
-  if(!analysisResult)return;
-  var resp=RESPONSABLES[idx];
-  var empDeResp=analysisResult.result.filter(function(e){
-    return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});
-  });
-
-  var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
-
-  // Calcular max tramos en este grupo para definir columnas dinámicas
-  var maxTramos=1;
-  empDeResp.forEach(function(emp){
-    (emp.filasFichaje||[]).forEach(function(f){
-      if(f.tramos&&f.tramos.length>maxTramos)maxTramos=f.tramos.length;
-    });
-  });
-
-  // Cabecera dinámica
-  var cols=['Empleado','Empresa','Fecha','Día','Modalidad'];
-  for(var t=0;t<maxTramos;t++){
-    cols.push('Entrada '+(t+1));
-    cols.push('Salida '+(t+1));
-  }
-  cols.push('Horas netas','Diferencia jornada','Incidencia');
-
-  var filas1=[cols];
-  empDeResp.forEach(function(emp){
-    (emp.filasFichaje||[]).forEach(function(f){
-      var row=[emp.nombre,EMPRESAS[emp.empresa]||'',f.date,f.diasem,f.tipo||''];
-      var tramos=f.tramos||[];
-      for(var t=0;t<maxTramos;t++){
-        row.push(tramos[t]?tramos[t].entrada:'');
-        row.push(tramos[t]?tramos[t].salida:'');
-      }
-      row.push(f.horasTrab||'');
-      row.push(f.diferencia||'');
-      row.push(f.incidencia||'');
-      filas1.push(row);
-    });
-  });
-
-  // Hoja 2: Resumen incidencias
-  var filas2=[['Empleado','Empresa','Tipo incidencia','Fecha','Detalle']];
-  empDeResp.forEach(function(emp){
-    if(emp.incidents.length===0){
-      filas2.push([emp.nombre,EMPRESAS[emp.empresa]||'','Sin incidencias','','']);
-    } else {
-      emp.incidents.forEach(function(inc){
-        filas2.push([emp.nombre,EMPRESAS[emp.empresa]||'',tl[inc.type]||inc.type,inc.date,inc.detail]);
-      });
-    }
-  });
-
-  var xml='<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>'
-    +'<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" '
-    +'xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
-    +xmlSheet(filas1,'Fichajes detallados')
-    +xmlSheet(filas2,'Incidencias')
-    +'</Workbook>';
-
-  var blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
-  a.download='Fichajes_'+resp.equipo.replace(/[^a-zA-Z0-9]/g,'_')+'_'+analysisResult.from+'_'+analysisResult.to+'.xls';
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);URL.revokeObjectURL(url);
-}
-/* ─────────────────────────────────────────────────────────────────────── */
-
-function renderResults(){
-  if(!analysisResult)return;
-  var result=analysisResult.result,diasLaborables=analysisResult.diasLaborables;
-  document.getElementById('results').classList.remove('hidden');
-  var conInc=result.filter(function(e){return e.incidents.length>0;}).length;
-  var total=result.length;
-  document.getElementById('m-emp').textContent=total;
-  document.getElementById('m-ok').textContent=total-conInc;
-  document.getElementById('m-inc').textContent=conInc;
-  document.getElementById('m-dias').textContent=diasLaborables;
-
-  // Gauge — pathLength=100, dashoffset = 100-pct fills the arc
-  var pct=total>0?Math.round(((total-conInc)/total)*100):100;
-  var color=pct>=70?'#1a4a2e':pct>=40?'#b35a00':'#7a1c2e';
-  var labelTxt=pct>=70?'Cumplimiento alto':pct>=40?'Cumplimiento medio':'Cumplimiento bajo';
-  var subTxt=(total-conInc)+' de '+total+' empleados sin incidencias esta semana';
-  document.getElementById('gauge-pct').textContent=pct+'%';
-  document.getElementById('gauge-pct').style.color=color;
-  document.getElementById('gauge-label').textContent=labelTxt;
-  document.getElementById('gauge-label').style.color=color;
-  document.getElementById('gauge-sub').textContent=subTxt;
-  var arc=document.getElementById('gauge-arc');
-  arc.setAttribute('stroke',color);
-  arc.setAttribute('stroke-dashoffset',String(100-pct));
-
-  var iw=document.getElementById('incidents-wrap');iw.innerHTML='';
-  var tl={tarde:'Llegada tarde',salida:'Salida anticipada',extra:'Horas extra',sin_fichaje:'Sin fichaje'};
-  result.forEach(function(emp){
-    var div=document.createElement('div');div.className='irow';
-    if(emp.incidents.length===0){
-      div.innerHTML='<span class="badge badge-ok" style="flex-shrink:0">OK</span><div><div class="emp-name">'+emp.nombre+'</div><div class="emp-dept">'+emp.departamento+' &middot; '+EMPRESAS[emp.empresa]+'</div></div>';
-    }else{
-      var tipos=emp.incidents.map(function(i){return i.type;}).filter(function(v,i,a){return a.indexOf(v)===i;});
-      var badges=tipos.map(function(t){return '<span class="badge badge-err" style="margin-right:3px">'+(tl[t]||t)+'</span>';}).join('');
-      var dets=emp.incidents.map(function(i){return '<div class="inc-line">'+i.date.slice(5)+' - '+i.detail+'</div>';}).join('');
-      div.innerHTML='<span class="badge badge-err" style="flex-shrink:0">!</span><div style="flex:1"><div class="emp-name">'+emp.nombre+' <span class="emp-dept" style="display:inline">'+emp.departamento+'</span></div><div style="margin:4px 0">'+badges+'</div>'+dets+'</div>';
-    }
-    iw.appendChild(div);
-  });
-  renderEmails();
-}
-
-function renderEmails(){
-  if(!analysisResult)return;
-  var result=analysisResult.result,from=analysisResult.from,to=analysisResult.to;
-  var nota=document.getElementById('extra-note').value.trim();
-  var fromStr=from.split('-').reverse().join('/');var toStr=to.split('-').reverse().join('/');
-  var fw=document.getElementById('emails-wrap');fw.innerHTML='';
-  var tl={tarde:'Llegada fuera del horario flexible',salida:'Salida anticipada',extra:'Horas extra sin solicitud previa',sin_fichaje:'Jornada sin fichaje registrado'};
-  RESPONSABLES.forEach(function(resp,idx){
-    var empDeResp=result.filter(function(e){return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});});
-    var conInc=empDeResp.filter(function(e){return e.incidents.length>0;});
-    var pct=empDeResp.length>0?conInc.length/empDeResp.length:0;
-    var nivel=pct===0?'Alto':pct<=0.3?'Alto':pct<=0.6?'Medio':'Bajo';
-    var todosEnFranja=!empDeResp.some(function(e){return e.incidents.some(function(i){return i.type==='tarde';});});
-    var todosJornada=!empDeResp.some(function(e){return e.incidents.some(function(i){return i.type==='salida';});});
-    var sinExtras=!empDeResp.some(function(e){return e.incidents.some(function(i){return i.type==='extra';});});
-    var primerNombre=resp.nombre.split(' ')[0];
-    var c='Hola '+primerNombre+',\n\n';
-    c+='Tras revisar el informe de fichajes del equipo de '+resp.equipo+' correspondiente a las semanas del '+fromStr+' al '+toStr+', te traslado un resumen del nivel de cumplimiento en relacion con el protocolo de jornada y presencialidad:\n\n';
-    c+='VALORACION GENERAL:\n';
-    c+='El nivel de cumplimiento puede considerarse '+nivel+', ya que';
-    c+=conInc.length===0?' el equipo cumple de forma general con la jornada y no se detectan incumplimientos del protocolo.\n\n':' el equipo cumple en terminos generales con la jornada, aunque se identifican algunos puntos concretos a revisar.\n\n';
-    c+='ASPECTOS POSITIVOS:\n';
-    if(todosJornada||conInc.length===0)c+='* Se observa un cumplimiento general de la jornada diaria y semanal.\n';
-    if(todosEnFranja)c+='* Los horarios de entrada se mantienen dentro de la franja flexible (7:00-9:30h).\n';
-    c+='* La automatizacion de la salida de jornada esta correctamente aplicada.\n';
-    if(sinExtras)c+='* No se detectan horas extra sin formalizar.\n';
-    if(conInc.length>0){
-      c+='\nASPECTOS A REVISAR:\nSe han detectado las siguientes incidencias:\n\n';
-      conInc.forEach(function(emp){c+='> '+emp.nombre+':\n';emp.incidents.forEach(function(i){c+='  * '+i.date.slice(5)+': '+(tl[i.type]||i.type)+' - '+i.detail+'\n';});c+='\n';});
-      c+='Te pido que les comentes estas incidencias para que regularicen su situacion en Sesame.\n';
-    }
-    var spe=specials.filter(function(s){var d=new Date(s.date+'T12:00:00Z');return d>=new Date(from+'T12:00:00Z')&&d<=new Date(to+'T12:00:00Z');});
-    if(spe.length>0){c+='\nCONSIDERACION EXCEPCIONAL:\n';spe.forEach(function(s){var dia=new Date(s.date+'T12:00:00Z').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});c+='El '+dia+' se ha considerado dia excepcional ('+s.desc+').\n';});}
-    if(nota)c+='\nNota adicional: '+nota+'\n';
-    c+='\nAdjunto encontraras el detalle completo de fichajes en formato Excel.\n';
-    c+='\nQuedo a tu disposicion para comentarlo.\n\nUn saludo,\n\nSandra Mesa\nDepartamento RRHH - Tostaderos Sol de Alba S.L.\nTelf: +34 638 72 40 03';
-    var asunto='Revision cumplimiento normas fichaje - '+resp.equipo+' - '+fromStr+'-'+toStr;
-    var block=document.createElement('div');block.className='email-block';
-    block.innerHTML='<div class="email-hdr" style="border-left:3px solid '+resp.color+'"><div><div class="email-to-name">'+resp.nombreCompleto+'</div><div class="email-dept">'+resp.equipo+'</div><div class="email-to-addr">'+resp.email+'</div></div><span class="badge '+(conInc.length>0?'badge-err':'badge-ok')+'">'+(conInc.length>0?conInc.length+' incidencia'+(conInc.length>1?'s':''):'Sin incidencias')+'</span></div><div class="email-body" id="body-'+idx+'">'+c+'</div><div class="email-footer"><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail('+idx+',this)">Copiar correo</button><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook(\''+resp.email+'\',\''+encodeURIComponent(asunto)+'\','+idx+')">Abrir en Outlook</button><button class="btn btn-secondary" style="font-size:12px;padding:5px 12px;color:var(--ok)" onclick="descargarExcel('+idx+')">&#8595; Descargar Excel</button></div>';
-    fw.appendChild(block);
-  });
-  document.getElementById('extra-note').oninput=renderEmails;
-}
-
-function copyEmail(idx,btn){navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent).then(function(){btn.textContent='Copiado!';setTimeout(function(){btn.textContent='Copiar correo';},2000);});}
-function openOutlook(email,subject,idx){window.open('mailto:'+email+'?subject='+subject+'&body='+encodeURIComponent(document.getElementById('body-'+idx).textContent),'_blank');}
-
-function loadDemo(){
-  document.getElementById('demo-wrap').style.display='none';
-  document.getElementById('date-from').value='2026-04-14';document.getElementById('date-to').value='2026-04-25';
-  specials=[{date:'2026-04-21',desc:'Formacion IA'}];renderSpecials();
-  var mkDays=function(incs){return getDatesInRange('2026-04-14','2026-04-25').map(function(date){
-    var excl=isExcluded(date);
-    var diasem=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'][new Date(date+'T12:00:00Z').getDay()];
-    if(excl.excluded)return{date:date,diasem:diasem,tramos:[],minTrab:null,horasTrab:'-',tipo:excl.reason||'',incidencia:'',diferencia:''};
-    var incRow=incs.find(function(i){return i.date===date;});
-    var tramos=[{entrada:'07:30',salida:'14:00',origen:'tablet'},{entrada:'14:30',salida:'17:00',origen:'tablet'}];
-    // (14:00-07:30)+(17:00-14:30) = 390+150 = 540min = 9h
-    return{date:date,diasem:diasem,tramos:tramos,primerEntrada:'07:30',ultimaSalida:'17:00',
-      minTrab:540,horasTrab:'9h 00min',tipo:'Presencial',incidencia:incRow?incRow.det:'',diferencia:'+1h 00min'};
-  });};
-  analysisResult={from:'2026-04-14',to:'2026-04-25',diasLaborables:8,result:[
-    {nombre:'Beatriz Monreal Munoz',nombreNorm:'BEATRIZ MONREAL MUNOZ',empresa:'TSA',jornada:480,movilidad:false,incidents:[],filasFichaje:mkDays([])},
-    {nombre:'Ana Ramirez Lopez-Frias',nombreNorm:'ANA RAMIREZ LOPEZ-FRIAS',empresa:'GBE',jornada:480,movilidad:false,incidents:[{type:'extra',date:'2026-04-15',detail:'1h extra sin solicitud'}],filasFichaje:mkDays([{date:'2026-04-15',det:'Horas extra'}])},
-    {nombre:'Raquel Lopez Gonzalez',nombreNorm:'RAQUEL LOPEZ GONZALEZ',empresa:'TSA',jornada:480,movilidad:false,incidents:[{type:'tarde',date:'2026-04-15',detail:'Entrada a las 09:45 — 15min tarde'}],filasFichaje:mkDays([{date:'2026-04-15',det:'Llegada tarde'}])},
-    {nombre:'Antonia Masia',nombreNorm:'ANTONIA MASIA',empresa:'GBE',jornada:450,movilidad:false,incidents:[],filasFichaje:mkDays([])},
-    {nombre:'Jose Leonardo Ortega Pinto',nombreNorm:'JOSE LEONARDO ORTEGA PINTO',empresa:'TSA',jornada:480,movilidad:true,incidents:[],filasFichaje:mkDays([])}
-  ]};
+  analysisResult = {result: resultList, periodo: periodo};
   renderResults();
 }
 
+// ── RENDER ────────────────────────────────────────────────────────────────────
+
+function renderResults() {
+  if (!analysisResult) return;
+  var result = analysisResult.result;
+  document.getElementById('results').classList.remove('hidden');
+
+  var total  = result.length;
+  var conInc = result.filter(function(e){return e.incidents.length>0;}).length;
+  var pct    = total > 0 ? Math.round(((total-conInc)/total)*100) : 100;
+  var color  = pct >= 70 ? '#1a4a2e' : pct >= 40 ? '#b35a00' : '#7a1c2e';
+  var label  = pct >= 70 ? 'Cumplimiento alto' : pct >= 40 ? 'Cumplimiento medio' : 'Cumplimiento bajo';
+
+  document.getElementById('gauge-pct').textContent = pct + '%';
+  document.getElementById('gauge-pct').style.color = color;
+  document.getElementById('gauge-label').textContent = label;
+  document.getElementById('gauge-label').style.color = color;
+  document.getElementById('gauge-sub').textContent = (total-conInc) + ' de ' + total + ' empleados sin incidencias';
+  document.getElementById('gauge-circle').setAttribute('fill', color);
+
+  document.getElementById('m-emp').textContent = total;
+  document.getElementById('m-ok').textContent  = total - conInc;
+  document.getElementById('m-inc').textContent = conInc;
+  document.getElementById('m-periodo').textContent = analysisResult.periodo;
+
+  // Incidents list
+  var tl = {tarde:'Llegada tarde', salida:'Jornada incompleta', extra:'Horas extra',
+            sin_fichaje:'Sin fichaje', teletrabajo:'Exceso teletrabajo'};
+  var iw = document.getElementById('incidents-wrap'); iw.innerHTML = '';
+  result.forEach(function(emp) {
+    var div = document.createElement('div'); div.className = 'irow';
+    if (emp.incidents.length === 0) {
+      div.innerHTML = '<span class="badge badge-ok" style="flex-shrink:0">OK</span>'
+        + '<div><div class="emp-name">' + emp.nombre + '</div>'
+        + '<div class="emp-dept">' + emp.empresa + '</div></div>';
+    } else {
+      var tipos  = emp.incidents.map(function(i){return i.tipo;}).filter(function(v,i,a){return a.indexOf(v)===i;});
+      var badges = tipos.map(function(t){return '<span class="badge badge-err" style="margin-right:3px">'+(tl[t]||t)+'</span>';}).join('');
+      var dets   = emp.incidents.map(function(i){
+        return '<div class="inc-line">' + (i.fecha==='Semana'?'Semana':i.fecha) + ' — ' + i.detalle + '</div>';
+      }).join('');
+      div.innerHTML = '<span class="badge badge-err" style="flex-shrink:0">!</span>'
+        + '<div style="flex:1"><div class="emp-name">' + emp.nombre + '</div>'
+        + '<div style="margin:4px 0">' + badges + '</div>' + dets + '</div>';
+    }
+    iw.appendChild(div);
+  });
+
+  renderEmails();
+}
+
+function renderEmails() {
+  if (!analysisResult) return;
+  var result = analysisResult.result;
+  var nota   = (document.getElementById('extra-note') || {}).value || '';
+  nota = nota.trim();
+  var fw = document.getElementById('emails-wrap'); fw.innerHTML = '';
+
+  var tl2 = {tarde:'Llegada fuera del horario flexible', salida:'Jornada incompleta',
+             extra:'Horas extra sin formalizar', sin_fichaje:'Sin fichaje registrado',
+             teletrabajo:'Exceso de días en teletrabajo'};
+
+  RESPONSABLES.forEach(function(resp, idx) {
+    var empDeResp = result.filter(function(e) {
+      return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});
+    });
+    var conInc = empDeResp.filter(function(e){return e.incidents.length>0;});
+    var pct    = empDeResp.length>0 ? Math.round(((empDeResp.length-conInc.length)/empDeResp.length)*100) : 100;
+    var nivel  = pct >= 70 ? 'ALTO' : pct >= 40 ? 'MEDIO' : 'BAJO';
+
+    var c = 'Hola ' + resp.nombre.split(' ')[0] + ',\n\n';
+    c += 'Te traslado el resumen de cumplimiento de fichajes de tu equipo (' + resp.equipo + ') para el período ' + analysisResult.periodo + '.\n\n';
+    c += 'VALORACIÓN GENERAL:\n';
+    c += 'Nivel de cumplimiento: ' + nivel + '. ';
+    c += conInc.length===0
+      ? 'No se detectan incumplimientos del protocolo de jornada.\n\n'
+      : 'Se identifican incidencias que te detallo a continuación.\n\n';
+
+    if (conInc.length > 0) {
+      c += 'INCIDENCIAS DETECTADAS:\n\n';
+      conInc.forEach(function(emp) {
+        c += '> ' + emp.nombre + ':\n';
+        emp.incidents.forEach(function(i) {
+          c += '  * ' + (i.fecha==='Semana'?'Semana':i.fecha) + ': ' + (tl2[i.tipo]||i.tipo) + ' — ' + i.detalle + '\n';
+        });
+        c += '\n';
+      });
+      c += 'Te pido que les comentes estas incidencias para que regularicen su situación en Sesame si procede.\n\n';
+    }
+
+    if (nota) c += 'NOTA ADICIONAL:\n' + nota + '\n\n';
+    c += 'Adjunto encontrarás el detalle completo de fichajes de tu equipo en formato Excel.\n\n';
+    c += 'Quedo a tu disposición para cualquier consulta.\n\nUn saludo,\n\nSandra Mesa\nDepartamento RRHH — Tostaderos Sol de Alba S.L.\nTelf: +34 638 72 40 03';
+
+    var asunto = encodeURIComponent('Revisión fichajes — ' + resp.equipo + ' — ' + analysisResult.periodo);
+    var block  = document.createElement('div'); block.className = 'email-block';
+    block.innerHTML =
+      '<div class="email-hdr" style="border-left:3px solid ' + resp.color + '">'
+        + '<div>'
+          + '<div class="email-to-name">' + resp.nombreCompleto + '</div>'
+          + '<div class="email-dept">'   + resp.equipo          + '</div>'
+          + '<div class="email-to-addr">'+ resp.email           + '</div>'
+        + '</div>'
+        + '<span class="badge ' + (conInc.length>0?'badge-err':'badge-ok') + '">'
+          + (conInc.length>0 ? conInc.length+' incidencia'+(conInc.length>1?'s':'') : 'Sin incidencias')
+        + '</span>'
+      + '</div>'
+      + '<div class="email-body" id="body-'+idx+'">' + c + '</div>'
+      + '<div class="email-footer">'
+        + '<button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="copyEmail('+idx+',this)">Copiar correo</button>'
+        + '<button class="btn btn-secondary" style="font-size:12px;padding:5px 12px" onclick="openOutlook(\''+resp.email+'\',\''+asunto+'\','+idx+')">Abrir en Outlook</button>'
+        + '<button class="btn btn-secondary" style="font-size:12px;padding:5px 12px;color:var(--ok)" onclick="descargarExcelResp('+idx+')">↓ Excel del equipo</button>'
+      + '</div>';
+    fw.appendChild(block);
+  });
+
+  document.getElementById('extra-note').oninput = renderEmails;
+}
+
+function copyEmail(idx, btn) {
+  navigator.clipboard.writeText(document.getElementById('body-'+idx).textContent)
+    .then(function(){ btn.textContent='Copiado!'; setTimeout(function(){btn.textContent='Copiar correo';},2000); });
+}
+function openOutlook(email, subject, idx) {
+  window.open('mailto:'+email+'?subject='+subject+'&body='+encodeURIComponent(document.getElementById('body-'+idx).textContent),'_blank');
+}
+
+// ── EXCEL EXPORT ──────────────────────────────────────────────────────────────
+
+function descargarExcelResp(idx) {
+  if (!analysisResult) return;
+  var resp = RESPONSABLES[idx];
+  var empDeResp = analysisResult.result.filter(function(e) {
+    return resp.empleados.some(function(re){return norm(re)===e.nombreNorm;});
+  });
+  var tl = {tarde:'Llegada tarde', salida:'Jornada incompleta', extra:'Horas extra',
+            sin_fichaje:'Sin fichaje', teletrabajo:'Exceso teletrabajo'};
+
+  var filas = [['Empleado','Empresa','Fecha','Día','Entrada','Salida','Horas trabajadas','Modalidad','Incidencia']];
+  empDeResp.forEach(function(emp) {
+    emp.dias.forEach(function(d) {
+      filas.push([emp.nombre, emp.empresa, d.fecha, d.diasem,
+        d.primerEntrada, d.ultimaSalida, d.horasTrab, d.modalidad, d.incidencia||'']);
+    });
+  });
+
+  var filas2 = [['Empleado','Empresa','Tipo','Fecha','Detalle']];
+  empDeResp.forEach(function(emp) {
+    if (emp.incidents.length===0) {
+      filas2.push([emp.nombre, emp.empresa, 'Sin incidencias','','']);
+    } else {
+      emp.incidents.forEach(function(i) {
+        filas2.push([emp.nombre, emp.empresa, tl[i.tipo]||i.tipo, i.fecha, i.detalle]);
+      });
+    }
+  });
+
+  var fname = 'Fichajes_' + resp.equipo.replace(/[^a-zA-Z0-9]/g,'_') + '_' + analysisResult.periodo.replace(/[^a-zA-Z0-9]/g,'_') + '.xls';
+  downloadXLS([{rows:filas,name:'Fichajes'},{rows:filas2,name:'Incidencias'}], fname);
+}
 </script>
 </body>
 </html>
